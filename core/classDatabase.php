@@ -23,8 +23,9 @@ class Database extends PDO
     public function querySQL($sql)
     {
         $this->lastInsertId = 0;
-        $ret  = $this->query($sql);
-        if($ret === false) {
+        $sth = $this->prepare($sql);
+		$sth->execute();
+        if($sth === false) {
             echo print_r($this->errorInfo()).'<br>';
             echo $sql.'<br><br>';
             exit();
@@ -38,7 +39,7 @@ class Database extends PDO
             $this->rowCount = $i;
         }
 		
-		return $ret;
+		return $sth;
 	}
 
 	public function insertUser($uname, $upass, $umail, $utype, $posts, $ip, $join, $active)
