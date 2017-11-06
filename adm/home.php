@@ -20,18 +20,6 @@ You Can:
     <input type="hidden" name="act" value="members">
 </form><br><br>
 <form class="link" method="post">
-    <input class="link" type="submit" value="Add New Forum">
-    <input type="hidden" name="act" value="forumadd">
-</form><br>
-<form class="link" method="post">
-    <input class="link" type="submit" value="Set Forum Order">
-    <input type="hidden" name="act" value="forumorder">
-</form><br>
-<form class="link" method="post">
-    <input class="link" type="submit" value="Rename Forum">
-    <input type="hidden" name="act" value="forumrename">
-</form><br><br>
-<form class="link" method="post">
     <input class="link" type="submit" value="Delete Post">
     <input type="hidden" name="act" value="postdelete">
 </form><br>
@@ -42,6 +30,18 @@ You Can:
 <form class="link" method="post">
     <input class="link" type="submit" value="Delete Forum">
     <input type="hidden" name="act" value="forumdelete">
+</form><br><br>
+<form class="link" method="post">
+    <input class="link" type="submit" value="Add New Forum">
+    <input type="hidden" name="act" value="forumadd">
+</form><br>
+<form class="link" method="post">
+    <input class="link" type="submit" value="Set Forum Order">
+    <input type="hidden" name="act" value="forumorder">
+</form><br>
+<form class="link" method="post">
+    <input class="link" type="submit" value="Rename Forum">
+    <input type="hidden" name="act" value="forumrename">
 </form><br><br>
 <form class="link" method="post">
     <input class="link" type="submit" value="Change Style">
