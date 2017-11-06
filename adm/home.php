@@ -2,8 +2,8 @@
 <?php
 
 if (!$this->sess->isAdmin()) {
-	header('location:./');
-	exit();
+    header('location:./');
+    exit();
 }
 
 ?>
@@ -16,43 +16,43 @@ Enjoy!
 You Can:
 <br>
 <form class="link" method="post">
-	<input class="link" type="submit" value="Manage Members">
-	<input type="hidden" name="act" value="members">
+    <input class="link" type="submit" value="Manage Members">
+    <input type="hidden" name="act" value="members">
 </form><br>
 <form class="link" method="post">
-	<input class="link" type="submit" value="Add New Forum">
-	<input type="hidden" name="act" value="forumadd">
+    <input class="link" type="submit" value="Add New Forum">
+    <input type="hidden" name="act" value="forumadd">
 </form><br>
 <form class="link" method="post">
-	<input class="link" type="submit" value="Set Forum Order">
-	<input type="hidden" name="act" value="forumorder">
+    <input class="link" type="submit" value="Set Forum Order">
+    <input type="hidden" name="act" value="forumorder">
 </form><br>
 <form class="link" method="post">
-	<input class="link" type="submit" value="Rename Forum">
-	<input type="hidden" name="act" value="forumrename">
+    <input class="link" type="submit" value="Rename Forum">
+    <input type="hidden" name="act" value="forumrename">
 </form><br>
 <form class="link" method="post">
-	<input class="link" type="submit" value="Delete Forum">
-	<input type="hidden" name="act" value="forumdelete">
+    <input class="link" type="submit" value="Delete Forum">
+    <input type="hidden" name="act" value="forumdelete">
 </form><br>
 <form class="link" method="post">
-	<input class="link" type="submit" value="Delete Post">
-	<input type="hidden" name="act" value="postdelete">
+    <input class="link" type="submit" value="Delete Post">
+    <input type="hidden" name="act" value="postdelete">
 </form><br>
 <form class="link" method="post">
-	<input class="link" type="submit" value="Delete Topic">
-	<input type="hidden" name="act" value="topicdelete">
+    <input class="link" type="submit" value="Delete Topic">
+    <input type="hidden" name="act" value="topicdelete">
 </form><br>
 <form class="link" method="post">
-	<input class="link" type="submit" value="Change Style">
-	<input type="hidden" name="act" value="styles">
+    <input class="link" type="submit" value="Change Style">
+    <input type="hidden" name="act" value="styles">
 </form><br>
 <form class="link" method="post">
-	<input class="link" type="submit" value="Change Language">
-	<input type="hidden" name="act" value="languages">
+    <input class="link" type="submit" value="Change Language">
+    <input type="hidden" name="act" value="languages">
 </form><br>
 <form class="link" method="post">
-	<input class="link" type="submit" value="Change Timezone">
-	<input type="hidden" name="act" value="timezones">
+    <input class="link" type="submit" value="Change Timezone">
+    <input type="hidden" name="act" value="timezones">
 </form><br>
 <br>

@@ -1,175 +1,175 @@
 body
 {
-	background: #e0e0e0;
-	color: #000;
-	margin: 0px;
-	padding: 10px;
-	font-family: 'Times New Roman', Serif;
-	font-size: 16px;
+    background: #e0e0e0;
+    color: #000;
+    margin: 0px;
+    padding: 10px;
+    font-family: 'Times New Roman', Serif;
+    font-size: 16px;
 }
 
 div#wrapper
 {
-	background: #ffffff;
-	width: 1100px;
-	margin: auto;
-	padding: 8px;
-	border-radius: 12px;
-	border: 1px solid #999999;
+    background: #ffffff;
+    width: 1100px;
+    margin: auto;
+    padding: 8px;
+    border-radius: 12px;
+    border: 1px solid #999999;
 }
 
 div#footer
 {
-	clear: left;
-	text-align: center;
-	font-size: 13px;
-	font-style: italic;
-	border-top: 3px solid #191970;
+    clear: left;
+    text-align: center;
+    font-size: 13px;
+    font-style: italic;
+    border-top: 3px solid #191970;
 }
 
 p
 {
-	margin: 0px;
+    margin: 0px;
 }
 
 hr
 {
-	width: 100%;
-	border-top: 1px solid black;
-	margin: 0px;
+    width: 100%;
+    border-top: 1px solid black;
+    margin: 0px;
 }
 
 table
 {
-	margin: 0px;
-	padding: 0px;
+    margin: 0px;
+    padding: 0px;
 }
 
 span#title
 {
-	font-weight: bold;
-	font-size: 20px;
-	margin-left: 6px;
+    font-weight: bold;
+    font-size: 20px;
+    margin-left: 6px;
 }
 
 span#subtitle
 {
-	font-weight: bold;
-	font-size: 15px;
-	font-style: italic;
-	margin-left: 8px;
+    font-weight: bold;
+    font-size: 15px;
+    font-style: italic;
+    margin-left: 8px;
 }
 
 span.boldy
 {
-	font-weight: bold;
+    font-weight: bold;
 }
 
 a:link, a:visited, a:active
 {
-	float: left;
-	color: #00f;
-	text-decoration: none;
+    float: left;
+    color: #00f;
+    text-decoration: none;
 }
 
 a:hover
 {
-	color: #c00;
-	text-decoration: underline;
+    color: #c00;
+    text-decoration: underline;
 }
 
 form
 {
-	/*float: left;*/
-	margin: 0px;
-	padding: 0px;
-	border: 0px solid black;
+    /*float: left;*/
+    margin: 0px;
+    padding: 0px;
+    border: 0px solid black;
 }
 
 form input
 {
-	margin: 0px;
-	padding: 0px;
+    margin: 0px;
+    padding: 0px;
 }
 
 form.link
 {
-	float: left;
-	margin: 0px;
-	padding: 0px;
-	border: 0px solid black;
+    float: left;
+    margin: 0px;
+    padding: 0px;
+    border: 0px solid black;
 }
 
 input.link, input.left
 {
-	background: #ffffff;
-	color: #00f;
-	margin: 0px;
-	padding: 0px;
-	border: 0px;
-	font-family: 'Times New Roman';
-	font-size: 16px;
-	font-weight: bold;
+    background: #ffffff;
+    color: #00f;
+    margin: 0px;
+    padding: 0px;
+    border: 0px;
+    font-family: 'Times New Roman';
+    font-size: 16px;
+    font-weight: bold;
 }
 
 input.left
 {
-	background: #f0f0f0;
+    background: #f0f0f0;
 }
 
 input.link:hover
 {
-	color: #c00;
-	text-decoration: underline;
+    color: #c00;
+    text-decoration: underline;
 }
 
 span.link
 {
-	float: left;
-	margin: 0px;
-	padding: 0px;
-	border: 0px solid black;
+    float: left;
+    margin: 0px;
+    padding: 0px;
+    border: 0px solid black;
 }
 
 div#postlink
 {
-	margin-left: 7px;
+    margin-left: 7px;
 }
 
 div#breadcrumb
 {
-	padding-left: 7px;
-	font-weight: bold;
-	border: 0px solid black;
+    padding-left: 7px;
+    font-weight: bold;
+    border: 0px solid black;
 }
 
 .clearleft
 {
-	content: "";
-	clear: left;
+    content: "";
+    clear: left;
 }
 
 .clearright
 {
-	content: "";
-	clear: right;
+    content: "";
+    clear: right;
 }
 
 .clearboth
 {
-	content: "";
-	clear: both;
+    content: "";
+    clear: both;
 }
 
 span.error
 {
-	color: #f00;
+    color: #f00;
 }
 
 span.leftspace
 {
-	float: left;
-	width: 222px;
+    float: left;
+    width: 222px;
 }
 
 table#forums {width: 100%; border-collapse: collapse; color: #000; font-size: 16px;}
@@ -206,7 +206,7 @@ table#topicsnew td.tnewright2 {}
 
 div#topmenu, div#adminmenu 
 {
-	background: #191970; height: 26px;
+    background: #191970; height: 26px;
 }
 
 a.inverse, input.inverse {background: #191970; color: #fff; font-family: 'Times New Roman'; font-size: 16px; padding: 4px 8px;}
@@ -218,33 +218,33 @@ input.inverse:hover {text-decoration: underline;}
 
 div#memberstop
 {
-	border-top: 6px solid #191970;
-	border-right: 1px solid #191970;
-	border-bottom: 3px solid #191970;
-	border-left: 1px solid #191970;
+    border-top: 6px solid #191970;
+    border-right: 1px solid #191970;
+    border-bottom: 3px solid #191970;
+    border-left: 1px solid #191970;
 }
 
 table#members
 {
-	border-collapse: collapse;
+    border-collapse: collapse;
 }
 
 table#members tr#memtop
 {
-	border-right: 1px solid #191970;
-	border-bottom: 3px solid #191970;
-	border-left: 1px solid #191970;
+    border-right: 1px solid #191970;
+    border-bottom: 3px solid #191970;
+    border-left: 1px solid #191970;
 }
 
 table#members tr
 {
-	border-right: 1px solid #191970;
-	border-left: 1px solid #191970;
+    border-right: 1px solid #191970;
+    border-left: 1px solid #191970;
 }
 
 table#members td
 {
-	padding: 2px 12px;
+    padding: 2px 12px;
 }
 
 

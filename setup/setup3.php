@@ -14,14 +14,14 @@ $admin = filter_var($admin_user, FILTER_SANITIZE_STRING);
 $passw = trim($admin_pass);
 $email = filter_var($admin_mail, FILTER_SANITIZE_EMAIL);
 if (!filter_var($email, FILTER_VALIDATE_EMAIL))
-	exit('Not a valid email.');
+    exit('Not a valid email.');
 
 if ($dbdriver == 'mysql') {
-	$db_host = filter_var($db_host, FILTER_SANITIZE_STRING);
-	$db_user = filter_var($db_user, FILTER_SANITIZE_STRING);
-	$db_pass = filter_var($db_pass, FILTER_SANITIZE_STRING);
-	$db_name = filter_var($db_name, FILTER_SANITIZE_STRING);
-	$handle = <<<BEGIN
+    $db_host = filter_var($db_host, FILTER_SANITIZE_STRING);
+    $db_user = filter_var($db_user, FILTER_SANITIZE_STRING);
+    $db_pass = filter_var($db_pass, FILTER_SANITIZE_STRING);
+    $db_name = filter_var($db_name, FILTER_SANITIZE_STRING);
+    $handle = <<<BEGIN
 <?php
 
 \$dbdriver = 'mysql';
@@ -35,8 +35,8 @@ BEGIN;
 }
 
 if ($dbdriver == 'sqlite') {
-	$db_name = filter_var($db_name, FILTER_SANITIZE_STRING);
-	$handle = <<<BEGIN
+    $db_name = filter_var($db_name, FILTER_SANITIZE_STRING);
+    $handle = <<<BEGIN
 <?php
 
 \$dbdriver = 'sqlite';
@@ -47,20 +47,20 @@ if ($dbdriver == 'sqlite') {
 ?>
 
 BEGIN;
-	$htaccess = <<<HTCODE
+    $htaccess = <<<HTCODE
 <FilesMatch "$db_name">
-	Require all denied
+    Require all denied
 </FilesMatch>
 
 HTCODE;
-	file_put_contents('data/.htaccess', $htaccess);
+    file_put_contents('data/.htaccess', $htaccess);
 }
 
 file_put_contents('conf/config.php', $handle, FILE_APPEND);
 
 $htaccess = <<<HTCODE
 <FilesMatch "config.php">
-	Require all denied
+    Require all denied
 </FilesMatch>
 
 HTCODE;
