@@ -5,8 +5,8 @@ $scope = 'admin';
 require 'core/init.php';
 
 if (!$sess->isAdmin()) {
-	header('location:./');
-	exit();
+    header('location:./');
+    exit();
 }
 
 $view->doHeader();
