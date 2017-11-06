@@ -14,11 +14,11 @@ Here you can make changes.<br>
 Enjoy!
 <br>
 You Can:
-<br>
+<br><br>
 <form class="link" method="post">
     <input class="link" type="submit" value="Manage Members">
     <input type="hidden" name="act" value="members">
-</form><br>
+</form><br><br>
 <form class="link" method="post">
     <input class="link" type="submit" value="Add New Forum">
     <input type="hidden" name="act" value="forumadd">
@@ -30,11 +30,7 @@ You Can:
 <form class="link" method="post">
     <input class="link" type="submit" value="Rename Forum">
     <input type="hidden" name="act" value="forumrename">
-</form><br>
-<form class="link" method="post">
-    <input class="link" type="submit" value="Delete Forum">
-    <input type="hidden" name="act" value="forumdelete">
-</form><br>
+</form><br><br>
 <form class="link" method="post">
     <input class="link" type="submit" value="Delete Post">
     <input type="hidden" name="act" value="postdelete">
@@ -43,6 +39,10 @@ You Can:
     <input class="link" type="submit" value="Delete Topic">
     <input type="hidden" name="act" value="topicdelete">
 </form><br>
+<form class="link" method="post">
+    <input class="link" type="submit" value="Delete Forum">
+    <input type="hidden" name="act" value="forumdelete">
+</form><br><br>
 <form class="link" method="post">
     <input class="link" type="submit" value="Change Style">
     <input type="hidden" name="act" value="styles">
