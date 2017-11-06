@@ -232,6 +232,7 @@ if ($this->act == 'postadd') {
 ?>
         </div>
         <br>
+
 <?php
         return;
     }

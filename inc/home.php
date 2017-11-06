@@ -1,6 +1,6 @@
 <?php if(!defined('QCOM1'))exit() ?>
-    <br>
-    <div id="bodycore">
+        <br>
+        <div id="bodycore">
         <table id="forums">
 <?php
 $sql = "SELECT * FROM forums ORDER BY f_order";
@@ -35,4 +35,5 @@ foreach($res as $row) {
 $this->pdo = null;
 ?>
         </table>
-    </div>
+        </div>
+
