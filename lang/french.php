@@ -1,0 +1,50 @@
+<?php if(!defined('QCOM1'))exit() ?>
+<?php
+
+$lang = 'fr';
+$locale = ['fr_FR.UTF-8', 'fra'];
+$dateform = '%a %d %b %Y';
+$datetime = '%a %d %b-%y, %H:%M';
+
+define('HOME',       'Accueil');
+define('SUBMIT',     'Soumettre');
+define('LOGIN',      'Connectez');
+define('REGISTER',   'Inscription');
+define('LOGOUT',     'Connectez - Out');
+define('MEMBERS',    'Membres');
+define('NEWPOSTS',   'Nouveaux Messages');
+define('ADMIN',      'Admin');
+define('LOGGEDAS',   'Connecté en tant que');
+define('LASTPOSTBY', 'Dernier message par');
+define('STARTEDBY',  'Commencé par');
+define('POSTTOPIC',  'Poster un Nouveau Sujet');
+define('POSTREPLY',  'Poster une Réponse');
+define('SUBJECT',    'Sujet');
+define('MESSAGE',    'Message');
+define('YOUBANNED',  'Vous êtes Interdit!');
+define('BADUSERPASS', 'Mauvais nom d\'utilisateur ou mot de passe!');
+define('USERNAME',   'Nom d\'utilisateur');
+define('PASSWORD',   'Mot de passe');
+define('IN',         'dans');
+define('REGISTERDONE', '<span class="boldy">Inscription Effectuée:</span> Vous pouvez vous connecter avec:');
+define('ERROR1',     'L\'email n\'est pas valide');
+define('ERROR2',     'Nom d\'utilisateur trop court');
+define('ERROR3',     'Erreur de mot de passe');
+define('ERROR4',     'Nom d\'utilisateur déjà pris');
+define('ERROR5',     'L\'email existe déjà');
+define('EMAIL',      'Email');
+define('USER3TO25',  'Nom d\'utilisateur 3 à 25 caractères');
+define('PASS6TO16',  'Mot de passe 6 à 16 caractères');
+define('CONFIRM',    'Confirmer');
+define('NOTBESHOWN', 'Ne sera pas montré');
+define('JOINED',     'Rejoint');
+define('NAME',       'Nom');
+define('USERTYPE',   'Type d\'utilisateur');
+define('POSTS',      'Messages');
+define('LASTACTIVE', 'Dernier actif');
+define('POSTEDIT',   'Modifier message');
+define('POST',       'Message');
+define('EDIT',       'Modifier');
+define('TOPICLINK',  'Lien vers le Sujet');
+define('LINK',       'Lien');
+define('CHOOSEIMAGE', 'Choisissez une image à attacher:');

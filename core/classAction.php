@@ -62,6 +62,7 @@ class Action
                 $this->tsubj = $row->t_subject;
                 break;
             case 'post':
+            case 'postedit':
                 if (isset($_POST['pid'])) $this->pid = $_POST['pid'];
                 elseif (isset($_GET['pid'])) $this->pid = $_GET['pid'];
                 else return 'home';
@@ -101,6 +102,7 @@ class Action
             case 'register':
             case 'logout':
             case 'members':
+            case 'postedit':
                 return $act;
                 break;
             default:
@@ -184,7 +186,7 @@ if (in_array($this->act, array('home', 'login', 'logout', 'register', 'members',
 
 }
 
-if (in_array($this->act, array('topics', 'topicadd', 'posts', 'postadd'))) {
+if (in_array($this->act, array('topics', 'topicadd', 'posts', 'postadd', 'postedit', 'post'))) {
 
 ?>
     <span class="link">&nbsp;&#187;&nbsp;</span>
@@ -196,7 +198,7 @@ if (in_array($this->act, array('topics', 'topicadd', 'posts', 'postadd'))) {
 <?php   
 }
     
-if (in_array($this->act, array('posts', 'postadd'))) {
+if (in_array($this->act, array('posts', 'postadd', 'postedit', 'post'))) {
 ?>
         <span class="link">&nbsp;&#187;&nbsp;</span>
         <form class="link" method="post">
@@ -225,6 +227,28 @@ if ($this->act == 'postadd') {
         <input class="link" type="submit" value="<?php echo POSTREPLY ?>">
         <input type="hidden" name="act" value="postadd">
         <input type="hidden" name="tid" value="<?php echo $this->tid ?>">
+    </form>
+<?php
+}
+
+if ($this->act == 'postedit') {
+?>
+    <span class="link">&nbsp;&#187;&nbsp;</span>
+    <form class="link" method="post">
+        <input class="link" type="submit" value="<?php echo POSTEDIT ?>">
+        <input type="hidden" name="act" value="postedit">
+        <input type="hidden" name="pid" value="<?php echo $this->pid ?>">
+    </form>
+<?php
+}
+
+if ($this->act == 'post') {
+?>
+    <span class="link">&nbsp;&#187;&nbsp;</span>
+    <form class="link" method="post">
+        <input class="link" type="submit" value="<?php echo POST ?>">
+        <input type="hidden" name="act" value="post">
+        <input type="hidden" name="pid" value="<?php echo $this->pid ?>">
     </form>
 <?php
 }

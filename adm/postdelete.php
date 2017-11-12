@@ -57,7 +57,7 @@ foreach($ret as $row) {
         }
         ?>
         </td>
-        <td class="postright"><?php echo $row->p_message ?></td></tr>
+        <td class="postright"><?php echo nl2br($row->p_message) ?></td></tr>
         <tr><td class="spacer" colspan="2"></td></tr>
 <?php
         $delflag = true;

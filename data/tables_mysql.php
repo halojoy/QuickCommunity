@@ -40,6 +40,7 @@ $sql = (
     p_tid INT,
     p_tsubj TEXT,
     p_message TEXT,
+    p_image TEXT DEFAULT NULL,
     p_uid INT,
     p_uname TEXT,
     p_time INT,

@@ -65,7 +65,7 @@ $this->pdo = null;
                 </tr>
                 <tr>
                     <td><label for="email"><?php echo EMAIL ?></label></td>
-                    <td><input type="text" name="email" value="<?php echo $email ?>
+                    <td><input type="text" name="email" value="<?php echo $email ?>"
                                 size="45" maxlength="40" required/>
                         <?php echo NOTBESHOWN ?></td>
                 </tr>
