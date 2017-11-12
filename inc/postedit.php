@@ -18,7 +18,7 @@ if(isset($_POST['filled'])) {
         $ret = $this->pdo->querySQL($sql);
         $this->pdo = null;
 
-        header('location:./?act=posts&tid='.$this->tid);
+        header('location:./?act=post&pid='.$this->pid);
         exit();
     }
 }
