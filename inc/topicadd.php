@@ -39,7 +39,7 @@ if(isset($_POST['filled'])) {
             $image = new UploadFile($file); 
 
             preg_match("@(\..+)$@", $file['name'], $match);
-            $ext = $match[1];
+            $ext = strtolower($match[1]);
             $chars = "0123456789abcdefghijklmnopqrstuvwxyz";
             $genname=''; for ($i=0;$i<8;$i++) $genname[$i]=$chars[mt_rand(0,35)];
             $imagename = $pid.'_'.$genname.$ext;
