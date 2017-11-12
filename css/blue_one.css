@@ -24,7 +24,7 @@ div#footer
     text-align: center;
     font-size: 13px;
     font-style: italic;
-    border-top: 3px solid #8b4513;
+    border-top: 3px solid #006fc9;
 }
 
 p
@@ -169,47 +169,47 @@ span.error
 span.leftspace
 {
     float: left;
-    width: 222px;
+    width: 242px;
 }
 
 table#forums {width: 100%; border-collapse: collapse; color: #000; font-size: 16px;}
-table#forums td.forumtop {background: #8b4513; border: 1px solid #8b4513; height: 2px;}
-table#forums tr.frame {border: 1px solid #8b4513;}
+table#forums td.forumtop {background: #006fc9; border: 1px solid #006fc9; height: 2px;}
+table#forums tr.frame {border: 1px solid #006fc9;}
 table#forums td.forumleft {width: 220px; background: #f0f0f0; padding: 7px;}
 table#forums td.forummiddle {width: 280px; background: #f0f0f0; padding: 7px;}
 table#forums td.forumright {background: #e0e0e0; padding: 7px;}
 table#forums td.forumfarright {background: #e0e0e0; padding: 7px;}
 table#forums td.spacer{background: #ffffff; height: 2px;}
 
-table#topics {width: 100%; border-collapse: collapse; border: 1px solid #8b4513;}
-table#topics tr {border-bottom: 1px solid #8b4513;}
+table#topics {width: 100%; border-collapse: collapse; border: 1px solid #006fc9;}
+table#topics tr {border-bottom: 1px solid #006fc9;}
 table#topics td {background: #e0e0e0; color: #000; padding: 3px 7px;}
-table#topics td.topicstop {background: #8b4513; padding: 0px; height: 4px;}
+table#topics td.topicstop {background: #006fc9; padding: 0px; height: 4px;}
 table#topics td.topicleft {width: 420px; background: #f0f0f0;}
 div#topicsspacer {background: #ffffff; height: 4px;}
 
 table#posts {width: 100%; border-collapse: collapse; color: #000; font-size: 16px;}
-table#posts tr.frame {border: 1px solid #8b4513;}
-table#posts td.posttop {background: #8b4513; padding: 2px;}
-table#posts td.postleft {width: 200px; background: #f0f0f0; font-weight: bold; vertical-align: top; padding: 7px;}
+table#posts tr.frame {border: 1px solid #006fc9;}
+table#posts td.posttop {background: #006fc9; padding: 2px;}
+table#posts td.postleft {width: 220px; background: #f0f0f0; font-weight: bold; vertical-align: top; padding: 7px;}
 table#posts td.postright {background: #e0e0e0; vertical-align: top; padding: 7px;}
 table#posts td.spacer {background: #ffffff; height: 2px;}
 
-table#topicsnew {width: 100%; border-collapse: collapse; border: 1px solid #8b4513;}
-table#topicsnew tr {border-bottom: 1px solid #8b4513;}
+table#topicsnew {width: 100%; border-collapse: collapse; border: 1px solid #006fc9;}
+table#topicsnew tr {border-bottom: 1px solid #006fc9;}
 table#topicsnew td {background: #e0e0e0; color: #000; padding: 3px 7px;}
-table#topicsnew td.tnewtop {background: #8b4513; padding: 0px; height: 4px;}
-table#topicsnew td.tnewleft {width: 180px; text-align: right;}
-table#topicsnew td.tnewbody {width: 420px; background: #f0f0f0;}
+table#topicsnew td.tnewtop {background: #006fc9; padding: 0px; height: 4px;}
+table#topicsnew td.tnewleft {width: 190px; text-align: right;}
+table#topicsnew td.tnewbody {width: 410px; background: #f0f0f0;}
 table#topicsnew td.tnewright1 {}
 table#topicsnew td.tnewright2 {}
 
 div#topmenu, div#adminmenu 
 {
-    background: #8b4513; height: 26px;
+    background: #006fc9; height: 26px;
 }
 
-a.inverse, input.inverse {background: #8b4513; color: #fff; font-family: 'Times New Roman'; font-size: 16px; padding: 4px 8px;}
+a.inverse, input.inverse {background: #006fc9; color: #fff; font-family: 'Times New Roman'; font-size: 16px; padding: 4px 8px;}
 a.inverse {float: left; text-decoration: none;}
 a.inverse:hover {text-decoration: underline;}
 form.inverse {float: left;}
@@ -218,10 +218,10 @@ input.inverse:hover {text-decoration: underline;}
 
 div#memberstop
 {
-    border-top: 6px solid #8b4513;
-    border-right: 1px solid #8b4513;
-    border-bottom: 3px solid #8b4513;
-    border-left: 1px solid #8b4513;
+    border-top: 6px solid #006fc9;
+    border-right: 1px solid #006fc9;
+    border-bottom: 3px solid #006fc9;
+    border-left: 1px solid #006fc9;
 }
 
 table#members
@@ -231,20 +231,45 @@ table#members
 
 table#members tr#memtop
 {
-    border-right: 1px solid #8b4513;
-    border-bottom: 3px solid #8b4513;
-    border-left: 1px solid #8b4513;
+    border-right: 1px solid #006fc9;
+    border-bottom: 3px solid #006fc9;
+    border-left: 1px solid #006fc9;
 }
 
 table#members tr
 {
-    border-right: 1px solid #8b4513;
-    border-left: 1px solid #8b4513;
+    border-right: 1px solid #006fc9;
+    border-left: 1px solid #006fc9;
 }
 
 table#members td
 {
     padding: 2px 12px;
 }
+
+div.postupright
+{
+    float: right;
+    margin-left: 12px;  
+}
+
+div.postupright input
+{
+    background: #e0e0e0;
+}
+
+div.postupright a
+{
+    font-weight: bold;
+} 
+
+textarea
+{
+    background: #f0f0f0;
+    font-family: 'Times New Roman', Serif;
+    font-size: 16px;
+}
+
+
 
 
