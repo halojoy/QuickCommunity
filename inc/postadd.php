@@ -65,7 +65,7 @@ $this->pdo = null;
 
 require 'core/classUploadFile.php';
 $upload = new UploadFile();
-$maxsize = $upload->maxFileSize;
+$maxsize = $upload->maxFileSize * 1048576;
 ?>
 <br>
 <span class="leftspace">&nbsp;</span><span class="boldy"><?php echo $this->tsubj ?></span>

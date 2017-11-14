@@ -14,7 +14,7 @@ class UploadFile
     public  $srcHeight;
     // Settings
     public  $directory = 'upload';
-    public  $maxFileSize = 125829120; //max size = 120MB
+    public  $maxFileSize = 120; //MB, max size = 120MB
     public  $maxWidth  = 840;
     public  $maxHeight = 680;
     public  $imgAllow  = ['jpg','png','gif'];
@@ -106,9 +106,9 @@ class UploadFile
 
     public function checkSize()
     {
-        if ($this->fileSize > $this->maxFileSize) {
+        if ($this->fileSize > $this->maxFileSize * 1048576) {
             exit('File size too big!<br>
-            Max size is: <b>'.round($this->maxFileSize/1048576, 1).' MB</b>');
+            Max size is: <b>'.$this->maxFileSize.' MB</b>');
         }
     }
     
@@ -130,7 +130,7 @@ class UploadFile
         return $supported;
     }
 
-    public function setFileSize($size)
+    public function setFileSize($size) //MB, megabytes
     {
         $this->maxFileSize = $size;
     }
