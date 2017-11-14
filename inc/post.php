@@ -32,8 +32,20 @@ $this->pdo = null;
  ?>
                     <?php echo nl2br($row->p_message) ?> 
 <?php
-                    if (isset($row->p_image)) {
-                        echo '<br><img src="upload/'.$row->p_image.'">';
+                    if ($row->p_cat == 'image') {
+                        echo '<br><img src="upload/'.$row->p_file.'">';
+                    }
+                    if ($row->p_cat == 'image2') {
+                        require 'core/classUploadFile.php';
+                        $upload = new UploadFile();
+                        $width = $upload->getDisplayWidth('upload/'.$row->p_file);
+                        $upload = null;
+                        echo '<br><img width="'.$width.'" src="upload/'.$row->p_file.'">';
+                    }
+                    if ($row->p_cat == 'other') {
+                        echo '<br><br>Attachment: 
+                        <a href="upload/'.$row->p_file.'" target="_blank">'.$row->p_file.'</a>';
+                        echo '&nbsp;&nbsp;Right-click and download';
                     }
 ?>                    
                 </td>

@@ -7,7 +7,7 @@ if (!$this->sess->isAdmin()) {
 }
 
 ?>
-<a class="link" href="./"><b>Back To Website >></b></a>
+<a href="./"><b>Back To Website >></b></a>
 <br><br>
 Welcome to your Admin interface.<br>
 Here you can make changes.<br>

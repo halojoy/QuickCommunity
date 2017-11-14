@@ -138,7 +138,7 @@ class Action
     {
 ?>
         <div id="breadcrumb">
-            <a href="./"><?php echo HOME ?></a>
+            <a class="fleft" href="./"><?php echo HOME ?></a>
 <?php
 
 if (in_array($this->act, array('home', 'login', 'logout', 'register', 'members', 'topicsnew'))) {

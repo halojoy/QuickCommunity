@@ -3,33 +3,73 @@
 class UploadFile
 {
     public  $file;
+    public  $fileSize;
     public  $name;
     public  $source;
     public  $destin;
-    public  $srcwidth;
-    public  $srcheight;
-    public  $maxwidth = 200;
-    public  $maxheight = 200;
-    private $directory = 'upload';
-    private $allowedExtentions = ['image/jpeg','image/png','image/gif'];
-    //$this->allowed ['image/jpeg','image/png','image/gif','image/bmp'];
-    public  $errors;
+    public  $filetype;
+    public  $extension;
+    public  $fileCategory;
+    public  $srcWidth;
+    public  $srcHeight;
+    // Settings
+    public  $directory = 'upload';
+    public  $maxFileSize = 125829120; //max size = 120MB
+    public  $maxWidth  = 840;
+    public  $maxHeight = 680;
+    public  $imgAllow  = ['jpg','png','gif'];
+    public  $img2Allow = ['bmp'];
+    public  $fileAllow = ['pdf','txt','zip','7z','tar.gz','tgz','mp4',
+                          'avi','mov','wmv','flv','mpg','mp3','flac','wav','swf'];
+    // Settings end
+    public  $imgMime = array(
+            'jpg' => ['image/jpeg','image/jpg'],
+            'png' => ['image/png','application/png','application/x-png'],
+            'gif' => ['image/gif','image/x-xbitmap'] );
+    public  $img2Mime = array(
+            'bmp' => ['image/bmp','image/x-bmp'] );
+    public  $fileMime = array(
+            'pdf' => ['application/pdf','application/x-pdf'],
+            'txt' => ['text/plain','application/txt'],
+            'zip' => ['application/zip','application/x-zip','application/x-zip-compressed','application/x-compressed'],
+            '7z'  => ['application/x-7z-compressed'],
+            'tar.gz' => ['application/gzip','application/x-gzip','application/x-tar'],
+            'tgz' =>    ['application/gzip','application/x-gzip','application/x-tar'],
+            'mp4' => ['video/mp4','video/mp4v-es'],
+            'avi' => ['video/avi','video/msvideo','video/x-msvideo'],
+            'mov' => ['video/quicktime','video/x-quicktime'],
+            'wmv' => ['video/x-ms-wmv'],
+            'flv' => ['video/x-flv'],
+            'mpg' => ['video/mpeg','video/mpg','video/x-mpg'],
+            'mp3' => ['audio/mp3','audio/x-mp3'],
+            'flac' => ['audio/flac'],
+            'wav' => ['audio/wav','audio/x-wav','audio/wave'],
+            'swf' => ['application/x-shockwave-flash'] );
 
-    public function __construct($file)
+    public function __construct()
     {
+    }
+
+    public function registerFile($file)
+    {
+        if ($file['error']) {
+            exit('File upload error');
+        }
         $this->file = $file;
+        $this->fileSize = $file['size'];
+        $this->checkSize();
         $this->name = $file['name'];
         $this->source = $file['tmp_name'];
         $this->destin = $this->directory.'/'.$this->name;
-        list($this->srcwidth, $this->srcheight) = getimagesize($this->source);
-        $this->errors = [];
+        $this->filetype = $file['type'];
+        $this->extension = $this->getExtension();
         $this->validateFile();
     }
 
     public function upload()
     {
         if (!move_uploaded_file($this->source, $this->destin)){
-            echo "Move uploaded error";
+            echo "Move uploaded file error";
             exit();
         }
         $this->setSource($this->destin);
@@ -37,16 +77,62 @@ class UploadFile
 
     public function validateFile()
     {
-        if (empty($this->file) || !file_exists($this->source)){
-            array_push($this->errors,"Image upload error");
+        $allImgMimes = array();
+        foreach($this->imgAllow as $img) {
+            $allImgMimes = array_merge($allImgMimes, $this->imgMime[$img]);
         }
-        if (!in_array($this->file['type'], $this->allowedExtentions)){
-            array_push($this->errors,"Image type not supported");
+        $allImg2Mimes = array();
+        foreach($this->img2Allow as $img) {
+            $allImg2Mimes = array_merge($allImg2Mimes, $this->img2Mime[$img]);
         }
-        if (!empty($this->errors)){
-            echo var_dump($this->errors);
-            exit();
+        $allFileMimes = array();
+        foreach($this->fileAllow as $file) {
+            $allFileMimes = array_merge($allFileMimes, $this->fileMime[$file]);
         }
+        if (in_array($this->filetype, $allImgMimes)) {
+            $this->fileCategory = 'image';
+        } elseif (in_array($this->filetype, $allImg2Mimes)) {
+            $this->fileCategory = 'image2';
+        } elseif (in_array($this->filetype, $allFileMimes)) {
+            $this->fileCategory = 'other';
+        } else {
+            $this->fileCategory = 'nosupport';
+            exit('<b>'.$this->name.'</b><br>
+                File with extension <b>.'.$this->extension.'</b> not supported'.'<br>
+                Mime filetype: '.$this->filetype.'<br>
+                File category: '.$this->fileCategory );
+        }
+    }
+
+    public function checkSize()
+    {
+        if ($this->fileSize > $this->maxFileSize) {
+            exit('File size too big!<br>
+            Max size is: <b>'.round($this->maxFileSize/1048576, 1).' MB</b>');
+        }
+    }
+    
+    public function getExtension()
+    {
+        if (preg_match("@\.tar.gz$@i", $this->name))
+            return 'tar.gz';
+        else
+            return strtolower(pathinfo($this->name, PATHINFO_EXTENSION));
+    }
+
+    public function getSupported()
+    {
+        $all = array_merge($this->imgAllow, $this->fileAllow);
+        $supported = '';
+        foreach($all as $ext)
+            $supported .= $ext.', ';
+        $supported = rtrim($supported, ', ');
+        return $supported;
+    }
+
+    public function setFileSize($size)
+    {
+        $this->maxFileSize = $size;
     }
 
     public function setDirectory($dir)
@@ -68,55 +154,66 @@ class UploadFile
 
     public function setDestin($file)
     {
-        $this->source = $file;
+        $this->destin = $file;
     }
 
     public function setMaxSize($width, $height)
     {
-        $this->maxwidth = $width;
-        $this->maxheight = $height;
+        $this->maxWidth  = $width;
+        $this->maxHeight = $height;
     }
 
+    public function getDisplayWidth($image)
+    {
+        list($width, $height) = getimagesize($image);
+        $k = min($this->maxWidth/$width, $this->maxHeight/$height);
+        if ($k >= 1)
+            return $width;
+        else
+            return round($k * $width);
+    }        
+        
     public function resize()
     {
-        if ($this->srcwidth <= $this->maxwidth && $this->srcheight <= $this->maxheight) {
+        list($this->srcWidth, $this->srcHeight) = getimagesize($this->source);
+        if ($this->srcWidth <= $this->maxWidth && $this->srcHeight <= $this->maxHeight) {
+            $this->upload();
             return;
         }
+        $imgSource = $this->source;
+        $imgResize = $this->destin;
 
-        $imgsource = $this->source;
-        $imgresize = $this->destin;
+        $k = min($this->maxWidth/$this->srcWidth, $this->maxHeight/$this->srcHeight);               
+        $newWidth  = round($k * $this->srcWidth);
+        $newHeight = round($k * $this->srcHeight);
 
-        $k = min($this->maxwidth/$this->srcwidth, $this->maxheight/$this->srcheight);               
-        $new_width  = round($k * $this->srcwidth);
-        $new_height = round($k * $this->srcheight);
-
-        $thumb_image = imagecreatetruecolor( $new_width, $new_height );
+        $thumbImage = imagecreatetruecolor( $newWidth, $newHeight );
 
         if ($this->file['type']=='image/jpeg') {
-            $src_image = imagecreatefromjpeg($imgsource);
+            $srcImage = imagecreatefromjpeg($imgSource);
         } elseif ($this->file['type']=='image/png') {
-            $src_image = imagecreatefrompng($imgsource);
+            $srcImage = imagecreatefrompng($imgSource);
         } elseif ($this->file['type']=='image/gif') {
-            $src_image = imagecreatefromgif($imgsource);
+            $srcImage = imagecreatefromgif($imgSource);
         } elseif ($this->file['type']=='image/bmp') {
-            $src_image = imagecreatefrombmp($imgsource);
+            $srcImage = imagecreatefrombmp($imgSource);
         }        
 
-        imagecopyresized($thumb_image, $src_image, 0, 0, 0, 0, 
-            $new_width, $new_height, $this->srcwidth, $this->srcheight);
+        imagecopyresized($thumbImage, $srcImage, 0, 0, 0, 0, 
+            $newWidth, $newHeight, $this->srcWidth, $this->srcHeight);
 
         if ($this->file['type']=='image/jpeg') {
-            imagejpeg( $thumb_image, $imgresize, 95 );
+            imagejpeg($thumbImage, $imgResize, 95);
         } elseif ($this->file['type']=='image/png') {
-            imagepng($thumb_image, $imgresize, 9);
+            imagepng($thumbImage, $imgResize, 9);
         } elseif ($this->file['type']=='image/gif') {
-            imagegif($thumb_image, $imgresize);
+            imagegif($thumbImage, $imgResize);
         } elseif ($this->file['type']=='image/bmp') {
-            imagebmp($thumb_image, $imgresize);
+            imagebmp($thumbImage, $imgResize);
         }
 
-        imagedestroy($src_image);
-        imagedestroy($thumb_image);
+        imagedestroy($srcImage);
+        imagedestroy($thumbImage);
         
         return $this->destin;
     }

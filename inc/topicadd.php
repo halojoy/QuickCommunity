@@ -32,25 +32,34 @@ if(isset($_POST['filled'])) {
         $sql = "UPDATE users SET u_posts=u_posts+1 WHERE uid={$this->sess->userid};";
         $ret = $this->pdo->querySQL($sql);
 
-        if ($_FILES['image']['error'] == UPLOAD_ERR_OK) {
-
+        if ($_FILES['upfile']['error'] == UPLOAD_ERR_OK) {
+  
             require 'core/classUploadFile.php';
-            $file = $_FILES['image'];
-            $image = new UploadFile($file); 
+            $upload = new UploadFile();
+            $upload->registerFile($_FILES['upfile']);
 
-            preg_match("@(\..+)$@", $file['name'], $match);
-            $ext = strtolower($match[1]);
-            $chars = "0123456789abcdefghijklmnopqrstuvwxyz";
-            $genname=''; for ($i=0;$i<8;$i++) $genname[$i]=$chars[mt_rand(0,35)];
-            $imagename = $pid.'_'.$genname.$ext;
-            
-            $image->setName($imagename);
-            $image->upload();
-            $image->setMaxSize(840, 680);
-            $image->resize();
-
-            $sql = "UPDATE posts SET p_image='$imagename' WHERE pid=$pid;";
+            $filecat = $upload->fileCategory;
+            if ($filecat == 'other') {
+                $filename = $upload->name;
+                $upload->upload();
+            }
+            if ($filecat == 'image' || $filecat == 'image2') {
+                $ext = $upload->extension;
+                $genname=''; for ($i=0;$i<8;$i++) $genname[$i]=chr(mt_rand(97, 122));
+                $filename = $pid.'_'.$genname.'.'.$ext;
+                $upload->setName($filename);
+            }
+            if ($filecat == 'image2') {
+                $upload->upload();
+            }
+            if ($filecat == 'image') {
+                $upload->resize(); 
+            }
+            $sql = "UPDATE posts SET p_file='$filename', p_cat='$filecat' WHERE pid=$pid;";
             $ret = $this->pdo->querySQL($sql);
+        } elseif ($_FILES['upfile']['error'] != 4) {
+            exit('File Upload Error: '.$_FILES['upfile']['error'].
+            '&nbsp;&nbsp;<a href="http://php.net/manual/en/features.file-upload.errors.php" target="_blank">Information</a>');
         }
 
         $this->pdo = null;
@@ -60,6 +69,9 @@ if(isset($_POST['filled'])) {
 }
 $this->pdo = null;
 
+require 'core/classUploadFile.php';
+$upload = new UploadFile();
+$maxsize = $upload->maxFileSize;
 ?>
 <br>
 <span class="leftspace">&nbsp;</span><span class="boldy"><?php echo $this->fname ?></span>
@@ -70,8 +82,10 @@ $this->pdo = null;
     <?php echo MESSAGE ?>:<br/>
     <textarea rows="10" cols="100" maxlength="2048" required name="message"></textarea>
     <br>
-    <label for="profile_pic"><?php echo CHOOSEIMAGE ?></label>
-    <input type="file" size="32" name="image">
+    <?php echo CHOOSEFILE ?>
+
+    <input type="hidden" name="MAX_FILE_SIZE" value="<?php echo $maxsize ?>">
+    <input type="file" size="32" name="upfile">
     <br><br>
     <input type="submit" value="<?php echo SUBMIT ?>">
     <input type="hidden" name="act" value="topicadd">

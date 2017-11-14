@@ -67,7 +67,6 @@ span.boldy
 
 a:link, a:visited, a:active
 {
-    float: left;
     color: #00f;
     text-decoration: none;
 }
@@ -78,9 +77,21 @@ a:hover
     text-decoration: underline;
 }
 
+a.fleft:link, a.fleft:visited, a.fleft:active
+{
+    float: left;
+    color: #00f;
+    text-decoration: none;
+}
+
+a.fleft:hover
+{
+    color: #c00;
+    text-decoration: underline;
+}
+
 form
 {
-    /*float: left;*/
     margin: 0px;
     padding: 0px;
     border: 0px solid black;

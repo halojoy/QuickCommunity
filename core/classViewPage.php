@@ -49,7 +49,8 @@ class ViewPage
 <body>
     <div id="wrapper">
 
-        <span id="title"><?php echo $this->title ?></span><span id="subtitle"><?php echo $this->subtitle ?></span>
+        <span id="title"><?php echo $this->title ?></span>
+        <span id="subtitle"><?php echo $this->subtitle ?></span>
         <br>
 
 <?php
@@ -141,7 +142,7 @@ if ($this->sess->isAdmin()) {
                 <input type="hidden" name="act" value="home">
             </form>
             <form class="inverse" method="post">
-                <input class="inverse" type="submit" value=" Members">
+                <input class="inverse" type="submit" value="Members">
                 <input type="hidden" name="act" value="members">
             </form>
             <form class="inverse" method="post">
