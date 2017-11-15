@@ -51,7 +51,7 @@ foreach($ret as $row) {
  ?>
                     <?php echo nl2br($row->p_message) ?>
 <?php
-                    if ($row->p_cat == 'image') {
+                    if ($row->p_cat == 'image1') {
 ?>
                         <div class="thumb">
                         <a href="upload/<?php echo $row->p_file ?>" target="_blank">

@@ -43,7 +43,7 @@ if(isset($_POST['filled'])) {
                 $filename  = $pid.'_'.$genname.'.'.$ext;
                 $upload->setName($filename);
                 $upload->upload();
-                if ($filecat == 'image') {
+                if ($filecat == 'image1') {
                     $upload->setName('tmb_'.$filename);
                     $upload->setMaxSize(175, 175);
                     $upload->resize();

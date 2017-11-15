@@ -40,7 +40,8 @@ if(isset($_POST['filled'])) {
             $filecat = $upload->fileCategory;
 
             if ($filecat == 'other') {
-                $filename = $upload->name;
+                $filename = $pid.'_'.$upload->name;
+                $upload->setName($filename);
                 $upload->upload();
             } else {
                 $genname=''; for ($i=0;$i<8;$i++) $genname[$i]=chr(mt_rand(97,122));
@@ -48,7 +49,7 @@ if(isset($_POST['filled'])) {
                 $filename  = $pid.'_'.$genname.'.'.$ext;
                 $upload->setName($filename);
                 $upload->upload();
-                if ($filecat == 'image') {
+                if ($filecat == 'image1') {
                     $upload->setName('tmb_'.$filename);
                     $upload->setMaxSize(175, 175);
                     $upload->resize();

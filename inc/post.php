@@ -1,5 +1,5 @@
 <?php if(!defined('QCOM1'))exit() ?>
-
+        <br>
         <span class="leftspace">&nbsp;</span>
         <span class="boldy"><?php echo $this->tsubj ?></span>
 
@@ -32,7 +32,7 @@ $this->pdo = null;
  ?>
                     <?php echo nl2br($row->p_message) ?> 
 <?php
-                    if ($row->p_cat == 'image') {
+                    if ($row->p_cat == 'image1') {
 ?>
                         <div class="thumb">
                         <a href="upload/<?php echo $row->p_file ?>" target="_blank">

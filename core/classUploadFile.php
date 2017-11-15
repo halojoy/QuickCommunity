@@ -14,15 +14,15 @@ class UploadFile
     public  $srcHeight;
     // Settings
     public  $directory = 'upload'; // upload directory
-    public  $maxFileSize = 120; // MB, max size, 120MB
+    public  $maxFileSize = 120; // MB, max size 120MB
     public  $maxWidth  = 840;   // max image width
     public  $maxHeight = 680;   // max image height
-    public  $imgAllow  = ['jpg','png','gif']; // possible to resize images
+    public  $img1Allow = ['jpg','png','gif']; // possible to resize images
     public  $img2Allow = ['bmp'];             // not possible resize
     public  $fileAllow = ['pdf','txt','zip','7z','tar.gz','tgz','mp4',
                           'avi','mov','wmv','flv','mpg','mp3','flac','wav','swf'];
     // Settings end
-    public  $imgMime = array(
+    public  $img1Mime = array(
             'jpg' => ['image/jpeg','image/jpg'],
             'png' => ['image/png','application/png','application/x-png'],
             'gif' => ['image/gif','image/x-xbitmap'] );
@@ -78,9 +78,9 @@ class UploadFile
 
     public function validateFile()
     {
-        $allImgMimes = array();
-        foreach($this->imgAllow as $img) {
-            $allImgMimes = array_merge($allImgMimes, $this->imgMime[$img]);
+        $allImg1Mimes = array();
+        foreach($this->img1Allow as $img) {
+            $allImg1Mimes = array_merge($allImg1Mimes, $this->img1Mime[$img]);
         }
         $allImg2Mimes = array();
         foreach($this->img2Allow as $img) {
@@ -90,8 +90,8 @@ class UploadFile
         foreach($this->fileAllow as $file) {
             $allFileMimes = array_merge($allFileMimes, $this->fileMime[$file]);
         }
-        if (in_array($this->filetype, $allImgMimes)) {
-            $this->fileCategory = 'image';
+        if (in_array($this->filetype, $allImg1Mimes)) {
+            $this->fileCategory = 'image1';
         } elseif (in_array($this->filetype, $allImg2Mimes)) {
             $this->fileCategory = 'image2';
         } elseif (in_array($this->filetype, $allFileMimes)) {
@@ -137,7 +137,7 @@ class UploadFile
     
     public function getSupported()
     {
-        $all = array_merge($this->imgAllow, $this->fileAllow);
+        $all = array_merge($this->imgAllow, $this->img2Allow, $this->fileAllow);
         $supported = '';
         foreach($all as $ext)
             $supported .= $ext.', ';
