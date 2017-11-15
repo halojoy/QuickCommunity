@@ -34,10 +34,10 @@ $this->pdo = null;
 <?php
                     if ($row->p_cat == 'image') {
 ?>
-                        <br>
+                        <div class="thumb">
                         <a href="upload/<?php echo $row->p_file ?>" target="_blank">
                         <img src="upload/<?php echo 'tmb_'.$row->p_file ?>">
-                        </a>
+                        </a></div>
 <?php
                     }
                     if ($row->p_cat == 'image2') {
@@ -47,10 +47,10 @@ $this->pdo = null;
                         $width = $upload->getDisplayWidth('upload/'.$row->p_file);
                         $upload = null;
 ?>
-                        <br>
+                        <div class="thumb">
                         <a href="upload/<?php echo $row->p_file ?>" target="_blank">
                         <img width="<?php echo $width ?>" src="upload/<?php echo $row->p_file ?>">
-                        </a>
+                        </a></div>
 <?php
                     }
                     if ($row->p_cat == 'other') {
