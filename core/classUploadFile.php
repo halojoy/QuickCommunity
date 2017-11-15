@@ -124,8 +124,8 @@ class UploadFile
     public function setDirectory($dir)
     {
         $this->directory = $dir;
-        $this->destin = $this->directory.'/'.$this->name;
         $this->checkDir();
+        $this->destin = $this->directory.'/'.$this->name;
     }
 
     public function checkDir()
