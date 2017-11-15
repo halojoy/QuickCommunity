@@ -64,6 +64,7 @@ class UploadFile
         $this->filetype = $file['type'];
         $this->extension = $this->getExtension();
         $this->validateFile();
+        $this->checkDir();
     }
 
     public function upload()
@@ -120,6 +121,20 @@ class UploadFile
             return strtolower(pathinfo($this->name, PATHINFO_EXTENSION));
     }
 
+    public function setDirectory($dir)
+    {
+        $this->directory = $dir;
+        $this->destin = $this->directory.'/'.$this->name;
+        $this->checkDir();
+    }
+
+    public function checkDir()
+    {
+        if (!file_exists($this->directory))
+            if (!mkdir($this->directory))
+                exit('Upload Directory does not exist and could not be created');
+    }
+    
     public function getSupported()
     {
         $all = array_merge($this->imgAllow, $this->fileAllow);
@@ -133,12 +148,6 @@ class UploadFile
     public function setFileSize($size) //MB, megabytes
     {
         $this->maxFileSize = $size;
-    }
-
-    public function setDirectory($dir)
-    {
-        $this->directory = $dir;
-        $this->destin = $this->directory.'/'.$this->name;
     }
 
     public function setName($name)

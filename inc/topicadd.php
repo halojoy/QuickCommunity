@@ -37,23 +37,22 @@ if(isset($_POST['filled'])) {
             require 'core/classUploadFile.php';
             $upload = new UploadFile();
             $upload->registerFile($_FILES['upfile']);
-
             $filecat = $upload->fileCategory;
+
             if ($filecat == 'other') {
                 $filename = $upload->name;
                 $upload->upload();
-            }
-            if ($filecat == 'image' || $filecat == 'image2') {
+            } else {
+                $genname=''; for ($i=0;$i<8;$i++) $genname[$i]=chr(mt_rand(97,122));
                 $ext = $upload->extension;
-                $genname=''; for ($i=0;$i<8;$i++) $genname[$i]=chr(mt_rand(97, 122));
-                $filename = $pid.'_'.$genname.'.'.$ext;
+                $filename  = $pid.'_'.$genname.'.'.$ext;
                 $upload->setName($filename);
-            }
-            if ($filecat == 'image2') {
                 $upload->upload();
-            }
-            if ($filecat == 'image') {
-                $upload->resize(); 
+                if ($filecat == 'image') {
+                    $upload->setName('tmb_'.$filename);
+                    $upload->setMaxSize(175, 175);
+                    $upload->resize();
+                }
             }
             $sql = "UPDATE posts SET p_file='$filename', p_cat='$filecat' WHERE pid=$pid;";
             $ret = $this->pdo->querySQL($sql);

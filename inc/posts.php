@@ -52,14 +52,25 @@ foreach($ret as $row) {
                     <?php echo nl2br($row->p_message) ?>
 <?php
                     if ($row->p_cat == 'image') {
-                        echo '<br><img src="upload/'.$row->p_file.'">';
+?>
+                        <br>
+                        <a href="upload/<?php echo $row->p_file ?>" target="_blank">
+                        <img src="upload/<?php echo 'tmb_'.$row->p_file ?>">
+                        </a>
+<?php
                     }
                     if ($row->p_cat == 'image2') {
                         require_once 'core/classUploadFile.php';
                         $upload = new UploadFile();
+                        $upload->setMaxSize(175, 175);
                         $width = $upload->getDisplayWidth('upload/'.$row->p_file);
                         $upload = null;
-                        echo '<br><img width="'.$width.'" src="upload/'.$row->p_file.'">';
+?>
+                        <br>
+                        <a href="upload/<?php echo $row->p_file ?>" target="_blank">
+                        <img width="<?php echo $width ?>" src="upload/<?php echo $row->p_file ?>">
+                        </a>
+<?php
                     }
                     if ($row->p_cat == 'other') {
                         echo '<br><br>Attachment: 
