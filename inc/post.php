@@ -54,9 +54,9 @@ $this->pdo = null;
 <?php
                     }
                     if ($row->p_cat == 'other') {
-                        echo '<br><br>Attachment: 
-                        <a href="upload/'.$row->p_file.'" target="_blank">'.$row->p_file.'</a>';
-                        echo '&nbsp;&nbsp;Right-click and download';
+                        echo '<br><br>'.ATTACHMENT.
+                        ' <a href="upload/'.$row->p_file.'" target="_blank">'.$row->p_file.'</a>';
+                        echo '&nbsp;&nbsp;'.RIGHTCLICK;
                     }
 ?>                    
                 </td>

@@ -47,4 +47,6 @@ define('POST',       'Post');
 define('EDIT',       'Editar');
 define('TOPICLINK',  'Link para Tópico');
 define('LINK',       'Link');
-define('CHOOSEIMAGE', 'Escolha uma imagem para anexar');
+define('CHOOSEFILE', 'Escolha um arquivo para anexar:');
+define('ATTACHMENT', 'Anexo:');
+define('RIGHTCLICK', 'Clique direito para baixar');

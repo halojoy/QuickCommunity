@@ -47,4 +47,6 @@ define('POST',       'Post');
 define('EDIT',       'Edit');
 define('TOPICLINK',  'Länk till Ämne');
 define('LINK',       'Länk');
-define('CHOOSEIMAGE', 'Välj en bild att bifoga:');
+define('CHOOSEFILE', 'Välj en fil att bifoga:');
+define('ATTACHMENT', 'Bifogat:');
+define('RIGHTCLICK', 'Högerklicka och ladda ner');

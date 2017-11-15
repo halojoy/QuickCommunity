@@ -48,3 +48,5 @@ define('EDIT',       'Edit');
 define('TOPICLINK',  'Link To Topic');
 define('LINK',       'Link');
 define('CHOOSEFILE', 'Choose one file to attach:');
+define('ATTACHMENT', 'Attachment:');
+define('RIGHTCLICK', 'Right click and download');
