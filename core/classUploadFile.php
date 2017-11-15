@@ -137,7 +137,7 @@ class UploadFile
     
     public function getSupported()
     {
-        $all = array_merge($this->imgAllow, $this->img2Allow, $this->fileAllow);
+        $all = array_merge($this->img1Allow, $this->img2Allow, $this->fileAllow);
         $supported = '';
         foreach($all as $ext)
             $supported .= $ext.', ';
