@@ -51,7 +51,7 @@ foreach($ret as $row) {
  ?>
                     <?php echo nl2br($row->p_message) ?>
 <?php
-                    if ($row->p_cat == 'image1') {
+                    if ($row->p_cat == 'image') {
 ?>
                         <div class="thumb">
                         <a href="upload/<?php echo $row->p_file ?>" target="_blank">
@@ -59,20 +59,7 @@ foreach($ret as $row) {
                         </a></div>
 <?php
                     }
-                    if ($row->p_cat == 'image2') {
-                        require_once 'core/classUploadFile.php';
-                        $upload = new UploadFile();
-                        $upload->setMaxSize(175, 175);
-                        $width = $upload->getDisplayWidth('upload/'.$row->p_file);
-                        $upload = null;
-?>
-                        <div class="thumb">
-                        <a href="upload/<?php echo $row->p_file ?>" target="_blank">
-                        <img width="<?php echo $width ?>" src="upload/<?php echo $row->p_file ?>">
-                        </a></div>
-<?php
-                    }
-                    if ($row->p_cat == 'other') {
+                    if ($row->p_cat == 'file') {
                         echo '<br><br>'.ATTACHMENT.
                         ' <a href="upload/'.$row->p_file.'" target="_blank">'.$row->p_file.'</a>';
                         echo '&nbsp;&nbsp;'.RIGHTCLICK;

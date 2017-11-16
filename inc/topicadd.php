@@ -39,23 +39,22 @@ if(isset($_POST['filled'])) {
             $upload->registerFile($_FILES['upfile']);
             $filecat = $upload->fileCategory;
 
-            if ($filecat == 'other') {
-                $filename = $pid.'_'.$upload->name;
-                $upload->setName($filename);
+            if ($filecat == 'file') {
+                $newname = $pid.'_'.$upload->name;
+                $upload->setName($newname);
                 $upload->upload();
-            } else {
+            }
+            if ($filecat == 'image') {
                 $genname=''; for ($i=0;$i<8;$i++) $genname[$i]=chr(mt_rand(97,122));
                 $ext = $upload->extension;
-                $filename  = $pid.'_'.$genname.'.'.$ext;
-                $upload->setName($filename);
+                $newname  = $pid.'_'.$genname.'.'.$ext;
+                $upload->setName($newname);
                 $upload->upload();
-                if ($filecat == 'image1') {
-                    $upload->setName('tmb_'.$filename);
-                    $upload->setMaxSize(175, 175);
-                    $upload->resize();
-                }
+                $upload->setName('tmb_'.$newname);
+                $upload->setMaxSize(175, 150);
+                $upload->resize();
             }
-            $sql = "UPDATE posts SET p_file='$filename', p_cat='$filecat' WHERE pid=$pid;";
+            $sql = "UPDATE posts SET p_file='$newname', p_cat='$filecat' WHERE pid=$pid;";
             $ret = $this->pdo->querySQL($sql);
         } elseif ($_FILES['upfile']['error'] != 4) {
             exit('File Upload Error: '.$_FILES['upfile']['error'].

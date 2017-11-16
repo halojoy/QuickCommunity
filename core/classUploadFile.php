@@ -17,16 +17,14 @@ class UploadFile
     public  $maxFileSize = 120; // MB, max size 120MB
     public  $maxWidth  = 840;   // max image width
     public  $maxHeight = 680;   // max image height
-    public  $img1Allow = ['jpg','png','gif']; // possible to resize images
-    public  $img2Allow = ['bmp'];             // not possible resize
-    public  $fileAllow = ['pdf','txt','zip','7z','tar.gz','tgz','mp4',
-                          'avi','mov','wmv','flv','mpg','mp3','flac','wav','swf'];
+    public  $imageAllow = ['jpg','png','gif','bmp']; // possible to resize images
+    public  $fileAllow = ['pdf','txt','zip','7z','tar.gz','tgz','mp4','swf',
+                          'avi','mov','wmv','flv','mpg','mp3','flac','wav'];
     // Settings end
-    public  $img1Mime = array(
+    public  $imageMime = array(
             'jpg' => ['image/jpeg','image/jpg'],
             'png' => ['image/png','application/png','application/x-png'],
-            'gif' => ['image/gif','image/x-xbitmap'] );
-    public  $img2Mime = array(
+            'gif' => ['image/gif','image/x-xbitmap'],
             'bmp' => ['image/bmp','image/x-bmp'] );
     public  $fileMime = array(
             'pdf' => ['application/pdf','application/x-pdf'],
@@ -36,6 +34,7 @@ class UploadFile
             'tar.gz' => ['application/gzip','application/x-gzip','application/x-tar'],
             'tgz' =>    ['application/gzip','application/x-gzip','application/x-tar'],
             'mp4' => ['video/mp4','video/mp4v-es'],
+            'swf' => ['application/x-shockwave-flash'],
             'avi' => ['video/avi','video/msvideo','video/x-msvideo'],
             'mov' => ['video/quicktime','video/x-quicktime'],
             'wmv' => ['video/x-ms-wmv'],
@@ -43,8 +42,7 @@ class UploadFile
             'mpg' => ['video/mpeg','video/mpg','video/x-mpg'],
             'mp3' => ['audio/mp3','audio/x-mp3'],
             'flac' => ['audio/flac'],
-            'wav' => ['audio/wav','audio/x-wav','audio/wave'],
-            'swf' => ['application/x-shockwave-flash'] );
+            'wav' => ['audio/wav','audio/x-wav','audio/wave'] );
 
     public function __construct()
     {
@@ -78,24 +76,18 @@ class UploadFile
 
     public function validateFile()
     {
-        $allImg1Mimes = array();
-        foreach($this->img1Allow as $img) {
-            $allImg1Mimes = array_merge($allImg1Mimes, $this->img1Mime[$img]);
-        }
-        $allImg2Mimes = array();
-        foreach($this->img2Allow as $img) {
-            $allImg2Mimes = array_merge($allImg2Mimes, $this->img2Mime[$img]);
+        $allImageMimes = array();
+        foreach($this->imageAllow as $img) {
+            $allImageMimes = array_merge($allImageMimes, $this->imageMime[$img]);
         }
         $allFileMimes = array();
         foreach($this->fileAllow as $file) {
             $allFileMimes = array_merge($allFileMimes, $this->fileMime[$file]);
         }
-        if (in_array($this->filetype, $allImg1Mimes)) {
-            $this->fileCategory = 'image1';
-        } elseif (in_array($this->filetype, $allImg2Mimes)) {
-            $this->fileCategory = 'image2';
+        if (in_array($this->filetype, $allImageMimes)) {
+            $this->fileCategory = 'image';
         } elseif (in_array($this->filetype, $allFileMimes)) {
-            $this->fileCategory = 'other';
+            $this->fileCategory = 'file';
         } else {
             $this->fileCategory = 'nosupport';
             exit('<b>'.$this->name.'</b><br>
@@ -103,6 +95,9 @@ class UploadFile
                 Mime filetype: '.$this->filetype.'<br>
                 File category: '.$this->fileCategory );
         }
+        if ($this->filetype == 'image/bmp' || $this->filetype == 'image/x-bmp') {
+            $this->bmp2jpg();
+        }      
     }
 
     public function checkSize()
@@ -180,8 +175,22 @@ class UploadFile
             return $width;
         else
             return round($k * $width);
-    }        
-        
+    }
+
+    public function bmp2jpg()
+    {
+        $this->filetype = 'image/jpeg';
+        $this->extension = 'jpg';
+        $this->destin = str_replace('bmp', 'jpg', $this->source);
+        $this->name = str_replace('bmp', 'jpg', $this->name);
+        require 'core/classBmp2Image.php';
+        $jpg = Bmp2Image::make($this->source);
+        imagejpeg($jpg, $this->destin);
+        imagedestroy($jpg);
+        $this->source = $this->destin;
+        $this->destin = $this->directory.'/'.$this->name;
+    }
+
     public function resize()
     {
         list($this->srcWidth, $this->srcHeight) = getimagesize($this->source);
@@ -198,26 +207,26 @@ class UploadFile
 
         $thumbImage = imagecreatetruecolor( $newWidth, $newHeight );
 
-        if ($this->file['type']=='image/jpeg') {
+        if ($this->filetype=='image/jpeg') {
             $srcImage = imagecreatefromjpeg($imgSource);
-        } elseif ($this->file['type']=='image/png') {
+        } elseif ($this->filetype=='image/png') {
             $srcImage = imagecreatefrompng($imgSource);
-        } elseif ($this->file['type']=='image/gif') {
+        } elseif ($this->filetype=='image/gif') {
             $srcImage = imagecreatefromgif($imgSource);
-        } elseif ($this->file['type']=='image/bmp') {
+        } elseif ($this->filetype=='image/bmp') {
             $srcImage = imagecreatefrombmp($imgSource);
         }        
 
         imagecopyresized($thumbImage, $srcImage, 0, 0, 0, 0, 
             $newWidth, $newHeight, $this->srcWidth, $this->srcHeight);
 
-        if ($this->file['type']=='image/jpeg') {
+        if ($this->filetype=='image/jpeg') {
             imagejpeg($thumbImage, $imgResize, 95);
-        } elseif ($this->file['type']=='image/png') {
+        } elseif ($this->filetype=='image/png') {
             imagepng($thumbImage, $imgResize, 9);
-        } elseif ($this->file['type']=='image/gif') {
+        } elseif ($this->filetype=='image/gif') {
             imagegif($thumbImage, $imgResize);
-        } elseif ($this->file['type']=='image/bmp') {
+        } elseif ($this->filetype=='image/bmp') {
             imagebmp($thumbImage, $imgResize);
         }
 
