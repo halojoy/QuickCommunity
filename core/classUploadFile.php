@@ -115,7 +115,7 @@ class UploadFile
             Max size is: <b>'.$this->maxFileSize.' MB</b>');
         }
     }
-    
+
     public function getExtension()
     {
         if (preg_match("@\.tar.gz$@i", $this->name))
@@ -137,14 +137,11 @@ class UploadFile
             if (!mkdir($this->directory))
                 exit('Upload Directory does not exist and could not be created');
     }
-    
+
     public function getSupported()
     {
-        $all = array_merge($this->img1Allow, $this->img2Allow, $this->fileAllow);
-        $supported = '';
-        foreach($all as $ext)
-            $supported .= $ext.', ';
-        $supported = rtrim($supported, ', ');
+        $all = array_merge($this->imageAllow, $this->fileAllow);
+        $supported = implode(', ', $all);
         return $supported;
     }
 
