@@ -77,7 +77,7 @@ $maxsize = $upload->maxFileSize * 1048576;
 <br>
 <form enctype="multipart/form-data" method="post" accept-charset="UTF-8">
     <?php echo SUBJECT ?>:<br/>
-    <input type="text" size="70" maxlength="60" required name="subject"><br/>
+    <input type="text" size="60" maxlength="56" required name="subject"><br/>
     <?php echo MESSAGE ?>:<br/>
     <textarea rows="10" cols="100" maxlength="2048" required name="message"></textarea>
     <br>
