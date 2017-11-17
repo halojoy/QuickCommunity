@@ -16,7 +16,7 @@ define('NEWPOSTS',   'Neue Beiträge');
 define('ADMIN',      'Administrator');
 define('LOGGEDAS',   'Eingeloggt als');
 define('LASTPOSTBY', 'Letzter Beitrag von');
-define('STARTEDBY',  'Angefangen von');
+define('STARTEDBY',  'Angefangen');
 define('POSTTOPIC',  'Neues Thema Posten');
 define('POSTREPLY',  'Briefantwort');
 define('SUBJECT',    'Thema');

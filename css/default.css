@@ -11,7 +11,7 @@ body
 div#wrapper
 {
     background: #ffffff;
-    width: 1100px;
+    width: 1200px;
     margin: auto;
     padding: 8px;
     border-radius: 12px;
@@ -197,8 +197,8 @@ table#topics {width: 100%; background: #e0e0e0; border-collapse: collapse; color
 table#topics tr {border-bottom: 1px solid #000080;}
 table#topics td {padding: 3px 7px;}
 table#topics td.topicstop {background: #000080; padding: 0px; height: 4px;}
-table#topics td.topicleft {width: 420px; background: #f0f0f0;}
-table#topics td.topicmiddle1 {width: 200px;}
+table#topics td.topicleft {width: 400px; background: #f0f0f0;}
+table#topics td.topicmiddle1 {width: 270px;}
 table#topics td.topicmiddle2 {float: left;}
 table#topics td.topicright {float: left;}
 div#topicsspacer {background: #ffffff; height: 4px;}
