@@ -183,20 +183,24 @@ span.leftspace
     width: 242px;
 }
 
-table#forums {width: 100%; border-collapse: collapse; color: #000; font-size: 16px;}
-table#forums td.forumtop {background: #000080; border: 1px solid #000080; height: 2px;}
+table#forums {width: 100%; background: #e0e0e0; border-collapse: collapse; color: #000; font-size: 16px;}
 table#forums tr.frame {border: 1px solid #000080;}
-table#forums td.forumleft {width: 220px; background: #f0f0f0; padding: 7px;}
-table#forums td.forummiddle {width: 280px; background: #f0f0f0; padding: 7px;}
-table#forums td.forumright {background: #e0e0e0; padding: 7px;}
-table#forums td.forumfarright {background: #e0e0e0; padding: 7px;}
-table#forums td.spacer{background: #ffffff; height: 2px;}
+table#forums td {padding: 7px;}
+table#forums td.forumtop {background: #000080; border: 1px solid #000080; padding: 0px; height: 4px;}
+table#forums td.forumleft {width: 220px; background: #f0f0f0;}
+table#forums td.forummiddle {width: 280px; background: #f0f0f0;}
+table#forums td.forumright {float: left;}
+table#forums td.forumfarright {float:left;}
+table#forums td.spacer{background: #ffffff; padding: 0px; height: 2px;}
 
-table#topics {width: 100%; border-collapse: collapse; border: 1px solid #000080;}
+table#topics {width: 100%; background: #e0e0e0; border-collapse: collapse; color: #000; border: 1px solid #000080;}
 table#topics tr {border-bottom: 1px solid #000080;}
-table#topics td {background: #e0e0e0; color: #000; padding: 3px 7px;}
+table#topics td {padding: 3px 7px;}
 table#topics td.topicstop {background: #000080; padding: 0px; height: 4px;}
 table#topics td.topicleft {width: 420px; background: #f0f0f0;}
+table#topics td.topicmiddle1 {width: 200px;}
+table#topics td.topicmiddle2 {float: left;}
+table#topics td.topicright {float: left;}
 div#topicsspacer {background: #ffffff; height: 4px;}
 
 table#posts {width: 100%; border-collapse: collapse; color: #000; font-size: 16px;}

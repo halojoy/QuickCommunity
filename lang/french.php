@@ -10,7 +10,7 @@ define('HOME',       'Accueil');
 define('SUBMIT',     'Soumettre');
 define('LOGIN',      'Connectez');
 define('REGISTER',   'Inscription');
-define('LOGOUT',     'Connectez - Out');
+define('LOGOUT',     'Connectez Out');
 define('MEMBERS',    'Membres');
 define('NEWPOSTS',   'Nouveaux Messages');
 define('ADMIN',      'Admin');
