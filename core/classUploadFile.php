@@ -2,13 +2,12 @@
 
 class UploadFile
 {
-    public  $file;
-    public  $fileSize;
     public  $name;
+    public  $filetype;
+    public  $filesize;
+    public  $extension;
     public  $source;
     public  $destin;
-    public  $filetype;
-    public  $extension;
     public  $fileCategory;
     public  $srcWidth;
     public  $srcHeight;
@@ -59,18 +58,17 @@ class UploadFile
     public function registerFile($file)
     {
         if ($file['error']) {
-            exit('File upload error');
+            exit('File upload error: '.$file['error']);
         }
-        $this->file = $file;
-        $this->fileSize = $file['size'];
-        $this->checkSize();
-        $this->name = $file['name'];
-        $this->source = $file['tmp_name'];
-        $this->destin = $this->directory.'/'.$this->name;
-        $this->filetype = $file['type'];
+        $this->name      = $file['name'];
+        $this->filetype  = $file['type'];
+        $this->filesize  = $file['size'];
         $this->extension = $this->getExtension();
-        $this->validateFile();
+        $this->source    = $file['tmp_name'];
+        $this->destin    = $this->directory.'/'.$this->name;
         $this->checkDir();
+        $this->checkSize();
+        $this->validateFile();
     }
 
     public function upload()
@@ -110,7 +108,7 @@ class UploadFile
 
     public function checkSize()
     {
-        if ($this->fileSize > $this->maxFileSize * 1048576) {
+        if ($this->filesize > $this->maxFileSize * 1048576) {
             exit('File size too big!<br>
             Max size is: <b>'.$this->maxFileSize.' MB</b>');
         }
