@@ -18,8 +18,8 @@ class UploadFile
     public  $maxWidth  = 840;   // max image width
     public  $maxHeight = 680;   // max image height
     public  $imageAllow = ['jpg','png','gif','bmp']; // possible to resize images
-    public  $fileAllow = ['pdf','txt','zip','7z','tar.gz','tgz','mp4','swf',
-                          'avi','mov','wmv','flv','mpg','mp3','flac','wav'];
+    public  $fileAllow = ['tif','svg','ico','php','htm','css','txt','pdf','zip','7z','tar.gz','tgz',
+                            'mp4','swf','avi','mov','wmv','flv','mpg','mp3','flac','wav'];
     // Settings end
     public  $imageMime = array(
             'jpg' => ['image/jpeg','image/jpg'],
@@ -27,8 +27,14 @@ class UploadFile
             'gif' => ['image/gif','image/x-xbitmap'],
             'bmp' => ['image/bmp','image/x-bmp'] );
     public  $fileMime = array(
-            'pdf' => ['application/pdf','application/x-pdf'],
+            'tif' => ['image/tif','image/x-tif','image/tiff','image/x-tiff'],
+            'svg' => ['image/svg+xml','application/svg+xml','image/svg-xml'],
+            'ico' => ['image/ico','image/x-icon'],
+            'php' => ['application/x-httpd-php','text/php','application/php','application/x-php'],
+            'htm' => ['text/html'],
+            'css' => ['text/css','application/css-stylesheet'],
             'txt' => ['text/plain','application/txt'],
+            'pdf' => ['application/pdf','application/x-pdf'],
             'zip' => ['application/zip','application/x-zip','application/x-zip-compressed','application/x-compressed'],
             '7z'  => ['application/x-7z-compressed'],
             'tar.gz' => ['application/gzip','application/x-gzip','application/x-tar'],
