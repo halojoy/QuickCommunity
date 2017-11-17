@@ -72,3 +72,19 @@ foreach($ret as $row) {
 }
 ?>
         </table>
+<?php
+
+if ($this->sess->isLogged() && !$this->sess->isBanned()) {
+?>
+        <br>
+        <div id="postlink">
+        <form class="link" method="post">
+            <input class="link" type="submit" value="<?php echo POSTREPLY ?>">
+            <input type="hidden" name="act" value="postadd">
+            <input type="hidden" name="tid" value="<?php echo $this->tid ?>">
+        </form>
+        </div>
+        <br>
+
+<?php
+}
