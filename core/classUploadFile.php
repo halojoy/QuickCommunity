@@ -18,7 +18,7 @@ class UploadFile
     public  $maxWidth  = 840;   // max image width
     public  $maxHeight = 680;   // max image height
     public  $imageAllow = ['jpg','png','gif','bmp']; // possible to resize images
-    public  $fileAllow = ['tif','svg','ico','php','htm','css','txt','pdf','zip','7z','tar.gz','tgz',
+    public  $fileAllow = ['tif','svg','ico','php','htm','css','js','txt','pdf','zip','7z','tar.gz','tgz',
                             'mp4','swf','avi','mov','wmv','flv','mpg','mp3','flac','wav'];
     // Settings end
     public  $imageMime = array(
@@ -33,6 +33,7 @@ class UploadFile
             'php' => ['application/x-httpd-php','text/php','application/php','application/x-php'],
             'htm' => ['text/html'],
             'css' => ['text/css','application/css-stylesheet'],
+            'js'  => ['application/x-javascript','text/javascript'],
             'txt' => ['text/plain','application/txt'],
             'pdf' => ['application/pdf','application/x-pdf'],
             'zip' => ['application/zip','application/x-zip','application/x-zip-compressed','application/x-compressed'],
