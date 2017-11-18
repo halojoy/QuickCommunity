@@ -92,6 +92,7 @@ class UploadFile
         }
         if (in_array($this->filetype, $allImageMimes)) {
             $this->fileCategory = 'image';
+            $this->getDimensions();
         } elseif (in_array($this->filetype, $allFileMimes)) {
             $this->fileCategory = 'file';
         } else {
@@ -176,6 +177,11 @@ class UploadFile
         $this->destin = $file;
     }
 
+    public function getDimensions()
+    {
+        list($this->srcWidth, $this->srcHeight) = getimagesize($this->source);
+    }        
+        
     public function setMaxSize($width, $height)
     {
         $this->maxWidth  = $width;
@@ -202,12 +208,12 @@ class UploadFile
         $this->filetype = 'image/jpeg';
         $this->extension = 'jpg';
         $this->filesize = filesize($this->source);
+        $this>getDimensions();
         $this->destin = $this->directory.'/'.$this->name;
     }
 
     public function resize()
     {
-        list($this->srcWidth, $this->srcHeight) = getimagesize($this->source);
         if ($this->srcWidth <= $this->maxWidth && $this->srcHeight <= $this->maxHeight) {
             $this->upload();
             return;
