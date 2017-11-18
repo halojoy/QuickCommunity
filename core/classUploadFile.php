@@ -62,8 +62,8 @@ class UploadFile
         }
         $this->name      = $file['name'];
         $this->filetype  = $file['type'];
-        $this->filesize  = $file['size'];
         $this->extension = $this->getExtension();
+        $this->filesize  = $file['size'];
         $this->source    = $file['tmp_name'];
         $this->destin    = $this->directory.'/'.$this->name;
         $this->checkDir();
@@ -104,6 +104,18 @@ class UploadFile
         if ($this->filetype == 'image/bmp' || $this->filetype == 'image/x-bmp') {
             $this->bmp2jpg();
         }      
+    }
+
+    public function getFileData()
+    {
+        $fdata = array(
+            'filename' => $this->name,
+            'filetype' => $this->filetype,
+            'extension' => $this->extension,
+            'filesize' => $this->filesize,
+            'fsource' => $this->source,
+            'fdestin' => $this->destin );
+        return $fdata;
     }
 
     public function checkSize()
@@ -182,14 +194,15 @@ class UploadFile
 
     public function bmp2jpg()
     {
-        $this->name = str_replace($this->extension, 'jpg', $this->name);
         $this->destin = str_replace($this->extension, 'jpg', $this->source);
-        $this->extension = 'jpg';
-        $this->filetype = 'image/jpeg';
         require 'core/classBmp2Image.php';
-        $jpg = Bmp2Image::make($this->source);
-        imagejpeg($jpg, $this->destin);
-        imagedestroy($jpg);
+        $img = Bmp2Image::make($this->source);
+        imagejpeg($img, $this->destin);
+        imagedestroy($img);
+        $this->name = str_replace($this->extension, 'jpg', $this->name);
+        $this->filetype = 'image/jpeg';
+        $this->extension = 'jpg';
+        $this->filesize = filesize($this->destin);
         $this->source = $this->destin;
         $this->destin = $this->directory.'/'.$this->name;
     }
