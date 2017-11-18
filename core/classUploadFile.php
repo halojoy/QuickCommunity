@@ -208,7 +208,7 @@ class UploadFile
         $this->filetype = 'image/jpeg';
         $this->extension = 'jpg';
         $this->filesize = filesize($this->source);
-        $this>getDimensions();
+        $this->getDimensions();
         $this->destin = $this->directory.'/'.$this->name;
     }
 
