@@ -51,7 +51,6 @@ if(isset($_POST['filled'])) {
                 $upload->setName($newname);
                 $upload->upload();
                 $upload->setName('tmb_'.$newname);
-                $upload->setMaxSize(175, 150);
                 $upload->resize();
             }
             $sql = "UPDATE posts SET p_file='$newname', p_cat='$filecat' WHERE pid=$pid;";

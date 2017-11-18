@@ -14,9 +14,9 @@ class UploadFile
     // Settings
     public  $directory = 'upload'; // upload directory
     public  $maxFileSize = 120; // MB, max size 120MB
-    public  $maxWidth  = 840;   // max image width
-    public  $maxHeight = 680;   // max image height
-    public  $imageAllow = ['jpg','png','gif','bmp']; // possible to resize images
+    public  $maxWidth  = 175;   // max resize image width
+    public  $maxHeight = 150;   // max resize image height
+    public  $imageAllow = ['jpg','png','gif','bmp']; // images for thumbnails
     public  $fileAllow = ['tif','svg','ico','php','htm','css','xml','js','txt','pdf','zip','7z','tar.gz','tgz',
                             'mp4','swf','avi','mov','wmv','flv','mpg','mp3','flac','wav'];
     // Settings end
