@@ -182,10 +182,10 @@ class UploadFile
 
     public function bmp2jpg()
     {
+        $this->name = str_replace('bmp', 'jpg', $this->name);
         $this->filetype = 'image/jpeg';
         $this->extension = 'jpg';
         $this->destin = str_replace('bmp', 'jpg', $this->source);
-        $this->name = str_replace('bmp', 'jpg', $this->name);
         require 'core/classBmp2Image.php';
         $jpg = Bmp2Image::make($this->source);
         imagejpeg($jpg, $this->destin);
