@@ -54,10 +54,10 @@ foreach($ret as $row) {
                         <a href="upload/<?php echo $row->p_file ?>" target="_blank">
                         <img src="upload/<?php echo 'tmb_'.$row->p_file ?>">
                         </a></div>
-<?php           //word-break: break-all;
+<?php
                     }
 ?>
-                    <div style="word-break: break-all;"><?php echo nl2br($row->p_message) ?></div>
+                    <div class="message"><?php echo nl2br($row->p_message) ?></div>
 <?php                    
                     if ($row->p_cat == 'file') {
                         echo '<br>'.ATTACHMENT.

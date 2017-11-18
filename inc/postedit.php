@@ -9,7 +9,6 @@ if (!$this->sess->isLogged() || $this->sess->isBanned()) {
 if(isset($_POST['filled'])) {
 
     $message = filter_var(trim($_POST['message']), FILTER_SANITIZE_STRING);
-    $message = str_replace(' ', '&nbsp;', $message);
     $time = time();
 
     if(!empty($message)) {

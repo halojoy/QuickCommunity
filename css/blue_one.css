@@ -290,3 +290,8 @@ div.thumb
     float: left;
     margin-right: 10px;
 }
+
+div.message
+{
+    word-wrap: normal;
+}

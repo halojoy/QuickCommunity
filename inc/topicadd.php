@@ -10,7 +10,6 @@ if(isset($_POST['filled'])) {
 
     $subject = filter_var(trim($_POST['subject']), FILTER_SANITIZE_STRING);
     $message = filter_var(trim($_POST['message']), FILTER_SANITIZE_STRING);
-    $message = str_replace(' ', '&nbsp;', $message);
     $time = time();
     $ip = $_SERVER['REMOTE_ADDR'];
     
