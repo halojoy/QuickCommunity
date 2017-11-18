@@ -34,7 +34,7 @@ foreach($ret as $row) {
                     <?php echo utf8_encode(strftime($this->view->datetime, $row->p_time)) ?><br>
                     <?php echo $row->p_uname ?>
                 </td>
-                <td class="postright">
+                <td style="" class="postright">
                     <div class="postupright"><a href="?act=post&pid=<?php echo $row->pid ?>"><?php echo LINK ?></a></div>
 <?php
             if ($this->sess->userid == $row->p_uid) {
@@ -54,13 +54,13 @@ foreach($ret as $row) {
                         <a href="upload/<?php echo $row->p_file ?>" target="_blank">
                         <img src="upload/<?php echo 'tmb_'.$row->p_file ?>">
                         </a></div>
-<?php
+<?php           //word-break: break-all;
                     }
 ?>
-                    <?php echo nl2br($row->p_message) ?>
+                    <div style="word-break: break-all;"><?php echo nl2br($row->p_message) ?></div>
 <?php                    
                     if ($row->p_cat == 'file') {
-                        echo '<br><br>'.ATTACHMENT.
+                        echo '<br>'.ATTACHMENT.
                         ' <a href="upload/'.$row->p_file.'" target="_blank">'.$row->p_file.'</a>';
                         echo '&nbsp;&nbsp;'.RIGHTCLICK;
                     }

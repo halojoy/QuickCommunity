@@ -38,7 +38,7 @@ $this->pdo = null;
 <?php
                     }
 ?>
-                    <?php echo nl2br($row->p_message) ?>
+                    <div style="word-break: break-all;"><?php echo nl2br($row->p_message) ?></div>
 <?php
                     if ($row->p_cat == 'file') {
                         echo '<br><br>'.ATTACHMENT.
