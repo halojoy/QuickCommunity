@@ -29,9 +29,6 @@ $this->pdo = null;
                     </div>
 <?php
             }
- ?>
-                    <?php echo nl2br($row->p_message) ?> 
-<?php
                     if ($row->p_cat == 'image') {
 ?>
                         <div class="thumb">
@@ -40,6 +37,9 @@ $this->pdo = null;
                         </a></div>
 <?php
                     }
+?>
+                    <?php echo nl2br($row->p_message) ?>
+<?php
                     if ($row->p_cat == 'file') {
                         echo '<br><br>'.ATTACHMENT.
                         ' <a href="upload/'.$row->p_file.'" target="_blank">'.$row->p_file.'</a>';
