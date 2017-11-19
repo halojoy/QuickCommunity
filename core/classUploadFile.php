@@ -130,9 +130,6 @@ class UploadFile
 
     public function getExtension()
     {
-        if (preg_match("@\.tar.gz$@i", $this->name))
-            return '.tar.gz';
-        else
             return '.'.strtolower(pathinfo($this->name, PATHINFO_EXTENSION));
     }
 
