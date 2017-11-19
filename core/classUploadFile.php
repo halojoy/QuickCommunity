@@ -116,6 +116,10 @@ class UploadFile
             'filesize' => $this->filesize,
             'fsource' => $this->source,
             'fdestin' => $this->destin );
+        if ($this->fileCategory == 'image') {
+            $fdata['width']  = $this->srcWidth;
+            $fdata['height'] = $this->srcHeight;
+        }
         return $fdata;
     }
 
