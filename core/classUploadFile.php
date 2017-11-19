@@ -239,7 +239,7 @@ class UploadFile
             $newWidth, $newHeight, $this->srcWidth, $this->srcHeight);
 
         if ($this->filetype=='image/jpeg') {
-            imagejpeg($thumbImage, $imgResize, 95);
+            imagejpeg($thumbImage, $imgResize, 100);
         } elseif ($this->filetype=='image/png') {
             imagepng($thumbImage, $imgResize, 9);
         } elseif ($this->filetype=='image/gif') {
