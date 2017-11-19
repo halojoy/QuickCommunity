@@ -41,7 +41,7 @@ $this->pdo = null;
                     <div class="message"><?php echo nl2br($row->p_message) ?></div>
 <?php
                     if ($row->p_cat == 'file') {
-                        echo '<br><br>'.ATTACHMENT.
+                        echo '<br>'.ATTACHMENT.
                         ' <a href="upload/'.$row->p_file.'" target="_blank">'.$row->p_file.'</a>';
                         echo '&nbsp;&nbsp;'.RIGHTCLICK;
                     }
