@@ -17,7 +17,7 @@ class UploadFile
     public  $maxWidth  = 175;   // max resize image width
     public  $maxHeight = 150;   // max resize image height
     public  $imageAllow = ['jpg','png','gif','bmp']; // images for thumbnails
-    public  $fileAllow = ['tif','svg','ico','php','htm','css','xml','js','txt','pdf','zip','7z','tar.gz','tgz',
+    public  $fileAllow = ['tif','svg','ico','css','txt','pdf','zip','7z','tar.gz','tgz',
                             'mp4','swf','avi','mov','wmv','flv','mpg','mp3','flac','wav'];
     // Settings end
     public  $imageMime = array(
@@ -29,11 +29,7 @@ class UploadFile
             'tif' => ['image/tif','image/x-tif','image/tiff','image/x-tiff'],
             'svg' => ['image/svg+xml','application/svg+xml','image/svg-xml'],
             'ico' => ['image/ico','image/x-icon'],
-            'php' => ['application/x-httpd-php','text/php','application/php','application/x-php'],
-            'htm' => ['text/html'],
             'css' => ['text/css','application/css-stylesheet'],
-            'xml' => ['text/xml','application/xml','application/x-xml'],
-            'js'  => ['application/x-javascript','text/javascript'],
             'txt' => ['text/plain','application/txt'],
             'pdf' => ['application/pdf','application/x-pdf'],
             'zip' => ['application/zip','application/x-zip','application/x-zip-compressed','application/x-compressed'],
