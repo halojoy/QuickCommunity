@@ -57,8 +57,9 @@ class UploadFile
             exit('File upload error: '.$file['error']);
         }
         $this->name      = $file['name'];
-        $this->filetype  = $file['type'];
         $this->extension = $this->getExtension();
+        $this->name = pathinfo($this->name, PATHINFO_FILENAME).$this->extension;
+        $this->filetype  = $file['type'];
         $this->filesize  = $file['size'];
         $this->source    = $file['tmp_name'];
         $this->destin    = $this->directory.'/'.$this->name;
