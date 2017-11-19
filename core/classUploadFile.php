@@ -94,7 +94,7 @@ class UploadFile
         } else {
             $this->fileCategory = 'nosupport';
             exit('<b>'.$this->name.'</b><br>
-                File with extension <b>.'.$this->extension.'</b> not supported'.'<br>
+                File with extension <b>'.$this->extension.'</b> not supported'.'<br>
                 Mime filetype: '.$this->filetype.'<br>
                 File category: '.$this->fileCategory );
         }
@@ -130,9 +130,9 @@ class UploadFile
     public function getExtension()
     {
         if (preg_match("@\.tar.gz$@i", $this->name))
-            return 'tar.gz';
+            return '.tar.gz';
         else
-            return strtolower(pathinfo($this->name, PATHINFO_EXTENSION));
+            return '.'.strtolower(pathinfo($this->name, PATHINFO_EXTENSION));
     }
 
     public function setDirectory($dir)
@@ -204,9 +204,9 @@ class UploadFile
         $img = Bmp2Image::make($this->source);
         imagejpeg($img, $this->source);
         imagedestroy($img);
-        $this->name = str_replace($this->extension, 'jpg', $this->name);
+        $this->name = str_replace($this->extension, '.jpg', $this->name);
         $this->filetype = 'image/jpeg';
-        $this->extension = 'jpg';
+        $this->extension = '.jpg';
         $this->filesize = filesize($this->source);
         $this->getDimensions();
         $this->destin = $this->directory.'/'.$this->name;
