@@ -11,8 +11,8 @@ class Session
     public $banned = false;
     public $lifetime = 3600*24*30; // Login Cookie for one month
     public $bantime  = 3600*24*365;// Ban for 1 year
-    private $secret = 'hexakey';
-    private $iv     = 'hexaiv';
+    private $secret = '1B852E5F70414C66';
+    private $iv     = '9D252E50';
 
     public function __construct($db)
     {

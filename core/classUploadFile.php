@@ -21,10 +21,10 @@ class UploadFile
                             'mp4','swf','avi','mov','wmv','flv','mpg','mp3','flac','wav'];
     // Settings end
     public  $imageMime = array(
-            'jpg' => ['image/jpeg','image/jpg'],
-            'png' => ['image/png','application/png','application/x-png'],
-            'gif' => ['image/gif','image/x-xbitmap'],
-            'bmp' => ['image/bmp','image/x-bmp'] );
+            'jpg' => ['image/jpeg','image/jpg','image/jp_','image/pjpeg'],
+            'png' => ['image/png','image/x-png','application/png','application/x-png'],
+            'gif' => ['image/gif','image/x-xbitmap','image/gi_'],
+            'bmp' => ['image/bmp','image/x-bmp','image/x-bitmap'] );
     public  $fileMime = array(
             'tif' => ['image/tif','image/x-tif','image/tiff','image/x-tiff'],
             'svg' => ['image/svg+xml','application/svg+xml','image/svg-xml'],
@@ -71,7 +71,7 @@ class UploadFile
     public function upload()
     {
         if (!move_uploaded_file($this->source, $this->destin)){
-            echo "Move uploaded file error";
+            echo "Move uploaded files error:<br>".$this->source.'<br>'.$this->destin;
             exit();
         }
         $this->setSource($this->destin);
@@ -99,7 +99,7 @@ class UploadFile
                 Mime filetype: '.$this->filetype.'<br>
                 File category: '.$this->fileCategory );
         }
-        if ($this->filetype == 'image/bmp' || $this->filetype == 'image/x-bmp') {
+        if (in_array($this->filetype, $this->imageMime['bmp'])) {
             $this->bmp2jpg();
         }      
     }
@@ -198,10 +198,8 @@ class UploadFile
 
     public function bmp2jpg()
     {
-        require 'core/classBmp2Image.php';
-        $img = Bmp2Image::make($this->source);
-        imagejpeg($img, $this->source);
-        imagedestroy($img);
+        require 'core/classConvertBMP.php';
+        ConvertBMP::bmp2jpg($this->source, $this->source);
         $this->name = str_replace($this->extension, '.jpg', $this->name);
         $this->filetype = 'image/jpeg';
         $this->extension = '.jpg';
@@ -213,7 +211,7 @@ class UploadFile
     public function resize()
     {
         if ($this->srcWidth <= $this->maxWidth && $this->srcHeight <= $this->maxHeight) {
-            $this->upload();
+            copy($this->source, $this->destin);
             return;
         }
         $imgSource = $this->source;
@@ -225,26 +223,37 @@ class UploadFile
 
         $thumbImage = imagecreatetruecolor( $newWidth, $newHeight );
 
-        if ($this->filetype=='image/jpeg') {
+        if (in_array($this->filetype, $this->imageMime['jpg'])) {
             $srcImage = imagecreatefromjpeg($imgSource);
-        } elseif ($this->filetype=='image/png') {
+        } elseif (in_array($this->filetype, $this->imageMime['png'])) {
             $srcImage = imagecreatefrompng($imgSource);
-        } elseif ($this->filetype=='image/gif') {
+            imagealphablending($thumbImage, FALSE);
+            imagesavealpha($thumbImage, TRUE);
+        } elseif (in_array($this->filetype, $this->imageMime['gif'])) {
             $srcImage = imagecreatefromgif($imgSource);
-        } elseif ($this->filetype=='image/bmp') {
+            $transIndex = imagecolortransparent($srcImage); 
+            $transColor = array('red'=>255, 'green'=>255, 'blue'=>255); 
+            if ($transIndex >= 0)
+                $transColor = imagecolorsforindex($srcImage, $transIndex);    
+            $transIndex = imagecolorallocate($thumbImage,$transColor['red'],$transColor['green'],$transColor['blue']); 
+            imagefill($thumbImage, 0, 0, $transIndex); 
+            imagecolortransparent($thumbImage, $transIndex);
+        } elseif (in_array($this->filetype, $this->imageMime['bmp'])) {
             $srcImage = imagecreatefrombmp($imgSource);
-        }        
+        } else {
+            exit('Error. Not a valid image. Can not resize.');
+        }
 
-        imagecopyresized($thumbImage, $srcImage, 0, 0, 0, 0, 
+        imagecopyresampled($thumbImage, $srcImage, 0, 0, 0, 0, 
             $newWidth, $newHeight, $this->srcWidth, $this->srcHeight);
 
-        if ($this->filetype=='image/jpeg') {
-            imagejpeg($thumbImage, $imgResize, 100);
-        } elseif ($this->filetype=='image/png') {
-            imagepng($thumbImage, $imgResize, 9);
-        } elseif ($this->filetype=='image/gif') {
+        if (in_array($this->filetype, $this->imageMime['jpg'])) {
+            imagejpeg($thumbImage, $imgResize, 90);
+        } elseif (in_array($this->filetype, $this->imageMime['png'])) {
+            imagepng($thumbImage, $imgResize, 5);
+        } elseif (in_array($this->filetype, $this->imageMime['gif'])) {
             imagegif($thumbImage, $imgResize);
-        } elseif ($this->filetype=='image/bmp') {
+        } elseif (in_array($this->filetype, $this->imageMime['bmp'])) {
             imagebmp($thumbImage, $imgResize);
         }
 
