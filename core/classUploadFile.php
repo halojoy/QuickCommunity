@@ -229,6 +229,8 @@ class UploadFile
             $srcImage = imagecreatefrompng($imgSource);
             imagealphablending($thumbImage, FALSE);
             imagesavealpha($thumbImage, TRUE);
+         	$transparent = imagecolorallocatealpha($thumbImage, 255, 255, 255, 127);
+            imagefilledrectangle($thumbImage, 0, 0, $newWidth, $newHeight, $transparent);
         } elseif (in_array($this->filetype, $this->imageMime['gif'])) {
             $srcImage = imagecreatefromgif($imgSource);
             $transIndex = imagecolortransparent($srcImage); 
