@@ -125,6 +125,7 @@ class Action
             case 'topicdelete':
             case 'forumdelete':
             case 'forumrename':
+            case 'sendmail':
                 return $act;
                 break;
             default:

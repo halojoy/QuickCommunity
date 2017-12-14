@@ -21,7 +21,7 @@ if (!isset($_POST['dbdriver'])) exit();
         if ($dbdriver == 'sqlite') {
 ?>
             <b>SQLite:</b><br/>
-            <input type="text" name="db_name" required> SQLite Database file, for example: myforum.db3<br/><br>
+            <input type="text" name="db_name" value="database.db3" required> SQLite Database file, for example: database.db3<br/><br>
 <?php
         }
 ?>
@@ -69,7 +69,16 @@ if (!isset($_POST['dbdriver'])) exit();
             <input type="text" name="admin_user" required> Admin username, often 'Admin'<br/>
             <input type="text" name="admin_pass" required> Admin password<br/>
             <input type="text" name="admin_mail" required> Admin Email address<br/><br>
-
+ 
+            You want to have Register with SMTP Email Activation?
+            <select name="usesmtp">
+                <option value="1">Yes</option>
+                <option value="0">No</option>
+            </select><br><br>
+            Your google email account, needed for SMTP:<br>
+            <input type="text" name="googlemail" size="40"><br>
+            Your gmail password:<br>
+            <input type="text" name="googlepass"><br><br>
             <input type="submit" value="SUBMIT">
             <input type="hidden" name="step" value="3">
             <br/>

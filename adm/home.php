@@ -18,6 +18,10 @@ You Can:
 <form class="link" method="post">
     <input class="link" type="submit" value="Manage Members">
     <input type="hidden" name="act" value="members">
+</form><br>
+<form class="link" method="post">
+    <input class="link" type="submit" value="Send SMTP Mail">
+    <input type="hidden" name="act" value="sendmail">
 </form><br><br>
 <form class="link" method="post">
     <input class="link" type="submit" value="Delete Post">

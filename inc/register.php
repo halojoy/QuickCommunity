@@ -6,13 +6,31 @@ if ($this->sess->isLogged()) {
     exit();
 }
 
+if (isset($_GET['activate'])) {
+    $email = $_GET['activate'];
+
+    $sql = "SELECT u_name FROM users WHERE u_mail='$email';";
+    $name = $this->pdo->query($sql)->fetchColumn();
+    if ($name) {
+        $sql = "UPDATE users SET u_type='member' WHERE u_mail='$email';";
+        $this->pdo->exec($sql);
+        exit('You are activated, '.$name);
+    } else
+        exit('Activation error');
+}
+
+session_start();
+require 'core/classVundoCSRF.php';
+
 $error = $username = $email = '';
 if (isset($_POST['filled'])) {
-
+    if(!CSRF::check($_POST['_token'])){
+        exit('Wrong Token!');
+    }
     $username  = filter_var(trim($_POST['username']), FILTER_SANITIZE_STRING);
     $password  = trim($_POST['password']);
     $password2 = trim($_POST['password2']);
-    $passhash = sha1($password);
+    $passhash = password_hash($password, PASSWORD_BCRYPT);
     $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = ERROR1;
@@ -30,11 +48,42 @@ if (isset($_POST['filled'])) {
                 $error = ERROR5;
             } else {
                 // register
-                $usertype = 'member';
+                $sql = "SELECT setvalue FROM settings WHERE setkey='usesmtp';";
+                $usesmtp = $this->pdo->query($sql)->fetchColumn();
+                if ($usesmtp)
+                    $usertype = 'activate';
+                else
+                    $usertype = 'member';
                 $posts = 0;
                 $ip = $_SERVER['REMOTE_ADDR'];
                 $joined = $active = time();
                 $user_id = $this->pdo->insertUser($username, $passhash, $email, $usertype, $posts, $ip, $joined, $active);
+
+                // send smtp mail
+                if ($usesmtp) {
+                    echo 'You will get an Activation Email to activate your account.<br>';
+                    require 'core/classSimpleMail.php';
+                    $mail = new SimpleMail('smtp.gmail.com', 587, 'tls');
+                    $sql = "SELECT setvalue FROM settings WHERE setkey='googlemail';";
+                    $gmail = $this->pdo->query($sql)->fetchColumn();
+                    $sql = "SELECT setvalue FROM settings WHERE setkey='googlepass';";
+                    $gpass = $this->pdo->query($sql)->fetchColumn();
+                    $mail->user = $gmail;
+                    $mail->pass = $gpass;
+                    $mail->from('noreply@hotmail.com', 'admin');
+                    $mail->to($email, $username);
+                    
+                    $mail->subject = 'Your Activation';
+                    $link = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?act=register&activate='.$email;
+                    $mail->message = 'Click this link to activate your account:<br>
+                    <a href="'.$link.'">Activate</a>';
+
+                    if ($mail->send())
+                        exit('Activation Mail was successfully sent.');
+                    else
+                        exit('Error: ' . $mail->error);
+                }
+                
                 echo REGISTERDONE.' <span class="boldy">'.$username.'</span>';
                 exit();
                 }
@@ -75,6 +124,7 @@ $this->pdo = null;
                     <td><input type="submit" value="<?php echo SUBMIT ?>">
                     <input type="hidden" name="act" value="register">
                     <input type="hidden" name="filled"></td>
+                    <input type="hidden" name="_token" value="<?php echo CSRF::generate() ?>">
                 </tr>
             </table>
         </form>

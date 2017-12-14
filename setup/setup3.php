@@ -84,11 +84,14 @@ $pdo->exec("INSERT INTO settings VALUES ('subtitle', '$subtitle');");
 $pdo->exec("INSERT INTO settings VALUES ('style', '$style');");
 $pdo->exec("INSERT INTO settings VALUES ('language', '$language');");
 $pdo->exec("INSERT INTO settings VALUES ('timezone', '$timezone');");
+$pdo->exec("INSERT INTO settings VALUES ('usesmtp', '$usesmtp');");
+$pdo->exec("INSERT INTO settings VALUES ('googlemail', '$googlemail');");
+$pdo->exec("INSERT INTO settings VALUES ('googlepass', '$googlepass');");
 
 $pdo->exec("INSERT INTO forums VALUES (null, '$forumname', '$forumdesc', 1);");
 
 //$admin = name
-$passh = sha1($passw);
+$passh = password_hash($passw, PASSWORD_BCRYPT);
 //$email = admin email
 $usertype = 'admin';
 //num posts = 0

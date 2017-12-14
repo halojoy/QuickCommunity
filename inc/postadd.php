@@ -6,8 +6,13 @@ if (!$this->sess->isLogged() || $this->sess->isBanned()) {
     exit();
 }
 
-if(isset($_POST['filled'])) {
+session_start();
+require 'core/classVundoCSRF.php';
 
+if(isset($_POST['filled'])) {
+    if(!CSRF::check($_POST['_token'])){
+        exit('Wrong Token!');
+    }
     $message = filter_var(trim($_POST['message']), FILTER_SANITIZE_STRING);
     $time = time();
     $ip = $_SERVER['REMOTE_ADDR'];
@@ -80,6 +85,7 @@ $maxsize = $upload->maxFileSize * 1048576;
     <input type="hidden" name="act" value="postadd">
     <input type="hidden" name="tid" value="<?php echo $this->tid ?>">
     <input type="hidden" name="filled">
+    <input type="hidden" name="_token" value="<?php echo CSRF::generate() ?>">
 </form>
 <br>
 

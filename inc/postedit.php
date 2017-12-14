@@ -6,8 +6,13 @@ if (!$this->sess->isLogged() || $this->sess->isBanned()) {
     exit();
 }
 
-if(isset($_POST['filled'])) {
+session_start();
+require 'core/classVundoCSRF.php';
 
+if(isset($_POST['filled'])) {
+    if(!CSRF::check($_POST['_token'])){
+        exit('Wrong Token!');
+    }
     $message = filter_var(trim($_POST['message']), FILTER_SANITIZE_STRING);
     $time = time();
 
@@ -45,6 +50,7 @@ $message = $post->p_message;
     <input type="hidden" name="act" value="postedit">
     <input type="hidden" name="pid" value="<?php echo $this->pid ?>">
     <input type="hidden" name="filled">
+    <input type="hidden" name="_token" value="<?php echo CSRF::generate() ?>">
 </form>
 <br>
 
