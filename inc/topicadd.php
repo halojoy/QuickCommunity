@@ -15,6 +15,8 @@ if(isset($_POST['filled'])) {
     }
     $subject = filter_var(trim($_POST['subject']), FILTER_SANITIZE_STRING);
     $message = filter_var(trim($_POST['message']), FILTER_SANITIZE_STRING);
+    $url = '@(http(s)?)?(://)?(([a-zA-Z])([-\w]+\.)+([^\s\.]+[^\s]*)+[^,.\s])@';
+    $message = preg_replace($url, '<a href="http$2://$4" target="_blank" title="$0">$0</a>', $message);
     $time = time();
     $ip = $_SERVER['REMOTE_ADDR'];
     

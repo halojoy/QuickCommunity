@@ -14,6 +14,8 @@ if(isset($_POST['filled'])) {
         exit('Wrong Token!');
     }
     $message = filter_var(trim($_POST['message']), FILTER_SANITIZE_STRING);
+    $url = '@(http(s)?)?(://)?(([a-zA-Z])([-\w]+\.)+([^\s\.]+[^\s]*)+[^,.\s])@';
+    $message = preg_replace($url, '<a href="http$2://$4" target="_blank" title="$0">$0</a>', $message);
     $time = time();
 
     if(!empty($message)) {
@@ -37,6 +39,7 @@ if ($this->sess->userid != $post->p_uid) {
 }
 
 $message = $post->p_message;
+$message = strip_tags($message);
 
 ?>
 <br>
