@@ -27,6 +27,10 @@ if (isset($_POST['filled'])) {
     if(!CSRF::check($_POST['_token'])){
         exit('Wrong Token!');
     }
+    if ($_POST['capcode'] != $_SESSION['capcode']) {
+        echo 'Wrong captcha code. Try again!';
+        exit();
+    }
     $username  = filter_var(trim($_POST['username']), FILTER_SANITIZE_STRING);
     $password  = trim($_POST['password']);
     $password2 = trim($_POST['password2']);
