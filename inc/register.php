@@ -36,6 +36,7 @@ if (isset($_POST['filled'])) {
     $password2 = trim($_POST['password2']);
     $passhash = password_hash($password, PASSWORD_BCRYPT);
     $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
+    $email = strtolower($email);
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $error = ERROR1;
     } elseif (strlen($username) < 3) {
