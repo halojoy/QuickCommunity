@@ -91,6 +91,11 @@ if (isset($_POST['filled'])) {
         }
 }
 $this->pdo = null;
+
+require 'core/classCaptcha.php';
+$cap = new Captcha();
+$capcode = $cap->generatecode();
+$_SESSION['capcode'] = $capcode;
 ?>
         <br>
         <span class="error"><?php echo $error; ?></span>
@@ -119,6 +124,9 @@ $this->pdo = null;
                         <?php echo NOTBESHOWN ?></td>
                 </tr>
                 <tr><td colspan="2">&nbsp;</tr>
+                <tr><td colspan="2"><img src="<?php echo $cap->generateImage($capcode) ?>" title="Verification capcode"><br>
+                <input type="text" size="15" name="capcode"> Fill in the characters</td></tr>
+                <tr><td colspan="2">&nbsp;</tr>
                 <tr>
                     <td></td>
                     <td><input type="submit" value="<?php echo SUBMIT ?>">
@@ -129,4 +137,3 @@ $this->pdo = null;
             </table>
         </form>
         <br>
-
