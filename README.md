@@ -6,8 +6,11 @@ Quick and fast forum programmed in PHP and using SQL with PDO
 2. Login
 3. Browse forum
 4. Submit posts
-5. Attach images
+5. Attach images with thumbnails
 6. Attach other files
+7. SMTP email activation
+8. CSRF protection
+9. Captcha at register
 
 ### How to get started
 Download QuickCommunity.<br>
