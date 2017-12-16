@@ -55,6 +55,7 @@ $sql = (
     u_pass TEXT,
     u_mail TEXT,
     u_type TEXT,
+    u_code TEXT,
     u_posts INTEGER DEFAULT 0,
     u_ip TEXT,
     u_joined INTEGER,

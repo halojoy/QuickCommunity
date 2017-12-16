@@ -93,11 +93,10 @@ $pdo->exec("INSERT INTO forums VALUES (null, '$forumname', '$forumdesc', 1);");
 //$admin = name
 $passh = password_hash($passw, PASSWORD_BCRYPT);
 //$email = admin email
-$usertype = 'admin';
 //num posts = 0
 $ip = $_SERVER['REMOTE_ADDR'];
 $joined = $active = time();
-$pdo->exec("INSERT INTO users VALUES (null,'$admin','$passh','$email','$usertype',0,'$ip',$joined,$active);");
+$pdo->exec("INSERT INTO users VALUES (null,'$admin','$passh','$email','admin','0',0,'$ip',$joined,$active);");
 
 exit('Install is finished. <i>conf/config.php</i> is written.<br />
 <b>IMPORTANT: </b>Delete file "setup.php" and folder "setup" now!<br /><br />

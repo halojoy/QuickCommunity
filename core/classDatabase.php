@@ -42,9 +42,9 @@ class Database extends PDO
         return $sth;
     }
 
-    public function insertUser($uname, $upass, $umail, $utype, $posts, $ip, $join, $active)
+    public function insertUser($uname, $upass, $umail, $utype, $ucode, $posts, $ip, $join, $active)
     {
-        $sql = "INSERT INTO users VALUES (null, '$uname', '$upass', '$umail', '$utype', $posts, '$ip', $join, $active)";
+        $sql = "INSERT INTO users VALUES (null, '$uname', '$upass', '$umail', '$utype', '$ucode', $posts, '$ip', $join, $active)";
         $ret = $this->querySQL($sql);
         return $this->lastInsertId;
     }

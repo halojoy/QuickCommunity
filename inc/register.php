@@ -6,13 +6,13 @@ if ($this->sess->isLogged()) {
     exit();
 }
 
-if (isset($_GET['activate'])) {
-    $email = $_GET['activate'];
+if (isset($_GET['ucode'])) {
+    $ucode = $_GET['ucode'];
 
-    $sql = "SELECT u_name FROM users WHERE u_mail='$email';";
+    $sql = "SELECT u_name FROM users WHERE u_code='$ucode';";
     $name = $this->pdo->query($sql)->fetchColumn();
     if ($name) {
-        $sql = "UPDATE users SET u_type='member' WHERE u_mail='$email';";
+        $sql = "UPDATE users SET u_type='member', u_code='0' WHERE u_code='$ucode';";
         $this->pdo->exec($sql);
         exit('You are activated, '.$name);
     } else
@@ -53,19 +53,17 @@ if (isset($_POST['filled'])) {
                 $error = ERROR5;
             } else {
                 // register
-                $sql = "SELECT setvalue FROM settings WHERE setkey='usesmtp';";
-                $usesmtp = $this->pdo->query($sql)->fetchColumn();
-                if ($usesmtp)
-                    $usertype = 'activate';
-                else
-                    $usertype = 'member';
                 $posts = 0;
                 $ip = $_SERVER['REMOTE_ADDR'];
                 $joined = $active = time();
-                $user_id = $this->pdo->insertUser($username, $passhash, $email, $usertype, $posts, $ip, $joined, $active);
-
+                $sql = "SELECT setvalue FROM settings WHERE setkey='usesmtp';";
+                $usesmtp = $this->pdo->query($sql)->fetchColumn();
+                if (!$usesmtp)
+                    $this->pdo->insertUser($username, $passhash, $email, 'member', '0', $posts, $ip, $joined, $active);
                 // send smtp mail
                 if ($usesmtp) {
+                    $ucode = sha1($username);
+                    $this->pdo->insertUser($username, $passhash, $email, 'activate', $ucode, $posts, $ip, $joined, $active);
                     echo 'You will get an Activation Email to activate your account.<br>';
                     require 'core/classSimpleMail.php';
                     $mail = new SimpleMail('smtp.gmail.com', 587, 'tls');
@@ -79,7 +77,7 @@ if (isset($_POST['filled'])) {
                     $mail->to($email, $username);
                     
                     $mail->subject = 'Your Activation';
-                    $link = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?act=register&activate='.$email;
+                    $link = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?act=register&ucode='.$ucode;
                     $mail->message = 'Click this link to activate your account:<br>
                     <a href="'.$link.'">Activate</a>';
 
