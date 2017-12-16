@@ -31,7 +31,7 @@ class Captcha
     /**
      * @var int Default font size
      */
-    public $fontSize = 24;
+    public $fontSize = 30;
 
     /**
      * @var array Individual sizes of fonts (if not present, use default)
