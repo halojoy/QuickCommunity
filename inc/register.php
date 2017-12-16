@@ -128,7 +128,7 @@ $_SESSION['capcode'] = $capcode;
                 </tr>
                 <tr><td colspan="2">&nbsp;</tr>
                 <tr><td colspan="2"><img src="<?php echo $cap->generateImage($capcode) ?>" title="Verification capcode"><br>
-                <input type="text" size="15" name="capcode"> Fill in the characters</td></tr>
+                <input type="text" size="16" name="capcode"> Fill in the characters</td></tr>
                 <tr><td colspan="2">&nbsp;</tr>
                 <tr>
                     <td></td>
