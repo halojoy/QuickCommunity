@@ -6,7 +6,6 @@ if ($this->sess->isLogged()) {
     exit();
 }
 
-session_start();
 require 'core/classVundoCSRF.php';
 
 if (isset($_POST['filled'])) {

@@ -1,6 +1,7 @@
 <?php if(!defined('QCOM0'))exit() ?>
 <?php
 
+session_start();
 define('QCOM1', true);
 $scriptstart = microtime(true);
 error_reporting(-1);// Debug setting

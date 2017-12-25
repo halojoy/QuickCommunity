@@ -19,7 +19,6 @@ if (isset($_GET['ucode'])) {
         exit('Activation error');
 }
 
-session_start();
 require 'core/classVundoCSRF.php';
 
 $error = $username = $email = '';
