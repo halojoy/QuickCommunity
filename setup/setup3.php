@@ -69,7 +69,7 @@ file_put_contents('conf/.htaccess', $htaccess);
 // generate crypto hexa keys for cookie session
 $chars = "0123456789ABCDEF";
 $hexkey=''; for ($i=0;$i<16;$i++) $hexkey[$i]=$chars[mt_rand(0,15)];
-$hexiv=''; for ($i=0;$i<8;$i++) $hexiv[$i]=$chars[mt_rand(0,15)];
+$hexiv=''; for ($i=0;$i<16;$i++) $hexiv[$i]=$chars[mt_rand(0,15)];
 $sessfile = file_get_contents('core/classSession.php');
 $sessfile = str_replace(['hexakey', 'hexaiv'], [$hexkey, $hexiv], $sessfile);
 file_put_contents('core/classSession.php', $sessfile);

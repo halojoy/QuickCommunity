@@ -22,7 +22,7 @@ class Session
                 $this->Logout();
                 return;
             }
-            $cookiedata = openssl_decrypt($_COOKIE['userdata'], 'blowfish', $this->secret, 0, $this->iv);
+            $cookiedata = openssl_decrypt($_COOKIE['userdata'], 'aes-256-ctr', $this->secret, 0, $this->iv);
             $userdata = explode('~', $cookiedata);
             if (count($userdata) != 3) {
                 $this->Logout();
@@ -59,7 +59,7 @@ class Session
     public function reLogin()
     {
         $ustring = implode('~', array($this->userid, $this->username, $this->usertype));
-        $encoded = openssl_encrypt($ustring, 'blowfish', $this->secret, 0, $this->iv);
+        $encoded = openssl_encrypt($ustring, 'aes-256-ctr', $this->secret, 0, $this->iv);
         setcookie('userdata', $encoded, time()+$this->lifetime);
         $this->logged = true;
     }
