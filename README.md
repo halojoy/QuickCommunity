@@ -11,6 +11,7 @@ Quick and fast forum programmed in PHP and using SQL with PDO
 7. SMTP email activation
 8. CSRF protection
 9. Captcha at register
+10. Uses both COOKIE and PHPSESSID for login
 
 ### How to get started
 Download QuickCommunity.<br>
