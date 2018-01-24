@@ -6,7 +6,7 @@
 $sql = (
     "CREATE TABLE IF NOT EXISTS settings (
     setkey TEXT,
-    setvalue TEXT);");
+    setvalue TEXT)");
 $pdo->exec($sql);
 
 $sql = (
@@ -14,7 +14,7 @@ $sql = (
     fid INTEGER PRIMARY KEY,
     f_name TEXT,
     f_desc TEXT,
-    f_order INTEGER);");
+    f_order INTEGER)");
 $pdo->exec($sql);
 
 $sql = (
@@ -29,7 +29,7 @@ $sql = (
     t_lastpid INTEGER,
     t_lastpuid INTEGER,
     t_lastpuname TEXT,
-    t_lastptime INTEGER);");
+    t_lastptime INTEGER)");
 $pdo->exec($sql);
 
 $sql = (
@@ -45,7 +45,7 @@ $sql = (
     p_uid INTEGER,
     p_uname TEXT,
     p_time INTEGER,
-    p_ip TEXT);");
+    p_ip TEXT)");
 $pdo->exec($sql);
 
 $sql = (
@@ -59,5 +59,5 @@ $sql = (
     u_posts INTEGER DEFAULT 0,
     u_ip TEXT,
     u_joined INTEGER,
-    u_active INTEGER);");
+    u_active INTEGER)");
 $pdo->exec($sql);

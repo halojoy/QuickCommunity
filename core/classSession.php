@@ -4,78 +4,68 @@
 class Session
 {
     public $db;
-    public $logged;
-    public $userid = '';
+    public $userid   = '';
     public $username = '';
     public $usertype = '';
-    public $banned = false;
+    public $logged = false;
     public $lifetime = 3600*24*30; // Login Cookie for one month
     public $bantime  = 3600*24*365;// Ban for 1 year
-    private $secret = 'hexakey';
-    private $iv     = 'hexaiv';
+    public $usesmtp;
+    public $googlemail;
+    public $googlepass;
+    private $key;
+    private $iv;
 
-    public function __construct($db)
+    public function __construct($db, $settings)
     {
         $this->db = $db;
-        if (isset($_COOKIE['userdata'])) {
-            if (empty($_COOKIE['userdata'])) {
-                $this->Logout();
-                return;
-            }
-            $cookiedata = openssl_decrypt($_COOKIE['userdata'], 'aes-256-ctr', $this->secret, 0, $this->iv);
-            $userdata = explode('~', $cookiedata);
-            if (count($userdata) != 3) {
-                $this->Logout();
-                return;
-            }
+        $this->usesmtp    = $settings->usesmtp;
+        $this->googlemail = $settings->googlemail;
+        $this->googlepass = $settings->googlepass;
+        $this->key        = $settings->cryptokey;
+        $this->iv         = $settings->cryptoiv;
 
-            $this->userid   = $userdata[0];
-            $this->username = $userdata[1];
-            $this->usertype = $this->reCheck();
-            $this->reLogin();
+        if (!isset($_COOKIE['myuserid']) && !isset($_SESSION['myuserid']))
+            return;
 
-            $ip = $_SERVER['REMOTE_ADDR'];
-            $time = time();
-            $sql = "UPDATE users SET u_ip='$ip', u_active=$time WHERE uid=$this->userid;";
-            $ret = $this->db->querySQL($sql);
-
+        if (isset($_COOKIE['myuserid'])) {
+            $this->userid = openssl_decrypt($_COOKIE['myuserid'], 'AES-256-CTR',
+                    $this->key, 0, $this->iv);
         } else {
-            $this->logged = false;
+            $this->userid = $_SESSION['myuserid'];
         }
-    }
-    
-    public function reCheck()
-    {
-        $sql = "SELECT u_type FROM users WHERE uid=$this->userid LIMIT 1;";
-        $u_type = $this->db->querySQL($sql)->fetchColumn();
-        if ($u_type == 'banned')
-            $this->banned = true;
-        else
-            $this->banned = false;
+        if (!is_numeric($this->userid))
+            $this->Logout();
+        $sql = "SELECT * FROM users WHERE uid=$this->userid";
+        $stmt = $this->db->querySQL($sql);
+        if (!$row = $stmt->fetch())
+            $this->Logout();
+        $this->username = $row->u_name;
+        $this->usertype = $row->u_type;
+        $this->reLogin();
 
-        return $u_type;
-    }       
-        
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $time = time();
+        $sql = "UPDATE users SET u_ip='$ip', u_active=$time WHERE uid=$this->userid;";
+        $ret = $this->db->querySQL($sql);
+    }
+
     public function reLogin()
     {
-        $ustring = implode('~', array($this->userid, $this->username, $this->usertype));
-        $encoded = openssl_encrypt($ustring, 'aes-256-ctr', $this->secret, 0, $this->iv);
-        setcookie('userdata', $encoded, time()+$this->lifetime);
+        $encoded = openssl_encrypt($this->userid, 'AES-256-CTR',
+                $this->key, 0, $this->iv);
+        setcookie('myuserid', $encoded, time()+$this->lifetime);
+        $_SESSION['myuserid'] = $this->userid;
         $this->logged = true;
     }
 
     public function Logout()
     {
-        setcookie('userdata', '', time()-10);
+        setcookie('myuserid', '', time()-3600);
+        $_SESSION['myuserid'] = null;
         $this->logged = false;
-    }
-    
-    public function isBanned()
-    {
-        if ($this->banned)
-            return true;
-        else
-            return false;
+        header('location:./');
+        exit();
     }
 
     public function isLogged()
@@ -93,6 +83,13 @@ class Session
         else
             return false;
     }
-}
+    
+    public function isBanned()
+    {
+        if ($this->usertype == 'banned')
+            return true;
+        else
+            return false;
+    }
 
-?>
+}

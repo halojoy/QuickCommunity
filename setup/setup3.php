@@ -56,7 +56,7 @@ HTCODE;
     file_put_contents('data/.htaccess', $htaccess);
 }
 
-file_put_contents('conf/config.php', $handle, FILE_APPEND);
+file_put_contents('conf/config.php', $handle);
 
 $htaccess = <<<HTCODE
 <FilesMatch "config.php">
@@ -68,25 +68,24 @@ file_put_contents('conf/.htaccess', $htaccess);
 
 // generate crypto hexa keys for cookie session
 $chars = "0123456789ABCDEF";
-$hexkey=''; for ($i=0;$i<16;$i++) $hexkey[$i]=$chars[mt_rand(0,15)];
-$hexiv=''; for ($i=0;$i<16;$i++) $hexiv[$i]=$chars[mt_rand(0,15)];
-$sessfile = file_get_contents('core/classSession.php');
-$sessfile = str_replace(['hexakey', 'hexaiv'], [$hexkey, $hexiv], $sessfile);
-file_put_contents('core/classSession.php', $sessfile);
+$cryptokey=''; for ($i=0;$i<16;$i++) $cryptokey[$i]=$chars[mt_rand(0,15)];
+$cryptoiv =''; for ($i=0;$i<16;$i++) $cryptoiv[$i] =$chars[mt_rand(0,15)];
 
 include('conf/config.php');             //Connect to database
 $pdo = new PDO($dsn, $dbuser, $dbpass);
 include('data/tables_' . $dbdriver . '.php'); //CREATE TABLES
 
 // Insert configured default values.
-$pdo->exec("INSERT INTO settings VALUES ('title', '$title');");
-$pdo->exec("INSERT INTO settings VALUES ('subtitle', '$subtitle');");
-$pdo->exec("INSERT INTO settings VALUES ('style', '$style');");
-$pdo->exec("INSERT INTO settings VALUES ('language', '$language');");
-$pdo->exec("INSERT INTO settings VALUES ('timezone', '$timezone');");
-$pdo->exec("INSERT INTO settings VALUES ('usesmtp', '$usesmtp');");
-$pdo->exec("INSERT INTO settings VALUES ('googlemail', '$googlemail');");
-$pdo->exec("INSERT INTO settings VALUES ('googlepass', '$googlepass');");
+$pdo->exec("INSERT INTO settings VALUES ('title', '$title')");
+$pdo->exec("INSERT INTO settings VALUES ('subtitle', '$subtitle')");
+$pdo->exec("INSERT INTO settings VALUES ('style', '$style')");
+$pdo->exec("INSERT INTO settings VALUES ('language', '$language')");
+$pdo->exec("INSERT INTO settings VALUES ('timezone', '$timezone')");
+$pdo->exec("INSERT INTO settings VALUES ('usesmtp', '$usesmtp')");
+$pdo->exec("INSERT INTO settings VALUES ('googlemail', '$googlemail')");
+$pdo->exec("INSERT INTO settings VALUES ('googlepass', '$googlepass')");
+$pdo->exec("INSERT INTO settings VALUES ('cryptokey', '$cryptokey')");
+$pdo->exec("INSERT INTO settings VALUES ('cryptoiv', '$cryptoiv')");
 
 $pdo->exec("INSERT INTO forums VALUES (null, '$forumname', '$forumdesc', 1);");
 

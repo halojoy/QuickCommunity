@@ -8,7 +8,6 @@ if ($this->sess->isLogged()) {
 
 if (isset($_GET['ucode'])) {
     $ucode = $_GET['ucode'];
-
     $sql = "SELECT u_name FROM users WHERE u_code='$ucode';";
     $name = $this->pdo->query($sql)->fetchColumn();
     if ($name) {
@@ -55,23 +54,22 @@ if (isset($_POST['filled'])) {
                 $posts = 0;
                 $ip = $_SERVER['REMOTE_ADDR'];
                 $joined = $active = time();
-                $sql = "SELECT setvalue FROM settings WHERE setkey='usesmtp';";
-                $usesmtp = $this->pdo->query($sql)->fetchColumn();
-                if (!$usesmtp)
+
+                // Send SMTP Activation Mail?
+                $usesmtp = $this->sess->usesmtp;
+                if (!$usesmtp) {
                     $this->pdo->insertUser($username, $passhash, $email, 'member', '0', $posts, $ip, $joined, $active);
-                // send smtp mail
-                if ($usesmtp) {
+                    echo REGISTERDONE.' <span class="boldy">'.$username.'</span>';
+                    exit();
+                } else {
+                    // Send SMTP Activation Mail
                     $ucode = sha1($username);
                     $this->pdo->insertUser($username, $passhash, $email, 'activate', $ucode, $posts, $ip, $joined, $active);
                     echo 'You will get an Activation Email to activate your account.<br>';
                     require 'core/classSimpleMail.php';
                     $mail = new SimpleMail('smtp.gmail.com', 587, 'tls');
-                    $sql = "SELECT setvalue FROM settings WHERE setkey='googlemail';";
-                    $gmail = $this->pdo->query($sql)->fetchColumn();
-                    $sql = "SELECT setvalue FROM settings WHERE setkey='googlepass';";
-                    $gpass = $this->pdo->query($sql)->fetchColumn();
-                    $mail->user = $gmail;
-                    $mail->pass = $gpass;
+                    $mail->user = $this->sess->googlemail;
+                    $mail->pass = $this->sess->googlepass;
                     $mail->from('noreply@hotmail.com', 'admin');
                     $mail->to($email, $username);
                     
@@ -85,12 +83,9 @@ if (isset($_POST['filled'])) {
                     else
                         exit('Error: ' . $mail->error);
                 }
-                
-                echo REGISTERDONE.' <span class="boldy">'.$username.'</span>';
-                exit();
-                }
             }
         }
+    }
 }
 $this->pdo = null;
 

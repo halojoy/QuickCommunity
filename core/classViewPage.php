@@ -62,7 +62,7 @@ class ViewPage
 ?>
         <div id="footer">
             <div id="copyright">
-                Copyright &copy; 2017 halojoy applying MIT License
+                Copyright &copy; 2018 halojoy applying MIT License
             </div>
             <div id="scripttime">
                 <?php echo 'Powered by QuickCommunity - Script Time: ' . ceil(1000*(microtime(true)-$this->scriptstart))/1000 . ' seconds'."\n" ?>
