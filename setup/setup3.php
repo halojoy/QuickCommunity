@@ -25,7 +25,7 @@ if ($dbdriver == 'mysql') {
 <?php
 
 \$dbdriver = 'mysql';
-\$dsn = 'mysql:host=$db_host;dbname=$db_name';
+\$dsn = 'mysql:host=$db_host;dbname=$db_name;charset=utf8mb4';
 \$dbuser = '$db_user';
 \$dbpass = '$db_pass';
 

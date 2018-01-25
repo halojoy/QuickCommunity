@@ -93,26 +93,17 @@ class Session
 
     public function isLogged()
     {
-        if ($this->logged)
-            return true;
-        else
-            return false;
+        return $this->logged;
     }
 
     public function isAdmin()
     {
-        if ($this->usertype == 'admin')
-            return true;
-        else
-            return false;
+        return $this->usertype == 'admin';
     }
     
     public function isBanned()
     {
-        if ($this->usertype == 'banned')
-            return true;
-        else
-            return false;
+        return $this->usertype == 'banned';
     }
 
 }
