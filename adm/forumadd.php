@@ -30,7 +30,7 @@ if (isset($_POST['forum_name'])) {
     <input type="text" size="30" maxlength="25" required name="forum_name">
     <br/>
     Short Forum Description:<br/>
-    <input type="text" size="40" maxlength="40" required name="forum_desc">
+    <input type="text" size="40" maxlength="40" name="forum_desc">
     <br/><br/>
     <input type="hidden" name="act" value="forumadd">
     <input type="submit" value="Submit">

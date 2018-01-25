@@ -29,8 +29,6 @@ if ($dbdriver == 'mysql') {
 \$dbuser = '$db_user';
 \$dbpass = '$db_pass';
 
-?>
-
 BEGIN;
 }
 
@@ -43,8 +41,6 @@ if ($dbdriver == 'sqlite') {
 \$dsn = 'sqlite:data/$db_name';
 \$dbuser = '';
 \$dbpass = '';
-
-?>
 
 BEGIN;
     $htaccess = <<<HTCODE
