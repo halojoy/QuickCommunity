@@ -14,8 +14,8 @@ require 'core/classDatabase.php';
 $pdo  = new Database($dsn, $dbuser, $dbpass);
 
 $settings = new stdClass();
-$ret = $pdo->querySQL("SELECT setkey, setvalue FROM settings;");
-foreach ($ret as $row)
+$rows = $pdo->getSettings();
+foreach ($rows as $row)
     $settings->{$row->setkey} = $row->setvalue;
 
 require 'core/classSession.php';

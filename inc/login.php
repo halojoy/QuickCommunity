@@ -18,24 +18,8 @@ if (isset($_POST['filled'])) {
         header('location:./');
         exit();
     }
-    $user = $this->pdo->nameCheck($username);
-    $this->pdo = null;
-    if (!$user || !password_verify($password, $user->u_pass)) {
-        echo BADUSERPASS;
-        exit();
-    }
-    if ($user->u_type == 'activate') {
-        echo 'You should Activate your account.<br>
-        Look in your email inbox.';
-        exit();
-    }
-    $this->sess->userid   = $user->uid;
-    $this->sess->username = $user->u_name;
-    $this->sess->usertype = $user->u_type;
-    $this->sess->reLogin();
+    $this->sess->loginControl($username, $password);
 
-    header('location:./');
-    exit();
 }
 $this->pdo = null;
 ?>

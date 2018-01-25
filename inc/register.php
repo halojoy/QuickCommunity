@@ -8,11 +8,9 @@ if ($this->sess->isLogged()) {
 
 if (isset($_GET['ucode'])) {
     $ucode = $_GET['ucode'];
-    $sql = "SELECT u_name FROM users WHERE u_code='$ucode';";
-    $name = $this->pdo->query($sql)->fetchColumn();
+    $name = $this->pdo->nameActivate($ucode);
     if ($name) {
-        $sql = "UPDATE users SET u_type='member', u_code='0' WHERE u_code='$ucode';";
-        $this->pdo->exec($sql);
+        $this->pdo->doActivate($ucode);
         exit('You are activated, '.$name);
     } else
         exit('Activation error');

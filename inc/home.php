@@ -3,12 +3,10 @@
         <div id="bodycore">
         <table id="forums">
 <?php
-$sql = "SELECT * FROM forums ORDER BY f_order";
-$res = $this->pdo->querySQL($sql);
-foreach($res as $row) {
-    $sql = "SELECT t_lastpuname, t_lastptime FROM topics WHERE t_fid=$row->fid ORDER BY t_lastptime DESC LIMIT 1";
-    $res2 = $this->pdo->querySQL($sql);
-    $row2 = $res2->fetch();
+
+$forums = $this->pdo->getForums();
+foreach($forums as $row) {
+    $row2 = $this->pdo->lastPosting($row->fid);
 ?>
             <tr><td class="forumtop" colspan="4"></td></tr>
             <tr class="frame">

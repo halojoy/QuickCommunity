@@ -15,24 +15,28 @@ if(isset($_POST['filled'])) {
     $message = filter_var(trim($_POST['message']), FILTER_SANITIZE_STRING);
     $url = '@(http(s)?)?(://)?(([a-zA-Z])([-\w]+\.)+([^\s\.]+[^\s]*)+[^,.\s])@';
     $message = preg_replace($url, '<a href="http$2://$4" target="_blank" title="$0">$0</a>', $message);
-    $time = time();
-    $ip = $_SERVER['REMOTE_ADDR'];
-    
+
+    $fid   = $this->fid;
+    $fname = $this->fname;
+    $tid   = $this->tid;
+    $tsubj = $this->tsubj;
+    $mess  = $message;
+    $uid   = $this->sess->userid;
+    $uname = $this->sess->username;
+    $time  = time();
+    $ip    = $_SERVER['REMOTE_ADDR'];
+
     if(!empty($message)) {
-        $sql = "INSERT INTO posts (p_fid, p_fname, p_tid, p_tsubj, p_message, p_uid, p_uname, p_time, p_ip)
-            VALUES ($this->fid, '$this->fname', $this->tid, '$this->tsubj', '$message', {$this->sess->userid}, '{$this->sess->username}', $time, '$ip');";
-        $ret = $this->pdo->querySQL($sql);
-        $pid = $this->pdo->lastInsertId;
-        
-        $sql = "UPDATE topics SET t_lastpid=$pid, t_lastpuid={$this->sess->userid}, t_lastpuname='{$this->sess->username}', t_lastptime=$time
-            WHERE tid=$this->tid;";
-        $ret = $this->pdo->querySQL($sql);
-        
-        $sql = "UPDATE users SET u_posts=u_posts+1 WHERE uid={$this->sess->userid};";
-        $ret = $this->pdo->querySQL($sql);
+
+        $pid = $this->pdo->addPost($fid, $fname, $tid, $tsubj, $mess,
+                                    $uid, $uname, $time, $ip);
+
+        $this->pdo->addPostUpTopic($pid, $uid, $uname, $time, $tid);
+
+        $this->pdo->addPostUpUser($uid);
 
         if ($_FILES['upfile']['error'] == UPLOAD_ERR_OK) {
-  
+
             require 'core/classUploadFile.php';
             $upload = new UploadFile();
             $upload->registerFile($_FILES['upfile']);
@@ -52,8 +56,8 @@ if(isset($_POST['filled'])) {
                 $upload->setName('tmb_'.$newname);
                 $upload->resize();
             }
-            $sql = "UPDATE posts SET p_file='$newname', p_cat='$filecat' WHERE pid=$pid;";
-            $ret = $this->pdo->querySQL($sql);
+            $this->pdo->addPostFile($newname, $filecat, $pid);
+
         } elseif ($_FILES['upfile']['error'] != 4) {
             exit('File Upload Error: '.$_FILES['upfile']['error'].
             '&nbsp;&nbsp;<a href="http://php.net/manual/en/features.file-upload.errors.php" target="_blank">Information</a>');

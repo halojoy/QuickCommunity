@@ -5,8 +5,7 @@
 
         <table id="posts">
 <?php
-$sql = "SELECT * FROM posts WHERE pid=$this->pid LIMIT 1;";
-$row = $this->pdo->querySQL($sql)->fetch();
+$row = $this->pdo->getPost($this->pid);
 $this->pdo = null;
 ?>
             <tr class="frame"><td class="posttop" colspan="2"></td></tr>

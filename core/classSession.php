@@ -34,20 +34,43 @@ class Session
         } else {
             $this->userid = $_SESSION['myuserid'];
         }
+
         if (!is_numeric($this->userid))
             $this->Logout();
-        $sql = "SELECT * FROM users WHERE uid=$this->userid";
-        $stmt = $this->db->querySQL($sql);
-        if (!$row = $stmt->fetch())
+
+        $user = $this->db->getUser($this->userid);
+        if (!$user)
             $this->Logout();
-        $this->username = $row->u_name;
-        $this->usertype = $row->u_type;
+
+        $this->username = $user->u_name;
+        $this->usertype = $user->u_type;
         $this->reLogin();
 
         $ip = $_SERVER['REMOTE_ADDR'];
         $time = time();
-        $sql = "UPDATE users SET u_ip='$ip', u_active=$time WHERE uid=$this->userid;";
-        $ret = $this->db->querySQL($sql);
+        $this->db->setLastTime($ip, $time, $this->userid);
+
+    }
+
+    public function loginControl($username, $password)
+    {
+        $user = $this->db->nameCheck($username);
+        if (!$user || !password_verify($password, $user->u_pass)) {
+            echo BADUSERPASS;
+            exit();
+        }
+        if ($user->u_type == 'activate') {
+            echo 'You should Activate your account.<br>
+                Look in your email inbox.';
+            exit();
+        }
+        $this->userid   = $user->uid;
+        $this->username = $user->u_name;
+        $this->usertype = $user->u_type;
+        $this->reLogin();
+
+        header('location:./');
+        exit();
     }
 
     public function reLogin()

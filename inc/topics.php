@@ -20,11 +20,11 @@ if($this->sess->isLogged() && !$this->sess->isBanned()) {
         <table id="topics"> 
             <tr><td class="topicstop" colspan="4"></td></tr>
 <?php
-$sql = "SELECT tid, t_subject, t_uname, t_lastpuname, t_lastptime FROM topics 
-    WHERE t_fid=$this->fid ORDER BY t_lastptime DESC LIMIT 20;";
-$ret = $this->pdo->querySQL($sql);
+
+$topics = $this->pdo->getTopics($this->fid);
 $this->pdo = null;
-foreach($ret as $row) {
+
+foreach($topics as $row) {
 ?>
             <tr>
             <td class="topicleft">

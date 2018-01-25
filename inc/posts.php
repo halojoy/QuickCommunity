@@ -22,11 +22,11 @@ if ($this->sess->isLogged() && !$this->sess->isBanned()) {
 
         <table id="posts">
 <?php
-$sql = "SELECT * FROM posts WHERE p_tid=$this->tid;";
-$ret = $this->pdo->querySQL($sql);
+
+$posts = $this->pdo->getPosts($this->tid);
 $this->pdo = null;
 
-foreach($ret as $row) {
+foreach($posts as $row) {
 ?>
             <tr class="frame"><td class="posttop" colspan="2"></td></tr>
             <tr class="frame">

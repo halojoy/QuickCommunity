@@ -19,8 +19,7 @@ if(isset($_POST['filled'])) {
 
     if(!empty($message)) {
 
-        $sql = "UPDATE posts SET p_message='$message' WHERE pid=$this->pid;";
-        $ret = $this->pdo->querySQL($sql);
+        $this->pdo->editPostUp($message, $this->pid);
         $this->pdo = null;
 
         header('location:./?act=post&pid='.$this->pid);
@@ -28,9 +27,7 @@ if(isset($_POST['filled'])) {
     }
 }
 
-$sql = "SELECT * FROM posts WHERE pid=$this->pid;";
-$post = $this->pdo->querySQL($sql)->fetch();
-$this->pdo = null;
+$post = $this->pdo->getPost($this->pid);
 
 if ($this->sess->userid != $post->p_uid) {
     header('location:./');

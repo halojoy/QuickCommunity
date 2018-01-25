@@ -12,12 +12,11 @@ if (!$this->sess->isLogged() || $this->sess->isBanned()) {
 <?php
 
 $timelimit = time()-8*24*3600;// Last 8 days
-$sql = "SELECT tid, t_fid, t_subject, t_lastpuname, t_lastptime FROM topics 
-    WHERE t_lastptime>$timelimit ORDER BY t_lastptime DESC LIMIT 12;";
-$ret = $this->pdo->querySQL($sql);
-foreach($ret as $row) {
-    $sql = "SELECT f_name FROM forums WHERE fid=$row->t_fid;";
-    $forumname = $this->pdo->querySQL($sql)->fetchColumn();
+
+$topics = $this->pdo->getTopicsNew($timelimit);
+
+foreach($topics as $row) {
+    $forumname = $this->pdo->forumName($row->t_fid);
 ?>
             <tr>
             <td class="tnewleft"><?php echo utf8_encode(strftime($this->view->datetime, $row->t_lastptime)) ?></td>

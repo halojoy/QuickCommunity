@@ -48,16 +48,14 @@ class Action
                 if (isset($_POST['fid'])) $this->fid = $_POST['fid'];
                 elseif (isset($_GET['fid'])) $this->fid = $_GET['fid'];
                 else return 'home';
-                $sql = "SELECT f_name FROM forums WHERE fid=$this->fid;";
-                $this->fname = $this->pdo->querySQL($sql)->fetchColumn();
+                $this->fname = $this->pdo->forumName($this->fid);
                 break;
             case 'posts':
             case 'postadd':
                 if (isset($_POST['tid'])) $this->tid = $_POST['tid'];
                 elseif (isset($_GET['tid'])) $this->tid = $_GET['tid'];
                 else return 'home';
-                $sql = "SELECT * FROM topics WHERE tid=$this->tid;";
-                $row = $this->pdo->querySQL($sql)->fetch();
+                $row = $this->pdo->getTopic($this->tid);
                 $this->fid = $row->t_fid; $this->fname = $row->t_fname;
                 $this->tsubj = $row->t_subject;
                 break;
@@ -66,8 +64,7 @@ class Action
                 if (isset($_POST['pid'])) $this->pid = $_POST['pid'];
                 elseif (isset($_GET['pid'])) $this->pid = $_GET['pid'];
                 else return 'home';
-                $sql = "SELECT * FROM posts WHERE pid=$this->pid;";
-                $row = $this->pdo->querySQL($sql)->fetch();
+                $row = $this->pdo->getPost($this->pid);
                 $this->fid = $row->p_fid; $this->fname = $row->p_fname; 
                 $this->tid = $row->p_tid; $this->tsubj = $row->p_tsubj;
                 break;          
