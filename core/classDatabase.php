@@ -19,7 +19,7 @@ class Database extends PDO
         $this->setAttribute(PDO::ATTR_EMULATE_PREPARES, 0);
         $this->dbdriver = $this->getAttribute(PDO::ATTR_DRIVER_NAME);
     }
-    
+
     public function querySQL($sql)
     {
         $this->lastInsertId = 0;
@@ -131,7 +131,7 @@ class Database extends PDO
         $sql = "UPDATE users SET u_type='member', u_code='0'
                 WHERE u_code='$ucode'";
         $ret = $this->querySQL($sql);
-        
+
         return;
     }
 
@@ -148,7 +148,7 @@ class Database extends PDO
         $sql = "UPDATE users SET u_ip='$ip', u_active=$time
                 WHERE uid=$userid";
         $ret = $this->querySQL($sql);
-        
+
         return;
     }
 
@@ -156,7 +156,7 @@ class Database extends PDO
     {
         $sql = "SELECT f_name FROM forums WHERE fid=$forumid";
         $ret = $this->querySQL($sql);
-    
+
         return $ret->fetchColumn();
     }
 
@@ -164,7 +164,7 @@ class Database extends PDO
     {
         $sql = "SELECT * FROM topics WHERE tid=$topicid";
         $ret = $this->querySQL($sql);
-        
+
         return $ret->fetch();
     }
 
@@ -184,7 +184,7 @@ class Database extends PDO
             VALUES ($fid, '$fname', $tid, '$tsubj', '$mess',
                 $uid, '$uname', $time, '$ip')";
         $ret = $this->querySQL($sql);
-        
+
         return $this->lastInsertId;
     }
 
@@ -267,8 +267,8 @@ class Database extends PDO
     {
         $sql = "SELECT setkey, setvalue FROM settings";
         $ret = $this->querySQL($sql);
-        
+
         return $ret->fetchAll();
     }    
-    
+
 }
