@@ -31,14 +31,14 @@ class Database extends PDO
             exit();
         }
         $this->lastInsertId = $this->lastInsertId();
-        
+
         if(strpos(strtoupper($sql), 'SELECT') !== false) {
             $this->rowCount = 0;
             $res = $this->query($sql);       
             $i=0; foreach($res as $dum) $i++;
             $this->rowCount = $i;
         }
-        
+
         return $sth;
     }
 
