@@ -69,6 +69,7 @@ $cryptoiv =''; for ($i=0;$i<16;$i++) $cryptoiv[$i] =$chars[mt_rand(0,15)];
 
 include('conf/config.php');             //Connect to database
 $pdo = new PDO($dsn, $dbuser, $dbpass);
+$pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 include('data/tables_' . $dbdriver . '.php'); //CREATE TABLES
 
 // Insert configured default values.
