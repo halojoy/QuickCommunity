@@ -24,7 +24,6 @@ if ($dbdriver == 'mysql') {
     $handle = <<<BEGIN
 <?php
 
-\$dbdriver = 'mysql';
 \$dsn = 'mysql:host=$db_host;dbname=$db_name;charset=utf8mb4';
 \$dbuser = '$db_user';
 \$dbpass = '$db_pass';
@@ -37,7 +36,6 @@ if ($dbdriver == 'sqlite') {
     $handle = <<<BEGIN
 <?php
 
-\$dbdriver = 'sqlite';
 \$dsn = 'sqlite:data/$db_name';
 \$dbuser = '';
 \$dbpass = '';
