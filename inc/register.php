@@ -30,59 +30,12 @@ if (isset($_POST['filled'])) {
     $username  = filter_var(trim($_POST['username']), FILTER_SANITIZE_STRING);
     $password  = trim($_POST['password']);
     $password2 = trim($_POST['password2']);
-    $passhash = password_hash($password, PASSWORD_BCRYPT);
     $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
     $email = strtolower($email);
-    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $error = ERROR1;
-    } elseif (strlen($username) < 3) {
-            $error = ERROR2;
-    } elseif (strlen($password) < 6 || $password2 != $password) {
-            $error = ERROR3;
-    } else {
-        $unameexists = $this->pdo->nameCheck($username);
-        if ($unameexists) {
-            $error = ERROR4;
-        } else {
-            $mailexists = $this->pdo->emailCheck($email);
-            if ($mailexists) {
-                $error = ERROR5;
-            } else {
-                // register
-                $posts = 0;
-                $ip = $_SERVER['REMOTE_ADDR'];
-                $joined = $active = time();
 
-                // Send SMTP Activation Mail?
-                $usesmtp = $this->sess->usesmtp;
-                if (!$usesmtp) {
-                    $this->pdo->insertUser($username, $passhash, $email, 'member', '0', $posts, $ip, $joined, $active);
-                    echo REGISTERDONE.' <span class="boldy">'.$username.'</span>';
-                    exit();
-                } else {
-                    // Send SMTP Activation Mail
-                    $ucode = sha1($username);
-                    $this->pdo->insertUser($username, $passhash, $email, 'activate', $ucode, $posts, $ip, $joined, $active);
-                    echo 'You will get an Activation Email to activate your account.<br>';
-                    require 'core/classSimpleMail.php';
-                    $mail = new SimpleMail('smtp.gmail.com', 587, 'tls');
-                    $mail->user = $this->sess->googlemail;
-                    $mail->pass = $this->sess->googlepass;
-                    $mail->from('noreply@hotmail.com', 'admin');
-                    $mail->to($email, $username);
-                    
-                    $mail->subject = 'Your Activation';
-                    $link = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].'?act=register&ucode='.$ucode;
-                    $mail->message = 'Click this link to activate your account:<br>
-                    <a href="'.$link.'">Activate</a>';
-
-                    if ($mail->send())
-                        exit('Activation Mail was successfully sent.');
-                    else
-                        exit('Error: ' . $mail->error);
-                }
-            }
-        }
+    $error = $this->sess->validReg($username, $password, $password2, $email);
+    if (!$error) {
+        $this->sess->doRegister($username, $password, $email);
     }
 }
 $this->pdo = null;

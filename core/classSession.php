@@ -100,10 +100,75 @@ class Session
     {
         return $this->usertype == 'admin';
     }
-    
+
     public function isBanned()
     {
         return $this->usertype == 'banned';
+    }
+
+    public function validReg($uname, $pass1, $pass2, $email)
+    {
+        $error = false;
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            $error = ERROR1;
+        } elseif (strlen($uname) < 3) {
+            $error = ERROR2;
+        } elseif (strlen($pass1) < 6 || $pass1 != $pass2) {
+            $error = ERROR3;
+        } else {
+            $unameexists = $this->db->nameCheck($uname);
+            if ($unameexists) {
+                $error = ERROR4;
+            } else {
+                $mailexists = $this->db->emailCheck($email);
+                if ($mailexists) {
+                    $error = ERROR5;
+                }
+            }
+        }
+        return $error;
+    }
+
+    public function doRegister($uname, $pass, $email)
+    {
+        // Register
+        $passhash = password_hash($pass, PASSWORD_BCRYPT);
+        $posts = 0;
+        $ip = $_SERVER['REMOTE_ADDR'];
+        $joined = $active = time();
+
+        // Do we Send SMTP Activation Mail?
+        $usesmtp = $this->usesmtp;
+        if (!$usesmtp) {
+            $this->db->insertUser($uname, $passhash, $email, 'member', '0',
+                    $posts, $ip, $joined, $active);
+            echo REGISTERDONE.' <span class="boldy">'.$uname.'</span>';
+            exit();
+        } else {
+            // Send SMTP Activation Mail
+            $ucode = uniqid();
+            $this->db->insertUser($uname, $passhash, $email, 'activate', $ucode,
+                    $posts, $ip, $joined, $active);
+            echo 'You will get Activation Email to activate your account.<br>';
+            require 'core/classSimpleMail.php';
+            $mail = new SimpleMail('smtp.gmail.com', 587, 'tls');
+            $mail->user = $this->googlemail;
+            $mail->pass = $this->googlepass;
+            $mail->from('noreply@hotmail.com', 'admin');
+            $mail->to($email, $uname);
+            
+            $mail->subject = 'Your Activation';
+            $link = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].
+                    '?act=register&ucode='.$ucode;
+            $mail->message = 'Click this link to activate your account:<br>
+            <a href="'.$link.'">Activate</a>';
+
+            if ($mail->send())
+                exit('Activation Mail was successfully sent.');
+            else
+                exit('Error: ' . $mail->error);
+        }
+
     }
 
 }
