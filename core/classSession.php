@@ -171,4 +171,14 @@ class Session
 
     }
 
+    public function activate($ucode)
+    {
+        $name = $this->db->nameActivate($ucode);
+        if ($name) {
+            $this->db->doActivate($ucode);
+            exit('You are activated, '.$name);
+        } else
+            exit('Activation error');
+    }    
+
 }
