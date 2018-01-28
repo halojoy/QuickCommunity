@@ -62,7 +62,10 @@ class ViewPage
 ?>
         <div id="footer">
             <div id="scripttime">
-                <?php echo '<a href="https://github.com/halojoy/QuickCommunity"><u>Powered by QuickCommunity</u></a> - Script Time: ' . ceil(1000*(microtime(true)-$this->scriptstart))/1000 . ' seconds'."\n" ?>
+                <?php echo
+                '<a href="https://github.com/halojoy/QuickCommunity" target="_blank">
+                <u>Powered by QuickCommunity</u></a> - Script Time: ' .
+                ceil(1000*(microtime(true)-$this->scriptstart))/1000 . ' seconds'."\n" ?>
             </div>
             <div id="copyright">
                 Copyright &copy; 2018 halojoy applying MIT License
@@ -120,7 +123,8 @@ if ($this->sess->isAdmin()) {
 ?>
             <br>
             <div id="loggedas" style="clear: left; margin-left: 8px;">
-                <?php echo LOGGEDAS ?> <span class="boldy"><?php echo $this->sess->username ?></span>
+                <?php echo LOGGEDAS ?>
+                <span class="boldy"><?php echo $this->sess->username ?></span>
             </div>
 <?php
 }
