@@ -65,7 +65,7 @@ class ViewPage
                 Copyright &copy; 2018 halojoy applying MIT License
             </div>
             <div id="scripttime">
-                <?php echo 'Powered by QuickCommunity - Script Time: ' . ceil(1000*(microtime(true)-$this->scriptstart))/1000 . ' seconds'."\n" ?>
+                <?php echo '<a href="https://github.com/halojoy/QuickCommunity"><u>Powered by QuickCommunity</u></a> - Script Time: ' . ceil(1000*(microtime(true)-$this->scriptstart))/1000 . ' seconds'."\n" ?>
             </div>
         </div>
 
