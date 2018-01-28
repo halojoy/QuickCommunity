@@ -61,11 +61,11 @@ class ViewPage
     {
 ?>
         <div id="footer">
-            <div id="copyright">
-                Copyright &copy; 2018 halojoy applying MIT License
-            </div>
             <div id="scripttime">
                 <?php echo '<a href="https://github.com/halojoy/QuickCommunity"><u>Powered by QuickCommunity</u></a> - Script Time: ' . ceil(1000*(microtime(true)-$this->scriptstart))/1000 . ' seconds'."\n" ?>
+            </div>
+            <div id="copyright">
+                Copyright &copy; 2018 halojoy applying MIT License
             </div>
         </div>
 
