@@ -157,7 +157,7 @@ class Session
             $mail->pass = $this->googlepass;
             $mail->from('noreply@hotmail.com', 'admin');
             $mail->to($email, $uname);
-            
+
             $mail->subject = 'Your Activation';
             $link = 'http://'.$_SERVER['HTTP_HOST'].$_SERVER['PHP_SELF'].
                     '?act=register&ucode='.$ucode;
