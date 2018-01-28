@@ -6,15 +6,14 @@ class Session
     public $db;
     public $userid   = '';
     public $username = '';
-    public $usertype = '';
+    public $usertype = ''; // 'admin', 'member', 'activate' or 'banned'
     public $logged = false;
-    public $lifetime = 3600*24*30; // Login Cookie for one month
-    public $bantime  = 3600*24*365;// Ban for 1 year
-    public $usesmtp;
-    public $googlemail;
-    public $googlepass;
-    private $key;
-    private $iv;
+    public $lifetime = 30*24*3600; // Login Cookie for one month
+    public $usesmtp;    // If to use SMTP activation mail
+    public $googlemail; // For SMTP Mail
+    public $googlepass; // For SMTP Mail
+    private $key;       // For Crypto
+    private $iv;        // For Crypto
 
     public function __construct($db, $settings)
     {
@@ -64,6 +63,8 @@ class Session
                 Look in your email inbox.';
             exit();
         }
+
+        // Login the user
         $this->userid   = $user->uid;
         $this->username = $user->u_name;
         $this->usertype = $user->u_type;
