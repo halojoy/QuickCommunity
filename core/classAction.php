@@ -14,10 +14,11 @@ class Action
     public $fname = false;
     public $tsubj = false;
 
-    public function __construct($pdo, $sess, $view, $scope)
+    public function __construct($pdo, $sess, $fora, $view, $scope)
     {
         $this->pdo  = $pdo;
         $this->sess = $sess;
+        $this->fora = $fora;
         $this->view = $view;
         $this->scope = $scope;
         

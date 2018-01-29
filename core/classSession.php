@@ -4,6 +4,7 @@
 class Session
 {
     public $db;
+    public $view;
     public $userid   = '';
     public $username = '';
     public $usertype = ''; // 'admin', 'member', 'activate' or 'banned'
@@ -49,6 +50,39 @@ class Session
         $time = time();
         $this->db->setLastTime($ip, $time, $this->userid);
 
+    }
+
+    public function submitLogin()
+    {
+        require 'core/classVundoCSRF.php';
+        if (isset($_POST['filled'])) {
+            if(!CSRF::check($_POST['_token'])){
+                exit('Wrong Token!');
+            }
+            $username = filter_var(trim($_POST['username']), FILTER_SANITIZE_STRING);
+            $password = trim($_POST['password']);
+            if (empty($username) || empty($password)) {
+                header('location:./');
+                exit();
+            }
+            $this->loginControl($username, $password);
+        }
+?>
+        <br>
+        <form method="post" accept-charset="UTF-8">
+            <input type="text" name="username" size="32" maxlength="25" required>
+            <label for="username"><?php echo USERNAME ?></label>
+            <br>
+            <input type="password" name="password" maxlength="16" required>
+            <label for="password"><?php echo PASSWORD ?></label>
+            <br><br>
+            <input type="submit" value="<?php echo SUBMIT ?>">
+            <input type="hidden" name="act" value="login">
+            <input type="hidden" name="filled">
+            <input type="hidden" name="_token" value="<?php echo CSRF::generate() ?>">
+        </form>
+        <br>
+<?php
     }
 
     public function loginControl($username, $password)
@@ -105,6 +139,81 @@ class Session
     public function isBanned()
     {
         return $this->usertype == 'banned';
+    }
+
+    public function submitRegister()
+    {
+        $error = $username = $email = '';
+        require 'core/classVundoCSRF.php';
+        if (isset($_POST['filled'])) {
+            if(!CSRF::check($_POST['_token'])){
+                exit('Wrong Token!');
+            }
+            if ($_POST['capcode'] != $_SESSION['capcode']) {
+                echo 'Wrong captcha code. Try again!';
+                exit();
+            }
+            $username  = filter_var(trim($_POST['username']), FILTER_SANITIZE_STRING);
+            $password  = trim($_POST['password']);
+            $password2 = trim($_POST['password2']);
+            $email = filter_var(trim($_POST['email']), FILTER_SANITIZE_EMAIL);
+            $email = strtolower($email);
+
+            $error = $this->validReg($username, $password, $password2, $email);
+            if (!$error) {
+                $this->doRegister($username, $password, $email);
+            }
+        }
+
+        require 'core/classCaptcha.php';
+        $cap = new Captcha();
+        $capcode = $cap->generatecode();
+        $_SESSION['capcode'] = $capcode;
+?>
+    <br>
+    <span class="error"><?php echo $error; ?></span>
+    <form method="post" accept-charset="UTF-8">
+        <table style="border-collapse: collapse;">              
+            <tr>
+            <td><label for="username"><?php echo USERNAME ?></label></td>
+            <td><input type="text" name="username" value="<?php echo $username ?>"
+                       size="32" maxlength="25" required/>
+                <?php echo USER3TO25 ?></td>
+            </tr>
+            <tr>
+            <td><label for="password"><?php echo PASSWORD ?></label></td>
+            <td><input type="password" name="password" maxlength="16" required/>
+                <?php echo PASS6TO16 ?></td>
+            </tr>
+            <tr>
+            <td><label for="password2"><?php echo PASSWORD ?></label></td>
+            <td><input type="password" name="password2" maxlength="16" required/>
+                <?php echo CONFIRM ?></td>
+            </tr>
+            <tr>
+                <td><label for="email"><?php echo EMAIL ?></label></td>
+                <td><input type="text" name="email" value="<?php echo $email ?>"
+                            size="45" maxlength="40" required/>
+                    <?php echo NOTBESHOWN ?></td>
+            </tr>
+            <tr><td colspan="2">&nbsp;</td></tr>
+            <tr>
+            <td colspan="2"><img src="<?php echo $cap->generateImage($capcode) ?>"
+                title="Verification capcode"><br>
+            <input type="text" size="16" name="capcode"> Fill in the characters</td>
+            </tr>
+            <tr><td colspan="2">&nbsp;</td></tr>
+            <tr>
+                <td></td>
+            <td><input type="submit" value="<?php echo SUBMIT ?>">
+            <input type="hidden" name="act" value="register">
+            <input type="hidden" name="filled"></td>
+            <input type="hidden" name="_token" value="<?php echo CSRF::generate() ?>">
+            </tr>
+        </table>
+    </form>
+    <br>
+<?php
     }
 
     public function validReg($uname, $pass1, $pass2, $email)
@@ -167,9 +276,8 @@ class Session
             if ($mail->send())
                 exit('Activation Mail was successfully sent.');
             else
-                exit('Error: ' . $mail->error);
+                exit('Mail Error: ' . $mail->error);
         }
-
     }
 
     public function activate($ucode)
@@ -180,6 +288,36 @@ class Session
             exit('You are activated, '.$name);
         } else
             exit('Activation error');
-    }    
+    }
+
+    public function showMembers()
+    {
+?>
+        <br>
+        <div id="memberstop">
+            <span class="boldy"><?php echo MEMBERS ?></span>
+        </div>
+        <table id="members">
+            <tr id="memtop"><th><?php echo JOINED ?></th>
+            <th><?php echo NAME ?></th>
+            <th><?php echo USERTYPE ?></th><th><?php echo POSTS ?></th>
+            <th><?php echo LASTACTIVE ?></th></tr>
+<?php
+        $members = $this->db->getMembers();
+        foreach($members as $row) {
+?>
+            <tr><td><?php echo utf8_encode(strftime($this->view->dateform,
+                $row->u_joined)) ?></td>
+            <td><span class="boldy"><?php echo $row->u_name ?></span></td>
+            <td><?php echo $row->u_type ?></td>
+            <td><?php echo $row->u_posts ?></td><td>
+            <?php echo utf8_encode(strftime($this->view->dateform,
+                $row->u_active)) ?></td></tr>
+<?php
+        }
+?>
+        </table>
+<?php
+    }
 
 }

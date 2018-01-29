@@ -22,8 +22,13 @@ require 'core/classSession.php';
 $sess = new Session($pdo, $settings);
 require 'core/classViewPage.php';
 $view = new ViewPage($sess, $settings, $scriptstart);
+$sess->view = $view;
 
 $settings = null;
 
+require 'core/classForum.php';
+$fora = new Forum($pdo, $sess, $view);
+
 require 'core/classAction.php';
-$act  = new Action($pdo, $sess, $view, $scope);
+$act  = new Action($pdo, $sess, $fora, $view, $scope);
+
