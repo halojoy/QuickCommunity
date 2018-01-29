@@ -6,4 +6,4 @@ if (!$this->sess->isLogged() || $this->sess->isBanned()) {
     exit();
 }
 
-$this->sess->showMembers();
+$this->fora->showMembers();

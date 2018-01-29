@@ -22,7 +22,6 @@ require 'core/classSession.php';
 $sess = new Session($pdo, $settings);
 require 'core/classViewPage.php';
 $view = new ViewPage($sess, $settings, $scriptstart);
-$sess->view = $view;
 
 $settings = null;
 

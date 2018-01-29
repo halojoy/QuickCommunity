@@ -3,8 +3,7 @@
 
 class Session
 {
-    public $db;
-    public $view;
+    public $pdo;
     public $userid   = '';
     public $username = '';
     public $usertype = ''; // 'admin', 'member', 'activate' or 'banned'
@@ -16,9 +15,9 @@ class Session
     private $key;       // For Crypto
     private $iv;        // For Crypto
 
-    public function __construct($db, $settings)
+    public function __construct($pdo, $settings)
     {
-        $this->db = $db;
+        $this->pdo = $pdo;
         $this->usesmtp    = $settings->usesmtp;
         $this->googlemail = $settings->googlemail;
         $this->googlepass = $settings->googlepass;
@@ -38,7 +37,7 @@ class Session
         if (!is_numeric($this->userid))
             $this->Logout();
 
-        $user = $this->db->getUser($this->userid);
+        $user = $this->pdo->getUser($this->userid);
         if (!$user)
             $this->Logout();
 
@@ -48,7 +47,7 @@ class Session
 
         $ip = $_SERVER['REMOTE_ADDR'];
         $time = time();
-        $this->db->setLastTime($ip, $time, $this->userid);
+        $this->pdo->setLastTime($ip, $time, $this->userid);
 
     }
 
@@ -87,7 +86,7 @@ class Session
 
     public function loginControl($username, $password)
     {
-        $user = $this->db->nameCheck($username);
+        $user = $this->pdo->nameCheck($username);
         if (!$user || !password_verify($password, $user->u_pass)) {
             echo BADUSERPASS;
             exit();
@@ -226,11 +225,11 @@ class Session
         } elseif (strlen($pass1) < 6 || $pass1 != $pass2) {
             $error = ERROR3;
         } else {
-            $unameexists = $this->db->nameCheck($uname);
+            $unameexists = $this->pdo->nameCheck($uname);
             if ($unameexists) {
                 $error = ERROR4;
             } else {
-                $mailexists = $this->db->emailCheck($email);
+                $mailexists = $this->pdo->emailCheck($email);
                 if ($mailexists) {
                     $error = ERROR5;
                 }
@@ -250,14 +249,14 @@ class Session
         // Do we Send SMTP Activation Mail?
         $usesmtp = $this->usesmtp;
         if (!$usesmtp) {
-            $this->db->insertUser($uname, $passhash, $email, 'member', '0',
+            $this->pdo->insertUser($uname, $passhash, $email, 'member', '0',
                     $posts, $ip, $joined, $active);
             echo REGISTERDONE.' <span class="boldy">'.$uname.'</span>';
             exit();
         } else {
             // Send SMTP Activation Mail
             $ucode = uniqid();
-            $this->db->insertUser($uname, $passhash, $email, 'activate', $ucode,
+            $this->pdo->insertUser($uname, $passhash, $email, 'activate', $ucode,
                     $posts, $ip, $joined, $active);
             echo 'You will get Activation Email to activate your account.<br>';
             require 'core/classSimpleMail.php';
@@ -282,42 +281,12 @@ class Session
 
     public function activate($ucode)
     {
-        $name = $this->db->nameActivate($ucode);
+        $name = $this->pdo->nameActivate($ucode);
         if ($name) {
-            $this->db->doActivate($ucode);
+            $this->pdo->doActivate($ucode);
             exit('You are activated, '.$name);
         } else
             exit('Activation error');
-    }
-
-    public function showMembers()
-    {
-?>
-        <br>
-        <div id="memberstop">
-            <span class="boldy"><?php echo MEMBERS ?></span>
-        </div>
-        <table id="members">
-            <tr id="memtop"><th><?php echo JOINED ?></th>
-            <th><?php echo NAME ?></th>
-            <th><?php echo USERTYPE ?></th><th><?php echo POSTS ?></th>
-            <th><?php echo LASTACTIVE ?></th></tr>
-<?php
-        $members = $this->db->getMembers();
-        foreach($members as $row) {
-?>
-            <tr><td><?php echo utf8_encode(strftime($this->view->dateform,
-                $row->u_joined)) ?></td>
-            <td><span class="boldy"><?php echo $row->u_name ?></span></td>
-            <td><?php echo $row->u_type ?></td>
-            <td><?php echo $row->u_posts ?></td><td>
-            <?php echo utf8_encode(strftime($this->view->dateform,
-                $row->u_active)) ?></td></tr>
-<?php
-        }
-?>
-        </table>
-<?php
     }
 
 }
