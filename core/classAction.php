@@ -14,7 +14,7 @@ class Action
     public $fname = false;
     public $tsubj = false;
 
-    public function __construct($pdo, $sess, $fora, $view, $scope)
+    public function __construct($pdo, $sess, $view, $fora, $scope)
     {
         $this->pdo  = $pdo;
         $this->sess = $sess;

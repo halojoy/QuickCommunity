@@ -29,5 +29,4 @@ require 'core/classForum.php';
 $fora = new Forum($pdo, $sess, $view);
 
 require 'core/classAction.php';
-$act  = new Action($pdo, $sess, $fora, $view, $scope);
-
+$act  = new Action($pdo, $sess, $view, $fora, $scope);
