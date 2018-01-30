@@ -5,13 +5,15 @@ class Forum
 {
     public $pdo;
     public $sess;
-    public $view;
+    public $dateform;
+    public $datetime;
 
     public function __construct($pdo, $sess, $view)
     {
         $this->pdo  = $pdo;
         $this->sess = $sess;
-        $this->view = $view;
+        $this->dateform = $view->dateform;
+        $this->datetime = $view->datetime;
     }
 
     public function forums()
@@ -42,7 +44,7 @@ class Forum
             </td>
             <td class="forumfarright">
             <?php if ($row2 !== false)
-                echo utf8_encode(strftime($this->view->datetime,
+                echo utf8_encode(strftime($this->datetime,
                     $row2->t_lastptime)) ?>
             </td>
             </tr>
@@ -91,7 +93,7 @@ class Forum
             </td>
             <td class="topicmiddle1"><?php echo STARTEDBY ?> <span class="boldy"><?php echo $row->t_uname ?></span></td>
             <td class="topicmiddle2"><?php echo LASTPOSTBY ?> <span class="boldy"><?php echo $row->t_lastpuname ?></span></td>
-            <td class="topicright"><?php echo utf8_encode(strftime($this->view->datetime, $row->t_lastptime)) ?></td>
+            <td class="topicright"><?php echo utf8_encode(strftime($this->datetime, $row->t_lastptime)) ?></td>
             </tr>
 <?php
 }
@@ -134,7 +136,7 @@ class Forum
             <tr class="frame"><td class="posttop" colspan="2"></td></tr>
             <tr class="frame">
                 <td class="postleft">
-                    <?php echo utf8_encode(strftime($this->view->datetime, $row->p_time)) ?><br>
+                    <?php echo utf8_encode(strftime($this->datetime, $row->p_time)) ?><br>
                     <?php echo $row->p_uname ?>
                 </td>
                 <td style="" class="postright">
@@ -207,7 +209,7 @@ if ($this->sess->isLogged() && !$this->sess->isBanned()) {
             <tr class="frame"><td class="posttop" colspan="2"></td></tr>
             <tr class="frame">
                 <td class="postleft">
-                    <?php echo utf8_encode(strftime($this->view->datetime, $row->p_time)) ?><br>
+                    <?php echo utf8_encode(strftime($this->datetime, $row->p_time)) ?><br>
                     <?php echo $row->p_uname ?>
                 </td>
                 <td class="postright">
@@ -481,7 +483,7 @@ if ($this->sess->isLogged() && !$this->sess->isBanned()) {
 ?>
             <tr>
             <td class="tnewleft">
-            <?php echo utf8_encode(strftime($this->view->datetime,
+            <?php echo utf8_encode(strftime($this->datetime,
                 $row->t_lastptime)) ?></td>
             <td class="tnewbody">
             <form class="link" method="post">
@@ -520,12 +522,12 @@ if ($this->sess->isLogged() && !$this->sess->isBanned()) {
         $members = $this->pdo->getMembers();
         foreach($members as $row) {
 ?>
-            <tr><td><?php echo utf8_encode(strftime($this->view->dateform,
+            <tr><td><?php echo utf8_encode(strftime($this->dateform,
                 $row->u_joined)) ?></td>
             <td><span class="boldy"><?php echo $row->u_name ?></span></td>
             <td><?php echo $row->u_type ?></td>
             <td><?php echo $row->u_posts ?></td><td>
-            <?php echo utf8_encode(strftime($this->view->dateform,
+            <?php echo utf8_encode(strftime($this->dateform,
                 $row->u_active)) ?></td></tr>
 <?php
         }
