@@ -18,8 +18,8 @@ class Action
     {
         $this->pdo  = $pdo;
         $this->sess = $sess;
-        $this->fora = $fora;
         $this->view = $view;
+        $this->fora = $fora;
         $this->scope = $scope;
         
         if (isset($_POST['act']))
