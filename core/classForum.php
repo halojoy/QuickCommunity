@@ -213,7 +213,7 @@ if ($this->sess->isLogged() && !$this->sess->isBanned()) {
                 <td class="postright">
                     <div class="postupright"><a href="?act=post&pid=<?php echo $row->pid ?>"><?php echo LINK ?></a></div>
 <?php
-            if ($this->sess->userid == $row->p_uid) {
+            if ($this->sess->userid == $row->p_uid && !$this->sess->isBanned()) {
 ?>
                     <div class="postupright">
                         <form class="link" method="post">
