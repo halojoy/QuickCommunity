@@ -13,7 +13,7 @@ class ViewPage
     public $lang;
     public $dateform;
     public $datetime;
-    
+
     public function __construct($sess, $settings, $scriptstart)
     {
         $this->sess = $sess;
@@ -23,15 +23,14 @@ class ViewPage
         $this->language = $settings->language;
         $this->timezone = $settings->timezone;
         $this->scriptstart = $scriptstart;
-        
-        date_default_timezone_set($this->timezone);
+
         require 'lang/'.$this->language.'.php';
         setlocale(LC_ALL, $locale);
         $this->lang = $lang;
         $this->dateform = $dateform;
         $this->datetime = $datetime;
 
-        return; 
+        return;
     }
 
     public function doHeader()
