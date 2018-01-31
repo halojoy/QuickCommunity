@@ -8,12 +8,10 @@ class Forum
     public $dateform;
     public $datetime;
 
-    public function __construct($pdo, $sess, $view)
+    public function __construct($pdo, $sess)
     {
         $this->pdo  = $pdo;
         $this->sess = $sess;
-        $this->dateform = $view->dateform;
-        $this->datetime = $view->datetime;
     }
 
     public function forums()

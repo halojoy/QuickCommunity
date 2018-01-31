@@ -33,7 +33,7 @@ foreach($ret as $row) {
     $fname = $this->pdo->querySQL($sql)->fetchColumn();
 ?>
     <tr>
-    <td class="tnewleft"><?php echo utf8_encode(strftime($this->view->datetime, $row->t_lastptime)) ?></td>
+    <td class="tnewleft"><?php echo utf8_encode(strftime($this->fora->datetime, $row->t_lastptime)) ?></td>
     <td class="tnewbody">
     <form class="link" method="post">
             <input class="link left" type="submit" value="<?php echo $row->t_subject ?>">

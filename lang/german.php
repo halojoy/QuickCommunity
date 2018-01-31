@@ -1,7 +1,7 @@
 <?php if(!defined('QCOM1'))exit() ?>
 <?php
 
-$lang = 'de';
+define('LANG', 'de');
 $locale = ['de_DE.UTF-8', 'deu'];
 $dateform = '%a %d %b %Y';
 $datetime = '%a %d %b %Y %H:%M';

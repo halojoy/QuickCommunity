@@ -24,12 +24,6 @@ class ViewPage
         $this->timezone = $settings->timezone;
         $this->scriptstart = $scriptstart;
 
-        require 'lang/'.$this->language.'.php';
-        setlocale(LC_ALL, $locale);
-        $this->lang = $lang;
-        $this->dateform = $dateform;
-        $this->datetime = $datetime;
-
         return;
     }
 
@@ -37,7 +31,7 @@ class ViewPage
     {
 ?>
 <!DOCTYPE html>
-<html lang="<?php echo $this->lang ?>">
+<html lang="<?php echo LANG ?>">
 <head>
     <meta charset="UTF-8">
     <title>

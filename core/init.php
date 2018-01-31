@@ -21,16 +21,20 @@ $rows = $pdo->getSettings();
 foreach ($rows as $row)
     $settings->{$row->setkey} = $row->setvalue;
 
-date_default_timezone_set($settings->timezone);
-
 require 'core/classSession.php';
 $sess = new Session($pdo, $settings);
 
+require 'core/classForum.php';
+$fora = new Forum($pdo, $sess);
+
+date_default_timezone_set($settings->timezone);
+require 'lang/'.$settings->language.'.php';
+setlocale(LC_ALL, $locale);
+$fora->dateform = $dateform;
+$fora->datetime = $datetime;
+
 require 'core/classViewPage.php';
 $view = new ViewPage($sess, $settings, $scriptstart);
-
-require 'core/classForum.php';
-$fora = new Forum($pdo, $sess, $view);
 
 require 'core/classAction.php';
 $act  = new Action($pdo, $sess, $view, $fora, $scope);

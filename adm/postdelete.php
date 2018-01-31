@@ -43,7 +43,7 @@ if (isset($_POST['tid'])) {
 foreach($ret as $row) {
 ?>
         <tr class="frame"><td class="posttop" colspan="2"></td></tr>
-        <tr class="frame"><td class="postleft"><?php echo utf8_encode(strftime($this->view->datetime, $row->p_time)) ?><br><?php echo $row->p_uname ?><br>
+        <tr class="frame"><td class="postleft"><?php echo utf8_encode(strftime($this->fora->datetime, $row->p_time)) ?><br><?php echo $row->p_uname ?><br>
         <?php
         if ($delflag) {
         ?>
@@ -84,7 +84,7 @@ foreach($ret as $row) {
     $fname = $this->pdo->querySQL($sql)->fetchColumn();
 ?>
     <tr>
-    <td class="tnewleft"><?php echo utf8_encode(strftime($this->view->datetime, $row->t_lastptime)) ?></td>
+    <td class="tnewleft"><?php echo utf8_encode(strftime($this->fora->datetime, $row->t_lastptime)) ?></td>
     <td class="tnewbody">
     <form class="link" method="post">
             <input class="link left" type="submit" value="<?php echo $row->t_subject ?>">
