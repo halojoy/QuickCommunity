@@ -7,7 +7,7 @@ class Action
     public $fora;
     public $adm;
     public $scope;
-    public $act   = 'home';
+    public $act;
     public $fid   = false;
     public $tid   = false;
     public $pid   = false;
@@ -41,15 +41,29 @@ class Action
             case 'topicadd':
                 if (isset($_POST['fid'])) $this->fid = $_POST['fid'];
                 elseif (isset($_GET['fid'])) $this->fid = $_GET['fid'];
-                else return 'home';
+                else {
+                    $this->act = 'home';
+                    return;
+                }
                 $this->fname = $this->pdo->forumName($this->fid);
+                if (!$this->fname) {
+                    $this->act = 'home';
+                    return;
+                }
                 break;
             case 'posts':
             case 'postadd':
                 if (isset($_POST['tid'])) $this->tid = $_POST['tid'];
                 elseif (isset($_GET['tid'])) $this->tid = $_GET['tid'];
-                else return 'home';
+                else {
+                    $this->act = 'home';
+                    return;
+                }
                 $row = $this->pdo->getTopic($this->tid);
+                if (!$row) {
+                    $this->act = 'home';
+                    return;
+                }
                 $this->fid = $row->t_fid; $this->fname = $row->t_fname;
                 $this->tsubj = $row->t_subject;
                 break;
@@ -57,8 +71,15 @@ class Action
             case 'postedit':
                 if (isset($_POST['pid'])) $this->pid = $_POST['pid'];
                 elseif (isset($_GET['pid'])) $this->pid = $_GET['pid'];
-                else return 'home';
+                else {
+                    $this->act = 'home';
+                    return;
+                }
                 $row = $this->pdo->getPost($this->pid);
+                if (!$row) {
+                    $this->act = 'home';
+                    return;
+                }
                 $this->fid = $row->p_fid; $this->fname = $row->p_fname; 
                 $this->tid = $row->p_tid; $this->tsubj = $row->p_tsubj;
                 break;          

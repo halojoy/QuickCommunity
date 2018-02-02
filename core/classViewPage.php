@@ -41,7 +41,7 @@ class ViewPage
 <?php
         return;
     }
-    
+
     public function doFooter()
     {
 ?>
@@ -63,7 +63,7 @@ class ViewPage
 <?php
         return;
     }
-    
+
     public function doMenu()
     {
 ?>
@@ -162,5 +162,4 @@ if ($this->sess->isAdmin()) {
         return;
     }
 
-    
 }
