@@ -1,5 +1,6 @@
 ## QuickCommunity forum
-Quick Community is a forum programmed in PHP and using SQL with PDO
+Quick Community is a forum programmed in PHP and using SQL with PDO<br>
+Version 2.0 is the new big rewrite
 
 ### Basic Forum functionalities
 1. Register as user
