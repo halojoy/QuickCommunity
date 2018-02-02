@@ -1,10 +1,9 @@
-<?php if(!defined('QCOM1'))exit() ?>
-<?php
+<?php if(!defined('QCOM1'))exit();
 
-define('LANG', 'sv');
 $locale = ['sv_SE.UTF-8', 'sve'];
 $dateform = '%A %d %b %Y';
 $datetime = '%A %d %b %Y %H:%M';
+define('LANG', 'sv');
 
 define('HOME',       'Hem');
 define('SUBMIT',     'Skicka');

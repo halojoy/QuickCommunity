@@ -1,5 +1,4 @@
-<?php if(!defined('QCOM1'))exit() ?>
-<?php
+<?php if(!defined('QCOM1'))exit();
 
 class Forum
 {
@@ -8,10 +7,12 @@ class Forum
     public $dateform;
     public $datetime;
 
-    public function __construct($pdo, $sess)
+    public function __construct($pdo, $sess, $settings)
     {
         $this->pdo  = $pdo;
         $this->sess = $sess;
+        $this->dateform = $settings->dateform;
+        $this->datetime = $settings->datetime;
     }
 
     public function forums()

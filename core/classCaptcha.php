@@ -1,4 +1,5 @@
-<?php
+<?php if(!defined('QCOM1'))exit();
+
 /**
  * mobiCMS (https://mobicms.org/)
  * This file is part of mobiCMS Content Management System,

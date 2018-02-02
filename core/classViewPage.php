@@ -1,5 +1,4 @@
-<?php if(!defined('QCOM1'))exit() ?>
-<?php
+<?php if(!defined('QCOM1'))exit();
 
 class ViewPage
 {
@@ -7,21 +6,14 @@ class ViewPage
     public $title;
     public $subtitle;
     public $style;
-    public $language;
-    public $timezone;
     public $scriptstart;
-    public $lang;
-    public $dateform;
-    public $datetime;
 
     public function __construct($sess, $settings, $scriptstart)
     {
-        $this->sess = $sess;
-        $this->title = $settings->title;
+        $this->sess     = $sess;
+        $this->title    = $settings->title;
         $this->subtitle = $settings->subtitle;
-        $this->style = $settings->style;
-        $this->language = $settings->language;
-        $this->timezone = $settings->timezone;
+        $this->style    = $settings->style;
         $this->scriptstart = $scriptstart;
 
         return;

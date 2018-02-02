@@ -1,5 +1,5 @@
-<?php define('QCOM1', true) ?>
 <?php
+define('QCOM1', true);
 
 if (file_exists('conf/config.php'))
     exit('Script has already been setup.<br /><b>config.php</b> exists.');

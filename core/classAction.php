@@ -1,11 +1,11 @@
-<?php if(!defined('QCOM1'))exit() ?>
-<?php
+<?php if(!defined('QCOM1'))exit();
 
 class Action
 {
     public $pdo;
     public $sess;
-    public $view;
+    public $fora;
+    public $adm;
     public $scope;
     public $act   = 'home';
     public $fid   = false;
@@ -14,12 +14,12 @@ class Action
     public $fname = false;
     public $tsubj = false;
 
-    public function __construct($pdo, $sess, $view, $fora, $scope)
+    public function __construct($pdo, $sess, $fora, $adm, $scope)
     {
         $this->pdo  = $pdo;
         $this->sess = $sess;
-        $this->view = $view;
         $this->fora = $fora;
+        $this->adm  = $adm;
         $this->scope = $scope;
         
         if (isset($_POST['act']))

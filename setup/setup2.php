@@ -1,5 +1,5 @@
-<?php if(!defined('QCOM1'))exit() ?>
-<?php
+<?php if(!defined('QCOM1'))exit();
+
 if (!isset($_POST['dbdriver'])) exit();
 ?>
     <h2>INSTALL step 2</h2>

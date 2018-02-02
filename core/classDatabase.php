@@ -1,5 +1,4 @@
-<?php if(!defined('QCOM1'))exit() ?>
-<?php
+<?php if(!defined('QCOM1'))exit();
 
 class Database extends PDO
 {

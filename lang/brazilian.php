@@ -1,10 +1,9 @@
-<?php if(!defined('QCOM1'))exit() ?>
-<?php
+<?php if(!defined('QCOM1'))exit();
 
-define('LANG', 'pt');
 $locale = ['pt_BR.UTF-8', 'ptb'];
 $dateform = '%A %d/%m/%Y';
 $datetime = '%A %d/%m/%y %H:%M';
+define('LANG', 'pt');
 
 define('HOME',       'Casa');
 define('SUBMIT',     'Enviar');

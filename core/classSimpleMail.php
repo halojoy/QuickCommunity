@@ -1,4 +1,4 @@
-<?php
+<?php if(!defined('QCOM1'))exit();
 
 /**
  * PHP Simple Mail (SMTP)
