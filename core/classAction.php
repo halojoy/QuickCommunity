@@ -16,27 +16,20 @@ class Action
 
     public function __construct($pdo, $sess, $fora, $adm, $scope)
     {
-        $this->pdo  = $pdo;
-        $this->sess = $sess;
-        $this->fora = $fora;
-        $this->adm  = $adm;
+        $this->pdo   = $pdo;
+        $this->sess  = $sess;
+        $this->fora  = $fora;
+        $this->adm   = $adm;
         $this->scope = $scope;
-        
+
         if (isset($_POST['act']))
             $this->act = $_POST['act'];
         elseif (isset($_GET['act']))
             $this->act = $_GET['act'];
+        else
+            $this->act = 'home';
 
-        if ($this->scope == 'admin') {
-            $this->act = $this->validAdmin($this->act);
-            return;
-        }
-
-        $this->act = $this->validAction($this->act);
-        if ($this->act == 'home')
-            return;
-
-        $this->act = $this->prepArguments();
+        $this->prepArguments();
 
         return;
     }
@@ -69,70 +62,109 @@ class Action
                 $this->fid = $row->p_fid; $this->fname = $row->p_fname; 
                 $this->tid = $row->p_tid; $this->tsubj = $row->p_tsubj;
                 break;          
-            default:
-                return $this->act;
-                break;
         endswitch;
-
-        return $this->act;
     }
-    
+
     public function executeAction()
     {
         if ($this->scope == 'index')
-            require 'inc/'.$this->act.'.php';
+            $this->validAction();
         if ($this->scope == 'admin')
-            require 'adm/'.$this->act.'.php';
+            $this->validAdmin();
         return;     
     }
-    
-    public function validAction($act)
+
+    public function validAction()
     {
-        switch ($act):
+        switch ($this->act):
             case 'home':
-            case 'topics':
-            case 'posts':
-            case 'post':
-            case 'topicadd':
-            case 'postadd':
-            case 'topicsnew':
-            case 'login':
-            case 'register':
-            case 'logout':
+                $this->fora->forums();
+                break;
             case 'members':
+                $this->fora->showMembers();
+                break;
+            case 'post':
+                $this->fora->post($this->pid, $this->tsubj);
+                break;
+            case 'postadd':
+                $this->fora->postadd($this->fid, $this->fname, $this->tid,
+                        $this->tsubj);
+                break;
             case 'postedit':
-                return $act;
+                $this->fora->postedit($this->pid, $this->tsubj);
+                break;
+            case 'posts':
+                $this->fora->posts($this->tid, $this->tsubj);
+                break;
+            case 'topicadd':
+                $this->fora->topicadd($this->fid, $this->fname);
+                break;
+            case 'topics':
+                $this->fora->topics($this->fid);
+                break;
+            case 'topicsnew':
+                $this->fora->topicsnew();
+                break;
+            case 'login':
+                $this->sess->submitLogin();
+                break;
+            case 'logout':
+                $this->sess->Logout();
+                break;
+            case 'register':
+                $this->sess->submitRegister();
                 break;
             default:
-                return 'home';
+                $this->fora->forums();
                 break;
         endswitch;
     }
 
-    public function validAdmin($act)
+    public function validAdmin()
     {
-        switch ($act):
+        switch ($this->act):
             case 'home':
+                $this->adm->adminhome();
+                break;
             case 'forumadd':
+                $this->adm->forumadd();
+                break;
             case 'forumorder':
+                $this->adm->forumorder();
+                break;
             case 'styles':
+                $this->adm->styles();
+                break;
             case 'languages':
+                $this->adm->languages();
+                break;
             case 'timezones':
+                $this->adm->timezones();
+                break;
             case 'members':
+                $this->adm->members();
+                break;
             case 'postdelete':
+                $this->adm->postdelete();
+                break;
             case 'topicdelete':
+                $this->adm->topicdelete();
+                break;
             case 'forumdelete':
+                $this->adm->forumdelete();
+                break;
             case 'forumrename':
+                $this->adm->forumrename();
+                break;
             case 'sendmail':
-                return $act;
+                $this->adm->sendmail();
                 break;
             default:
-                return 'home';
+                $this->adm->adminhome();
                 break;
         endswitch;      
     }
-    
-        
+
     public function breadCrumb()
     {
 ?>
@@ -194,9 +226,9 @@ if (in_array($this->act, array('topics', 'topicadd', 'posts', 'postadd', 'posted
         <input type="hidden" name="act" value="topics">
         <input type="hidden" name="fid" value="<?php echo $this->fid ?>">
     </form>
-<?php   
+<?php
 }
-    
+
 if (in_array($this->act, array('posts', 'postadd', 'postedit', 'post'))) {
 ?>
         <span class="link">&nbsp;&#187;&nbsp;</span>
@@ -206,7 +238,7 @@ if (in_array($this->act, array('posts', 'postadd', 'postedit', 'post'))) {
             <input type="hidden" name="tid" value="<?php echo $this->tid ?>">
         </form>
 <?php
-}   
+}
 
 if ($this->act == 'topicadd') {
 ?>
@@ -259,5 +291,5 @@ if ($this->act == 'post') {
 <?php
         return;
     }
-    
+
 }

@@ -52,6 +52,10 @@ class Session
 
     public function submitLogin()
     {
+        if ($this->isLogged()) {
+            header('location:./');
+            exit();
+        }
         require 'core/classVundoCSRF.php';
         if (isset($_POST['filled'])) {
             if(!CSRF::check($_POST['_token'])){
@@ -141,6 +145,13 @@ class Session
 
     public function submitRegister()
     {
+        if ($this->isLogged()) {
+            header('location:./');
+            exit();
+        }
+        if (isset($_GET['ucode'])) {
+            $this->activate($_GET['ucode']);
+        }
         $error = $username = $email = '';
         require 'core/classVundoCSRF.php';
         if (isset($_POST['filled'])) {

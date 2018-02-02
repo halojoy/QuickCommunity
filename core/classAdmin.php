@@ -13,14 +13,14 @@ class Admin
 
     public function __construct($pdo, $settings)
     {
-        $this->pdo      = $pdo;
-        $this->style    = $settings->style;
-        $this->language = $settings->language;
-        $this->timezone = $settings->timezone;
+        $this->pdo        = $pdo;
+        $this->style      = $settings->style;
+        $this->language   = $settings->language;
+        $this->timezone   = $settings->timezone;
         $this->usesmtp    = $settings->usesmtp;
         $this->googlemail = $settings->googlemail;
         $this->googlepass = $settings->googlepass;
-        $this->datetime = $settings->datetime;
+        $this->datetime   = $settings->datetime;
     }
 
     public function adminhome()

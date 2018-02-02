@@ -18,6 +18,8 @@ class Forum
     public function forums()
     {
 ?>
+        <br>
+        <div id="bodycore">
         <table id="forums">
 <?php
 
@@ -52,6 +54,7 @@ class Forum
 }
 ?>
         </table>
+        </div>
 <?php
     }
 
@@ -251,6 +254,10 @@ if ($this->sess->isLogged() && !$this->sess->isBanned()) {
 
     public function topicadd($fid, $fname)
     {
+        if (!$this->sess->isLogged() || $this->sess->isBanned()) {
+            header('location:./');
+            exit();
+        }
         require 'core/classVundoCSRF.php';
         if(isset($_POST['filled'])) {
             if(!CSRF::check($_POST['_token'])){
@@ -341,6 +348,10 @@ if ($this->sess->isLogged() && !$this->sess->isBanned()) {
 
     public function postadd($fid, $fname, $tid, $tsubj)
     {
+        if (!$this->sess->isLogged() || $this->sess->isBanned()) {
+            header('location:./');
+            exit();
+        }
         require 'core/classVundoCSRF.php';
         if(isset($_POST['filled'])) {
             if(!CSRF::check($_POST['_token'])){
@@ -427,6 +438,10 @@ if ($this->sess->isLogged() && !$this->sess->isBanned()) {
 
     public function postedit($pid, $tsubj)
     {
+        if (!$this->sess->isLogged() || $this->sess->isBanned()) {
+            header('location:./');
+            exit();
+        }
         require 'core/classVundoCSRF.php';
         if(isset($_POST['filled'])) {
             if(!CSRF::check($_POST['_token'])){
@@ -470,9 +485,13 @@ if ($this->sess->isLogged() && !$this->sess->isBanned()) {
 
     public function topicsnew()
     {
+        if (!$this->sess->isLogged() || $this->sess->isBanned()) {
+            header('location:./');
+            exit();
+        }
 ?>
         <br>
-        <table id="topicsnew">  
+        <table id="topicsnew">
             <tr><td class="tnewtop" colspan="4"></td></tr>
 <?php
         $timelimit = time()-8*24*3600;// Last 8 days
@@ -507,6 +526,10 @@ if ($this->sess->isLogged() && !$this->sess->isBanned()) {
 
     public function showMembers()
     {
+        if (!$this->sess->isLogged() || $this->sess->isBanned()) {
+            header('location:./');
+            exit();
+        }
 ?>
         <br>
         <div id="memberstop">
