@@ -5,7 +5,8 @@
 $sql = (
     "CREATE TABLE IF NOT EXISTS settings (
     setkey TEXT,
-    setvalue TEXT)");
+    setvalue TEXT)
+    COLLATE utf8mb4_unicode_ci");
 $pdo->exec($sql);
 
 $sql = (
@@ -13,7 +14,8 @@ $sql = (
     fid INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
     f_name TEXT,
     f_desc TEXT,
-    f_order INT)");
+    f_order INT)
+    COLLATE utf8mb4_unicode_ci");
 $pdo->exec($sql);
 
 $sql = (
@@ -28,7 +30,8 @@ $sql = (
     t_lastpid INT,
     t_lastpuid INT,
     t_lastpuname TEXT,
-    t_lastptime INT)");
+    t_lastptime INT)
+    COLLATE utf8mb4_unicode_ci");
 $pdo->exec($sql);
 
 $sql = (
@@ -44,7 +47,8 @@ $sql = (
     p_uid INT,
     p_uname TEXT,
     p_time INT,
-    p_ip TEXT)");
+    p_ip TEXT)
+    COLLATE utf8mb4_unicode_ci");
 $pdo->exec($sql);
 
 $sql = (
@@ -58,5 +62,6 @@ $sql = (
     u_posts INT DEFAULT 0,
     u_ip TEXT,
     u_joined INT,
-    u_active INT)");
+    u_active INT)
+    COLLATE utf8mb4_unicode_ci");
 $pdo->exec($sql);
