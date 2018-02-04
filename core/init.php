@@ -33,7 +33,7 @@ require 'core/classForum.php';
 $fora = new Forum($pdo, $sess, $settings);
 
 require 'core/classAdmin.php';
-$adm = new Admin($pdo, $settings);
+$adm  = new Admin($pdo, $settings);
 
 require 'core/classViewPage.php';
 $view = new ViewPage($sess, $settings, $scriptstart);
