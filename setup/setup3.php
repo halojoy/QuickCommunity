@@ -62,8 +62,18 @@ file_put_contents('conf/.htaccess', $htaccess);
 
 // generate crypto hexa keys for cookie session
 $chars = "0123456789ABCDEF";
-$cryptokey=''; for ($i=0;$i<16;$i++) $cryptokey[$i]=$chars[mt_rand(0,15)];
-$cryptoiv =''; for ($i=0;$i<16;$i++) $cryptoiv[$i] =$chars[mt_rand(0,15)];
+$cryptokey = '';
+for ($i=0;$i<16;$i++) {
+    $n = mt_rand(0,15);
+    $chr = $chars[$n];
+    $cryptokey[$i] = $chr;
+}
+$cryptoiv = '';
+for ($i=0;$i<16;$i++) {
+    $n = mt_rand(0,15);
+    $chr = $chars[$n];
+    $cryptoiv[$i] = $chr;
+}
 
 include('conf/config.php');             //Connect to database
 $pdo = new PDO($dsn, $dbuser, $dbpass);
