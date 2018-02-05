@@ -20,8 +20,8 @@ class Session
         $this->usesmtp    = $settings->usesmtp;
         $this->googlemail = $settings->googlemail;
         $this->googlepass = $settings->googlepass;
-        $this->key        = $settings->cryptokey;
-        $this->iv         = $settings->cryptoiv;
+        $this->key        = hex2bin($settings->cryptokey);
+        $this->iv         = hex2bin($settings->cryptoiv);
 
         if (!isset($_COOKIE['myuserid']) && !isset($_SESSION['myuserid']))
             return;

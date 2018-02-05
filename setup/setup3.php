@@ -60,20 +60,9 @@ $htaccess = <<<HTCODE
 HTCODE;
 file_put_contents('conf/.htaccess', $htaccess);
 
-// generate crypto hexa keys for cookie session
-$chars = "0123456789ABCDEF";
-$cryptokey = '';
-for ($i=0;$i<16;$i++) {
-    $n = mt_rand(0,15);
-    $chr = $chars[$n];
-    $cryptokey[$i] = $chr;
-}
-$cryptoiv = '';
-for ($i=0;$i<16;$i++) {
-    $n = mt_rand(0,15);
-    $chr = $chars[$n];
-    $cryptoiv[$i] = $chr;
-}
+// Generate crypto keys for cookie session
+$cryptokey = bin2hex(openssl_random_pseudo_bytes(16));
+$cryptoiv  = bin2hex(openssl_random_pseudo_bytes(16));
 
 include('conf/config.php');             //Connect to database
 $pdo = new PDO($dsn, $dbuser, $dbpass);
