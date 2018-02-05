@@ -70,16 +70,16 @@ $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 include('data/tables_' . $dbdriver . '.php'); //CREATE TABLES
 
 // Insert configured default values.
-$pdo->exec("INSERT INTO settings VALUES ('title', '$title')");
-$pdo->exec("INSERT INTO settings VALUES ('subtitle', '$subtitle')");
-$pdo->exec("INSERT INTO settings VALUES ('style', '$style')");
-$pdo->exec("INSERT INTO settings VALUES ('language', '$language')");
-$pdo->exec("INSERT INTO settings VALUES ('timezone', '$timezone')");
-$pdo->exec("INSERT INTO settings VALUES ('usesmtp', '$usesmtp')");
-$pdo->exec("INSERT INTO settings VALUES ('googlemail', '$googlemail')");
-$pdo->exec("INSERT INTO settings VALUES ('googlepass', '$googlepass')");
-$pdo->exec("INSERT INTO settings VALUES ('cryptokey', '$cryptokey')");
-$pdo->exec("INSERT INTO settings VALUES ('cryptoiv', '$cryptoiv')");
+$pdo->exec("INSERT INTO settings (setkey, setvalue) VALUES ('title', '$title')");
+$pdo->exec("INSERT INTO settings (setkey, setvalue) VALUES ('subtitle', '$subtitle')");
+$pdo->exec("INSERT INTO settings (setkey, setvalue) VALUES ('style', '$style')");
+$pdo->exec("INSERT INTO settings (setkey, setvalue) VALUES ('language', '$language')");
+$pdo->exec("INSERT INTO settings (setkey, setvalue) VALUES ('timezone', '$timezone')");
+$pdo->exec("INSERT INTO settings (setkey, setvalue) VALUES ('usesmtp', '$usesmtp')");
+$pdo->exec("INSERT INTO settings (setkey, setvalue) VALUES ('googlemail', '$googlemail')");
+$pdo->exec("INSERT INTO settings (setkey, setvalue) VALUES ('googlepass', '$googlepass')");
+$pdo->exec("INSERT INTO settings (setkey, setvalue) VALUES ('cryptokey', '$cryptokey')");
+$pdo->exec("INSERT INTO settings (setkey, setvalue) VALUES ('cryptoiv', '$cryptoiv')");
 
 $pdo->exec("INSERT INTO forums VALUES (null, '$forumname', '$forumdesc', 1);");
 
