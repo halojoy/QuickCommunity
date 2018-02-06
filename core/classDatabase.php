@@ -44,8 +44,10 @@ class Database extends PDO
     public function insertUser($uname, $upass, $umail,
                 $utype, $ucode, $posts, $ip, $join, $active)
     {
-        $sql = "INSERT INTO users VALUES (null, '$uname', '$upass', '$umail',
-                '$utype', '$ucode', $posts, '$ip', $join, $active)";
+        $sql = "INSERT INTO users
+        (u_name, u_pass, u_mail, u_type, u_code, u_posts, u_ip, u_joined, u_active)
+        VALUES
+        ('$uname', '$upass', '$umail', '$utype', '$ucode', $posts, '$ip', $join, $active)";
         $ret = $this->querySQL($sql);
 
         return $this->lastInsertId;

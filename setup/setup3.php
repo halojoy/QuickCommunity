@@ -81,7 +81,8 @@ $pdo->exec("INSERT INTO settings (setkey, setvalue) VALUES ('googlepass', '$goog
 $pdo->exec("INSERT INTO settings (setkey, setvalue) VALUES ('cryptokey', '$cryptokey')");
 $pdo->exec("INSERT INTO settings (setkey, setvalue) VALUES ('cryptoiv', '$cryptoiv')");
 
-$pdo->exec("INSERT INTO forums VALUES (null, '$forumname', '$forumdesc', 1);");
+$pdo->exec("INSERT INTO forums (f_name, f_desc, f_order)
+                        VALUES ('$forumname', '$forumdesc', 1)");
 
 //$admin = name
 $passh = password_hash($passw, PASSWORD_BCRYPT);
@@ -89,7 +90,10 @@ $passh = password_hash($passw, PASSWORD_BCRYPT);
 //num posts = 0
 $ip = $_SERVER['REMOTE_ADDR'];
 $joined = $active = time();
-$pdo->exec("INSERT INTO users VALUES (null,'$admin','$passh','$email','admin','0',0,'$ip',$joined,$active);");
+$pdo->exec("INSERT INTO users
+(u_name, u_pass, u_mail, u_type, u_code, u_posts, u_ip, u_joined, u_active)
+VALUES
+('$admin', '$passh', '$email', 'admin', '0', 0, '$ip', $joined, $active)");
 
 exit('Install is finished. <i>conf/config.php</i> is written.<br />
 <b>IMPORTANT: </b>Delete file "setup.php" and folder "setup" now!<br /><br />
