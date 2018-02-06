@@ -295,3 +295,9 @@ div.message
 {
     word-wrap: normal;
 }
+span.sticky
+{
+    float: left;
+    margin-right: 4px;
+    font-style: italic;
+}

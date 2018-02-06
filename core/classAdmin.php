@@ -43,6 +43,10 @@ class Admin
             <input type="hidden" name="act" value="sendmail">
         </form><br><br>
         <form class="link" method="post">
+            <input class="link" type="submit" value="Sticky Topics">
+            <input type="hidden" name="act" value="topicsticky">
+        </form><br><br>
+        <form class="link" method="post">
             <input class="link" type="submit" value="Delete Post">
             <input type="hidden" name="act" value="postdelete">
         </form><br>
@@ -321,6 +325,54 @@ class Admin
                     <input class="link left" type="submit" value="<?php echo $row->t_subject ?>">
                     <input type="hidden" name="act" value="topicdelete">
                     <input type="hidden" name="deltid" value="<?php echo $row->tid ?>">
+            </form>
+            </td>
+            <td class="tnewright2"><span class="boldy"><?php echo $fname ?></span></td>     
+            </tr>
+<?php
+        }
+?>
+        </table>
+        <div id="topicsspacer"></div>
+<?php
+    }
+
+    public function topicsticky()
+    {
+        if (isset($_POST['stickytid'])) {
+
+            $tid = $_POST['stickytid'];
+            $sql = "SELECT t_sticky FROM topics WHERE tid=$tid";
+            $sticky = $this->pdo->querySQL($sql)->fetchColumn();
+            if ($sticky) $new = '0';
+            else         $new = '1';
+            $this->pdo->exec("UPDATE topics SET t_sticky=$new WHERE tid=$tid");
+        }
+?>
+        <span class="boldy">Sticky Topics</span><br>
+        Click topic to change <b>Sticky</b>:
+        <table id="topicsnew">  
+            <tr><td class="tnewtop" colspan="3"></td></tr>
+<?php
+        $sql = "SELECT tid, t_fid, t_subject, t_lastptime, t_sticky FROM topics 
+                ORDER BY t_lastptime DESC LIMIT 30;";
+        $ret = $this->pdo->querySQL($sql);
+        foreach($ret as $row) {
+            $sql = "SELECT f_name FROM forums WHERE fid=$row->t_fid;";
+            $fname = $this->pdo->querySQL($sql)->fetchColumn();
+?>
+            <tr>
+            <td class="tnewleft"><?php echo utf8_encode(strftime($this->datetime, $row->t_lastptime)) ?></td>
+            <td class="tnewbody">
+<?php
+            if ($row->t_sticky) {
+                echo '<span class="sticky">Sticky</span>';
+            }
+?>
+            <form class="link" method="post">
+                    <input class="link left" type="submit" value="<?php echo $row->t_subject ?>">
+                    <input type="hidden" name="act" value="topicsticky">
+                    <input type="hidden" name="stickytid" value="<?php echo $row->tid ?>">
             </form>
             </td>
             <td class="tnewright2"><span class="boldy"><?php echo $fname ?></span></td>     

@@ -128,6 +128,9 @@ class Action
             case 'sendmail':
                 $this->adm->sendmail();
                 break;
+            case 'topicsticky':
+                $this->adm->topicsticky();
+                break;
             default:
                 $this->adm->adminhome();
                 break;

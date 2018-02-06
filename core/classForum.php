@@ -80,9 +80,25 @@ class Forum
         <table id="topics"> 
             <tr><td class="topicstop" colspan="4"></td></tr>
 <?php
-
-        $topics = $this->pdo->getTopics($forumid);
-
+        $sticky = $this->pdo->getSticky($forumid);
+        foreach($sticky as $row) {
+?>
+            <tr>
+            <td class="topicleft">
+            <span class="sticky">Sticky</span>
+            <form class="link" method="post">
+                    <input class="link left" type="submit" value="<?php echo $row->t_subject ?>">
+                    <input type="hidden" name="act" value="posts">
+                    <input type="hidden" name="tid" value="<?php echo $row->tid ?>">
+            </form>
+            </td>
+            <td class="topicmiddle1"><?php echo STARTEDBY ?> <span class="boldy"><?php echo $row->t_uname ?></span></td>
+            <td class="topicmiddle2"><?php echo LASTPOSTBY ?> <span class="boldy"><?php echo $row->t_lastpuname ?></span></td>
+            <td class="topicright"><?php echo utf8_encode(strftime($this->datetime, $row->t_lastptime)) ?></td>
+            </tr>
+<?php
+}
+        $topics = $this->pdo->notSticky($forumid);
         foreach($topics as $row) {
 ?>
             <tr>

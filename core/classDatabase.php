@@ -119,6 +119,24 @@ class Database extends PDO
         return $ret->fetchAll();
     }
 
+    public function getSticky($forumid)
+    {
+        $sql = "SELECT * FROM topics WHERE t_fid=$forumid
+                AND t_sticky='1'";
+        $ret = $this->querySQL($sql);
+
+        return $ret->fetchAll();
+    }
+
+    public function notSticky($forumid)
+    {
+        $sql = "SELECT * FROM topics WHERE t_fid=$forumid AND t_sticky='0'
+                ORDER BY t_lastptime DESC LIMIT 20";
+        $ret = $this->querySQL($sql);
+
+        return $ret->fetchAll();
+    }
+
     public function nameActivate($ucode)
     {
         $sql = "SELECT u_name FROM users WHERE u_code='$ucode'";
@@ -226,9 +244,9 @@ class Database extends PDO
     public function addTopic($fid, $fname, $subj, $uid, $uname, $time)
     {
         $sql = "INSERT INTO topics (t_fid, t_fname, t_subject, t_uid, t_uname,
-                t_time, t_lastpuid, t_lastpuname, t_lastptime)
+                t_time, t_lastpuid, t_lastpuname, t_lastptime, t_sticky)
             VALUES ($fid, '$fname', '$subj', $uid, '$uname',
-                $time, $uid, '$uname', $time)";
+                $time, $uid, '$uname', $time, '0')";
         $ret = $this->querySQL($sql);
 
         return $this->lastInsertId;
