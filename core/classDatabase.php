@@ -244,9 +244,9 @@ class Database extends PDO
     public function addTopic($fid, $fname, $subj, $uid, $uname, $time)
     {
         $sql = "INSERT INTO topics (t_fid, t_fname, t_subject, t_uid, t_uname,
-                t_time, t_lastpuid, t_lastpuname, t_lastptime, t_sticky)
+                t_time, t_lastpuid, t_lastpuname, t_lastptime, t_sticky, t_lock)
             VALUES ($fid, '$fname', '$subj', $uid, '$uname',
-                $time, $uid, '$uname', $time, '0')";
+                $time, $uid, '$uname', $time, '0', '0')";
         $ret = $this->querySQL($sql);
 
         return $this->lastInsertId;
@@ -274,9 +274,8 @@ class Database extends PDO
 
     public function getTopicsNew($timelimit)
     {
-        $sql = "SELECT tid, t_fid, t_subject, t_lastpuname, t_lastptime
-        FROM topics 
-        WHERE t_lastptime>$timelimit ORDER BY t_lastptime DESC LIMIT 12";
+        $sql = "SELECT * FROM topics WHERE t_lastptime>$timelimit
+                ORDER BY t_lastptime DESC LIMIT 20";
         $ret = $this->querySQL($sql);
 
         return $ret->fetchAll();
@@ -288,6 +287,14 @@ class Database extends PDO
         $ret = $this->querySQL($sql);
 
         return $ret->fetchAll();
-    }    
+    }
+
+    public function getLock($tid)
+    {
+        $sql = "SELECT t_lock FROM topics WHERE tid=$tid";
+        $ret = $this->querySQL($sql);
+
+        return $ret->fetchColumn();
+    }
 
 }

@@ -295,9 +295,16 @@ div.message
 {
     word-wrap: normal;
 }
+
 span.sticky
 {
     float: left;
-    margin-right: 4px;
+    margin-right: 2px;
     font-style: italic;
+}
+
+img.locked
+{
+    float: left;
+    margin-right: 2px;
 }

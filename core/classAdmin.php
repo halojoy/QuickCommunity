@@ -45,6 +45,10 @@ class Admin
         <form class="link" method="post">
             <input class="link" type="submit" value="Sticky Topics">
             <input type="hidden" name="act" value="topicsticky">
+        </form><br>
+        <form class="link" method="post">
+            <input class="link" type="submit" value="Lock Topics">
+            <input type="hidden" name="act" value="topiclock">
         </form><br><br>
         <form class="link" method="post">
             <input class="link" type="submit" value="Delete Post">
@@ -206,9 +210,11 @@ class Admin
 
             $this->pdo->exec("DELETE FROM posts WHERE pid=".$pid);
             
-            $sql = "SELECT pid, p_uid, p_uname, p_time FROM posts WHERE p_tid=$tid ORDER BY p_time DESC LIMIT 1;";
+            $sql = "SELECT pid, p_uid, p_uname, p_time FROM posts 
+                WHERE p_tid=$tid ORDER BY p_time DESC LIMIT 1;";
             $last = $this->pdo->querySQL($sql)->fetch();
-            $sql = "UPDATE topics SET t_lastpid=$last->pid, t_lastpuid=$last->p_uid, t_lastpuname='$last->p_uname', t_lastptime=$last->p_time WHERE tid=$tid;";
+            $sql = "UPDATE topics SET t_lastpid=$last->pid, t_lastpuid=$last->p_uid,
+            t_lastpuname='$last->p_uname', t_lastptime=$last->p_time WHERE tid=$tid;";
             $this->pdo->exec($sql);
         }
 
@@ -233,7 +239,11 @@ class Admin
             foreach($ret as $row) {
 ?>
                 <tr class="frame"><td class="posttop" colspan="2"></td></tr>
-                <tr class="frame"><td class="postleft"><?php echo utf8_encode(strftime($this->datetime, $row->p_time)) ?><br><?php echo $row->p_uname ?><br>
+                <tr class="frame"><td class="postleft">
+                <?php
+                echo utf8_encode(strftime($this->datetime, $row->p_time));
+                ?>
+                <br><?php echo $row->p_uname ?><br>
 <?php
                 if ($delflag) {
 ?>
@@ -265,20 +275,32 @@ class Admin
             <tr><td class="tnewtop" colspan="3"></td></tr>
 <?php
 
-        $sql = "SELECT tid, t_fid, t_subject, t_lastptime FROM topics 
-                ORDER BY t_lastptime DESC LIMIT 30;";
+        $sql = "SELECT tid, t_fid, t_subject, t_lastptime, t_sticky, t_lock
+            FROM topics ORDER BY t_lastptime DESC LIMIT 30;";
         $ret = $this->pdo->querySQL($sql);
         foreach($ret as $row) {
             $sql = "SELECT f_name FROM forums WHERE fid=$row->t_fid;";
             $fname = $this->pdo->querySQL($sql)->fetchColumn();
 ?>
             <tr>
-            <td class="tnewleft"><?php echo utf8_encode(strftime($this->datetime, $row->t_lastptime)) ?></td>
+            <td class="tnewleft">
+            <?php
+            echo utf8_encode(strftime($this->datetime, $row->t_lastptime));
+            ?>
+            </td>
             <td class="tnewbody">
+<?php
+            if ($row->t_sticky) {
+                echo '<span class="sticky">Sticky</span>';
+            }
+            if ($row->t_lock) {
+                echo '<img class="locked" src="data/lock.png" title="Topic Locked">';
+            }
+?>
             <form class="link" method="post">
-                    <input class="link left" type="submit" value="<?php echo $row->t_subject ?>">
-                    <input type="hidden" name="act" value="postdelete">
-                    <input type="hidden" name="tid" value="<?php echo $row->tid ?>">
+                <input class="link left" type="submit" value="<?php echo $row->t_subject ?>">
+                <input type="hidden" name="act" value="postdelete">
+                <input type="hidden" name="tid" value="<?php echo $row->tid ?>">
             </form>
             </td>
             <td class="tnewright2"><span class="boldy"><?php echo $fname ?></span></td>     
@@ -311,7 +333,7 @@ class Admin
         <table id="topicsnew">  
             <tr><td class="tnewtop" colspan="3"></td></tr>
 <?php
-        $sql = "SELECT tid, t_fid, t_subject, t_lastptime FROM topics 
+        $sql = "SELECT tid, t_fid, t_subject, t_lastptime, t_sticky, t_lock FROM topics 
                 ORDER BY t_lastptime DESC LIMIT 30;";
         $ret = $this->pdo->querySQL($sql);
         foreach($ret as $row) {
@@ -319,8 +341,20 @@ class Admin
             $fname = $this->pdo->querySQL($sql)->fetchColumn();
 ?>
             <tr>
-            <td class="tnewleft"><?php echo utf8_encode(strftime($this->datetime, $row->t_lastptime)) ?></td>
+            <td class="tnewleft">
+            <?php
+            echo utf8_encode(strftime($this->datetime, $row->t_lastptime));
+            ?>
+            </td>
             <td class="tnewbody">
+<?php
+            if ($row->t_sticky) {
+                echo '<span class="sticky">Sticky</span>';
+            }
+            if ($row->t_lock) {
+                echo '<img class="locked" src="data/lock.png" title="Topic Locked">';
+            }
+?>
             <form class="link" method="post">
                     <input class="link left" type="submit" value="<?php echo $row->t_subject ?>">
                     <input type="hidden" name="act" value="topicdelete">
@@ -354,7 +388,7 @@ class Admin
         <table id="topicsnew">  
             <tr><td class="tnewtop" colspan="3"></td></tr>
 <?php
-        $sql = "SELECT tid, t_fid, t_subject, t_lastptime, t_sticky FROM topics 
+        $sql = "SELECT tid, t_fid, t_subject, t_lastptime, t_sticky, t_lock FROM topics 
                 ORDER BY t_lastptime DESC LIMIT 30;";
         $ret = $this->pdo->querySQL($sql);
         foreach($ret as $row) {
@@ -362,17 +396,79 @@ class Admin
             $fname = $this->pdo->querySQL($sql)->fetchColumn();
 ?>
             <tr>
-            <td class="tnewleft"><?php echo utf8_encode(strftime($this->datetime, $row->t_lastptime)) ?></td>
+            <td class="tnewleft">
+            <?php
+            echo utf8_encode(strftime($this->datetime, $row->t_lastptime));
+            ?>
+            </td>
             <td class="tnewbody">
 <?php
             if ($row->t_sticky) {
                 echo '<span class="sticky">Sticky</span>';
+            }
+            if ($row->t_lock) {
+                echo '<img class="locked" src="data/lock.png" title="Topic Locked">';
             }
 ?>
             <form class="link" method="post">
                     <input class="link left" type="submit" value="<?php echo $row->t_subject ?>">
                     <input type="hidden" name="act" value="topicsticky">
                     <input type="hidden" name="stickytid" value="<?php echo $row->tid ?>">
+            </form>
+            </td>
+            <td class="tnewright2"><span class="boldy"><?php echo $fname ?></span></td>     
+            </tr>
+<?php
+        }
+?>
+        </table>
+        <div id="topicsspacer"></div>
+<?php
+    }
+
+    public function topiclock()
+    {
+        if (isset($_POST['lockedtid'])) {
+
+            $tid = $_POST['lockedtid'];
+            $sql = "SELECT t_lock FROM topics WHERE tid=$tid";
+            $lock = $this->pdo->querySQL($sql)->fetchColumn();
+            if ($lock) $new = '0';
+            else         $new = '1';
+            $this->pdo->exec("UPDATE topics SET t_lock=$new WHERE tid=$tid");
+        }
+?>
+        <span class="boldy">Lock Topics</span><br>
+        Click topic to change <b>Lock</b>:
+        <table id="topicsnew">  
+            <tr><td class="tnewtop" colspan="3"></td></tr>
+<?php
+        $sql = "SELECT tid, t_fid, t_subject, t_lastptime, t_sticky, t_lock FROM topics 
+                ORDER BY t_lastptime DESC LIMIT 30;";
+        $ret = $this->pdo->querySQL($sql);
+        foreach($ret as $row) {
+            $sql = "SELECT f_name FROM forums WHERE fid=$row->t_fid;";
+            $fname = $this->pdo->querySQL($sql)->fetchColumn();
+?>
+            <tr>
+            <td class="tnewleft">
+            <?php
+            echo utf8_encode(strftime($this->datetime, $row->t_lastptime));
+            ?>
+            </td>
+            <td class="tnewbody">
+<?php
+            if ($row->t_sticky) {
+                echo '<span class="sticky">Sticky</span>';
+            }
+            if ($row->t_lock) {
+                echo '<img class="locked" src="data/lock.png" title="Topic Locked">';
+            }
+?>
+            <form class="link" method="post">
+                    <input class="link left" type="submit" value="<?php echo $row->t_subject ?>">
+                    <input type="hidden" name="act" value="topiclock">
+                    <input type="hidden" name="lockedtid" value="<?php echo $row->tid ?>">
             </form>
             </td>
             <td class="tnewright2"><span class="boldy"><?php echo $fname ?></span></td>     
@@ -415,11 +511,11 @@ class Admin
             <tr><td class="forumtop" colspan="3"></td></tr>
             <tr class="frame">
                 <td class="forumleft">          
-                    <form class="link" method="post">
-                        <input class="link left" type="submit" value="<?php echo $row->f_name ?>">
-                        <input type="hidden" name="act" value="forumdelete">
-                        <input type="hidden" name="delfid" value="<?php echo $row->fid ?>">
-                    </form>
+                <form class="link" method="post">
+                    <input class="link left" type="submit" value="<?php echo $row->f_name ?>">
+                    <input type="hidden" name="act" value="forumdelete">
+                    <input type="hidden" name="delfid" value="<?php echo $row->fid ?>">
+                </form>
                 </td>
                 <td class="forummiddle">
                     <?php echo $row->f_desc ?>
@@ -564,13 +660,13 @@ class Admin
             <tr><td class="forumtop" colspan="3"></td></tr>
             <tr class="frame">
                 <td class="forumleft">          
-                    <form class="link" method="post">
-                        <input class="link left" type="submit" value="<?php echo $row->f_name ?>">
-                        <input type="hidden" name="act" value="forumrename">
-                        <input type="hidden" name="renfid" value="<?php echo $row->fid ?>">
-                        <input type="hidden" name="fname" value="<?php echo $row->f_name ?>">
-                        <input type="hidden" name="fdesc" value="<?php echo $row->f_desc ?>">
-                    </form>
+                <form class="link" method="post">
+                    <input class="link left" type="submit" value="<?php echo $row->f_name ?>">
+                    <input type="hidden" name="act" value="forumrename">
+                    <input type="hidden" name="renfid" value="<?php echo $row->fid ?>">
+                    <input type="hidden" name="fname" value="<?php echo $row->f_name ?>">
+                    <input type="hidden" name="fdesc" value="<?php echo $row->f_desc ?>">
+                </form>
                 </td>
                 <td class="forummiddle">
                     <?php echo $row->f_desc ?>
@@ -626,7 +722,8 @@ class Admin
     {
         if (isset($_POST['newlang'])) {
 
-            $sql = "UPDATE settings SET setvalue='".$_POST['newlang']."' WHERE setkey='language';";
+            $sql = "UPDATE settings SET setvalue='".$_POST['newlang'].
+                "' WHERE setkey='language';";
             $ret = $this->pdo->querySQL($sql);
             header('location:./admin.php');
             exit();
@@ -662,7 +759,8 @@ class Admin
     {
         if (isset($_POST['newtimezone'])) {
 
-            $sql = "UPDATE settings SET setvalue='".$_POST['newtimezone']."' WHERE setkey='timezone';";
+            $sql = "UPDATE settings SET setvalue='".$_POST['newtimezone']."' 
+                WHERE setkey='timezone';";
             $ret = $this->pdo->querySQL($sql);
             header('location:./admin.php');
             exit();

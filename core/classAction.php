@@ -131,6 +131,9 @@ class Action
             case 'topicsticky':
                 $this->adm->topicsticky();
                 break;
+            case 'topiclock':
+                $this->adm->topiclock();
+                break;
             default:
                 $this->adm->adminhome();
                 break;

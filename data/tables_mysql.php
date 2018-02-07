@@ -31,7 +31,8 @@ $sql = (
     t_lastpuid INT,
     t_lastpuname TEXT,
     t_lastptime INT,
-    t_sticky TEXT)
+    t_sticky TEXT,
+    t_lock TEXT)
     COLLATE utf8mb4_unicode_ci");
 $pdo->exec($sql);
 

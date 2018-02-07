@@ -86,10 +86,17 @@ class Forum
             <tr>
             <td class="topicleft">
             <span class="sticky">Sticky</span>
+<?php
+            if ($row->t_lock) {
+?>
+                <img class="locked" src="data/lock.png" title="Topic Locked">
+<?php
+            }
+?>
             <form class="link" method="post">
-                    <input class="link left" type="submit" value="<?php echo $row->t_subject ?>">
-                    <input type="hidden" name="act" value="posts">
-                    <input type="hidden" name="tid" value="<?php echo $row->tid ?>">
+                <input class="link left" type="submit" value="<?php echo $row->t_subject ?>">
+                <input type="hidden" name="act" value="posts">
+                <input type="hidden" name="tid" value="<?php echo $row->tid ?>">
             </form>
             </td>
             <td class="topicmiddle1"><?php echo STARTEDBY ?> <span class="boldy"><?php echo $row->t_uname ?></span></td>
@@ -103,6 +110,13 @@ class Forum
 ?>
             <tr>
             <td class="topicleft">
+<?php
+            if ($row->t_lock) {
+?>
+                <img class="locked" src="data/lock.png" title="Topic Locked">
+<?php
+            }
+?>
             <form class="link" method="post">
                     <input class="link left" type="submit" value="<?php echo $row->t_subject ?>">
                     <input type="hidden" name="act" value="posts">
@@ -124,8 +138,9 @@ class Forum
 
     public function posts($tid, $tsubj)
     {
-
+        $locked = $this->pdo->getLock($tid);
         if ($this->sess->isLogged() && !$this->sess->isBanned()) {
+            if (!$locked || $this->sess->isAdmin()) {
 ?>
         <br>
         <div id="postlink">
@@ -138,7 +153,7 @@ class Forum
         <br>
 
 <?php
-}
+        }}
 ?>
         <span class="leftspace">&nbsp;</span>
         <span class="boldy"><?php echo $tsubj ?></span>
@@ -198,6 +213,7 @@ class Forum
 <?php
 
 if ($this->sess->isLogged() && !$this->sess->isBanned()) {
+    if (!$locked || $this->sess->isAdmin()) {
 ?>
         <br>
         <div id="postlink">
@@ -209,7 +225,7 @@ if ($this->sess->isLogged() && !$this->sess->isBanned()) {
         </div>
         <br>
 <?php
-}
+}}
 
     }
 
@@ -364,10 +380,16 @@ if ($this->sess->isLogged() && !$this->sess->isBanned()) {
 
     public function postadd($fid, $fname, $tid, $tsubj)
     {
+        $locked = $this->pdo->getLock($tid);
         if (!$this->sess->isLogged() || $this->sess->isBanned()) {
             header('location:./');
             exit();
         }
+        if ($locked && !$this->sess->isAdmin()) {
+            header('location:./');
+            exit();
+        }
+        
         require 'core/classVundoCSRF.php';
         if(isset($_POST['filled'])) {
             if(!CSRF::check($_POST['_token'])){
@@ -510,7 +532,7 @@ if ($this->sess->isLogged() && !$this->sess->isBanned()) {
         <table id="topicsnew">
             <tr><td class="tnewtop" colspan="4"></td></tr>
 <?php
-        $timelimit = time()-8*24*3600;// Last 8 days
+        $timelimit = time()-14*24*3600;// Last 14 days
         $topics = $this->pdo->getTopicsNew($timelimit);
         foreach($topics as $row) {
             $forumname = $this->pdo->forumName($row->t_fid);
@@ -520,6 +542,14 @@ if ($this->sess->isLogged() && !$this->sess->isBanned()) {
             <?php echo utf8_encode(strftime($this->datetime,
                 $row->t_lastptime)) ?></td>
             <td class="tnewbody">
+<?php
+            if ($row->t_sticky) {
+                echo '<span class="sticky">Sticky</span>';
+            }
+            if ($row->t_lock) {
+                echo '<img class="locked" src="data/lock.png" title="Topic Locked">';
+            }
+?>
             <form class="link" method="post">
                 <input class="link left" type="submit"
                     value="<?php echo $row->t_subject ?>">

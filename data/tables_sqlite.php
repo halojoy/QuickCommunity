@@ -29,7 +29,8 @@ $sql = (
     t_lastpuid INTEGER,
     t_lastpuname TEXT,
     t_lastptime INTEGER,
-    t_sticky TEXT)");
+    t_sticky TEXT,
+    t_lock TEXT)");
 $pdo->exec($sql);
 
 $sql = (
