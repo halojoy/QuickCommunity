@@ -10,6 +10,7 @@ class Admin
     public $googlemail;
     public $googlepass;
     public $datetime;
+    public $perpage;
 
     public function __construct($pdo, $settings)
     {
@@ -21,6 +22,7 @@ class Admin
         $this->googlemail = $settings->googlemail;
         $this->googlepass = $settings->googlepass;
         $this->datetime   = $settings->datetime;
+        $this->perpage    = $settings->perpage;
     }
 
     public function adminhome()
@@ -49,6 +51,10 @@ class Admin
         <form class="link" method="post">
             <input class="link" type="submit" value="Lock Topics">
             <input type="hidden" name="act" value="topiclock">
+        </form><br>
+        <form class="link" method="post">
+            <input class="link" type="submit" value="Posts Per Page">
+            <input type="hidden" name="act" value="setperpage">
         </form><br><br>
         <form class="link" method="post">
             <input class="link" type="submit" value="Delete Post">
@@ -478,6 +484,30 @@ class Admin
 ?>
         </table>
         <div id="topicsspacer"></div>
+<?php
+    }
+
+    public function setperpage()
+    {
+        if (isset($_POST['perpage'])) {
+            $perpage = $_POST['perpage'];
+            if (is_numeric($perpage)) {
+                $sql = "UPDATE settings SET setvalue='$perpage' WHERE setkey='perpage'";
+                $this->pdo->exec($sql);
+            }
+            header('location:./admin.php');
+            exit();
+       }
+?>
+        <form method="post">
+            <b>Posts Per Page</b><br><br>
+            Number of posts per each page: 
+            <input type="text" name="perpage" size="6"
+                    value="<?php echo $this->perpage ?>"><br><br>
+            <input type="submit" value="SUBMIT">
+            <input type="hidden" name="act" value="setperpage">
+            <br><br>
+        </form>
 <?php
     }
 

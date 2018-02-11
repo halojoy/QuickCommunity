@@ -86,7 +86,7 @@ class Captcha
      */
     public function generateImage($string)
     {
-        $font = 'data/mriam.ttf';
+        $font = __DIR__.'/../data/mriam.ttf';
         $captcha = $this->prepareString($string, $font);
 
         $image = imagecreatetruecolor($this->width, $this->height);

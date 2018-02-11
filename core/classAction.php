@@ -134,6 +134,9 @@ class Action
             case 'topiclock':
                 $this->adm->topiclock();
                 break;
+            case 'setperpage':
+                $this->adm->setperpage();
+                break;
             default:
                 $this->adm->adminhome();
                 break;

@@ -80,6 +80,7 @@ $pdo->exec("INSERT INTO settings (setkey, setvalue) VALUES ('googlemail', '$goog
 $pdo->exec("INSERT INTO settings (setkey, setvalue) VALUES ('googlepass', '$googlepass')");
 $pdo->exec("INSERT INTO settings (setkey, setvalue) VALUES ('cryptokey', '$cryptokey')");
 $pdo->exec("INSERT INTO settings (setkey, setvalue) VALUES ('cryptoiv', '$cryptoiv')");
+$pdo->exec("INSERT INTO settings (setkey, setvalue) VALUES ('perpage', '10')");
 
 $pdo->exec("INSERT INTO forums (f_name, f_desc, f_order)
                         VALUES ('$forumname', '$forumdesc', 1)");

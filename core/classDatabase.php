@@ -131,7 +131,7 @@ class Database extends PDO
     public function notSticky($forumid)
     {
         $sql = "SELECT * FROM topics WHERE t_fid=$forumid AND t_sticky='0'
-                ORDER BY t_lastptime DESC LIMIT 20";
+                ORDER BY t_lastptime DESC LIMIT 30";
         $ret = $this->querySQL($sql);
 
         return $ret->fetchAll();

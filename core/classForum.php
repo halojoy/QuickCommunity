@@ -6,6 +6,7 @@ class Forum
     public $sess;
     public $dateform;
     public $datetime;
+    public $perpage;
 
     public function __construct($pdo, $sess, $settings)
     {
@@ -13,6 +14,7 @@ class Forum
         $this->sess = $sess;
         $this->dateform = $settings->dateform;
         $this->datetime = $settings->datetime;
+        $this->perpage  = $settings->perpage;
     }
 
     public function forums()
@@ -156,13 +158,53 @@ class Forum
         }}
 ?>
         <span class="leftspace">&nbsp;</span>
-        <span class="boldy"><?php echo $tsubj ?></span>
+        <span style="float:left" class="boldy"><?php echo $tsubj ?></span>
+<?php
+        $posts = $this->pdo->getPosts($tid);
+        // Pagination
+        $totposts = $this->pdo->rowCount;
+        $pp =  $this->perpage;
+        if ($totposts > $pp) {
+            $totpages = ceil($totposts/$pp);
+            $pno = isset($_POST['pno']) ? $_POST['pno'] : 1;
+            if ($pno > $totpages || $pno < 2)
+                $pno = 1;
+            echo '<span style="float:left">&nbsp;&nbsp;(..</span>';
+            for($i=1;$i<=$totpages;$i++) {
+                if ($i == $pno) {
+                    echo '<span style="float:left">&nbsp;&nbsp;</span>
+                    <span style="float:left;border:1px solid">'.$i.'</span>';
+                } else {
+?>
+                <span style="float:left">&nbsp;&nbsp;</span>
+                <form class="link" method="post">
+                    <input class="link" type="submit" value="<?php echo $i ?>">
+                    <input type="hidden" name="act" value="posts">
+                    <input type="hidden" name="tid" value="<?php echo $tid ?>">
+                    <input type="hidden" name="pno" value="<?php echo $i ?>">
+                </form>
+<?php
+                }
+            }
+?>
+            <span style="float:left">&nbsp;&nbsp;</span>
+            <form class="link" method="post">
+                <input class="link" type="submit" value="Last">
+                <input type="hidden" name="act" value="posts">
+                <input type="hidden" name="tid" value="<?php echo $tid ?>">
+                <input type="hidden" name="pno" value="<?php echo $totpages ?>">
+            </form>
+<?php
+            echo '&nbsp;)';
+            $posts = array_slice($posts, --$pno * $pp, $pp);
+        }
+?>
         <div class="postupright"><a href="?act=posts&tid=<?php echo $tid ?>"><?php echo TOPICLINK ?></a>&nbsp;</div>
 
         <table id="posts">
 <?php
 
-        $posts = $this->pdo->getPosts($tid);
+        
 
         foreach($posts as $row) {
 ?>
