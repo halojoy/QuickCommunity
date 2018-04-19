@@ -491,7 +491,8 @@ class Admin
     {
         if (isset($_POST['perpage'])) {
             $perpage = $_POST['perpage'];
-            if (is_numeric($perpage)) {
+            $perpage = intval($perpage);
+            if ($perpage > 0) {
                 $sql = "UPDATE settings SET setvalue='$perpage' WHERE setkey='perpage'";
                 $this->pdo->exec($sql);
             }
